@@ -20,6 +20,8 @@
 
 - [ ] Icon sets
 
+- [ ] Dice roll with modifiers (multiple rolls & bonus)
+
 ## Eventually Features
 
 - [ ] Shared stats
