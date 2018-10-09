@@ -31,3 +31,5 @@
 - [ ] DM master page
 
 - [ ] Master inventory limits (limit carryweight)
+
+- [ ] Spite counter per user
