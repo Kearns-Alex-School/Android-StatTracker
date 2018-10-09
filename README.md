@@ -10,7 +10,7 @@
 
 - [ ] Character types/races/details
 
-- [ ] Dice roller
+- [ ] Dice roller (d2,4,6,8,10,12,20/custom)
 
 ## Advanced Features (Stretch)
 
