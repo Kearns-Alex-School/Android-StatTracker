@@ -27,3 +27,7 @@
 - [ ] Shared stats
 
 - [ ] Shared dice roller
+
+- [ ] DM master page
+
+- [ ] Master inventory limits (limit carryweight)
