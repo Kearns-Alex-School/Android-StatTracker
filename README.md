@@ -33,3 +33,9 @@
 - [ ] Master inventory limits (limit carryweight)
 
 - [ ] Spite counter per user
+
+- [ ] Calculate bonuses to skill checks
+
+- [ ] Stat section for things like familiars (or other pets)
+
+- [ ] Specific trackers on a per-class basis (like a spell tracker for warlocks)
