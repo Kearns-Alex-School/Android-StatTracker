@@ -22,6 +22,8 @@
 
 - [ ] Dice roll with modifiers (multiple rolls & bonus)
 
+- [ ] Customizable color scheme
+
 ## Eventually Features
 
 - [ ] Shared stats
