@@ -1,4 +1,4 @@
-# Stat tracker app
+# cs246.groupApp.dndapp.Stat tracker app
 
 ## Required Features
 
@@ -8,7 +8,7 @@
 
 - [ ] Track inventory
 
-- [ ] Character types/races/details
+- [ ] cs246.groupApp.dndapp.Character types/races/details
 
 - [ ] Dice roller (d2,4,6,8,10,12,20/custom)
 
@@ -38,14 +38,14 @@
 
 - [ ] Calculate bonuses to skill checks
 
-- [ ] Stat section for things like familiars (or other pets)
+- [ ] cs246.groupApp.dndapp.Stat section for things like familiars (or other pets)
 
 - [ ] Specific trackers on a per-class basis (like a spell tracker for warlocks)
 
 ---
 ### Specific requests:
 
-Character sheet:
+cs246.groupApp.dndapp.Character sheet:
 
 Levels (special abilities and feats included)
 

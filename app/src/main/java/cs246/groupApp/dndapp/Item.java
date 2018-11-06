@@ -1,3 +1,5 @@
+package cs246.groupApp.dndapp;
+
 class Item {
     public String name;
     public Integer DMG;

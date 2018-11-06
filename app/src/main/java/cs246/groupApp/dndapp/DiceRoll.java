@@ -1,3 +1,5 @@
+package cs246.groupApp.dndapp;
+
 public class DiceRoll {
     public Integer lastRoll;
     public Integer numDie;

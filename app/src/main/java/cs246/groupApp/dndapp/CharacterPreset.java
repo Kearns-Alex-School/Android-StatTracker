@@ -1,3 +1,5 @@
+package cs246.groupApp.dndapp;
+
 import java.util.List;
 
 public interface CharacterPreset {
