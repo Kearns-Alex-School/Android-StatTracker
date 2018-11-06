@@ -6,5 +6,5 @@ public interface CharacterPreset {
     public List<Stat> SPECIAL = null;
 
     public List<Stat> LoadCustomPreset(String fileName);
-    public void SaveCustomPreset(String fileName, List<Stat> stats);
+    public void SaveCustomPreset(String fileName);
 }

@@ -13,22 +13,30 @@ class Character implements CharacterPreset {
     public List<Stat> statList;
     public List<Item> inventory;
 
-    public Character() {
+    public Character(String name, Integer HP, Integer EXP, Integer MP, Integer DMGResist) {
+        this.name = name;
+        this.HP = HP;
+        this.EXP = EXP;
+        this.MP = MP;
+        this.DMGResist = DMGResist;
+        loadPreset();
 
     }
 
-    public void loadPreset() {
-
+    public void loadPreset(/*somehow indicate whether to load a preset or a custom*/) {
+//logic to load preset/call load custom from file
     }
 
     @Override
     public List<Stat> LoadCustomPreset(String fileName) {
+//        this should be async
         return null;
     }
 
     @Override
-    public void SaveCustomPreset(String fileName, List<Stat> stats) {
-
+    public void SaveCustomPreset(String fileName) {
+//this should be async
+//        save this.statList
     }
 
 
