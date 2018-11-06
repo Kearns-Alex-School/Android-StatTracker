@@ -25,6 +25,7 @@ class Character implements CharacterPreset {
 
     public void loadPreset(/*somehow indicate whether to load a preset or a custom*/) {
 //logic to load preset/call load custom from file
+//        this.CharacterStatsList = DnDStats;
     }
 
     @Override

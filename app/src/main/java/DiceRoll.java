@@ -30,3 +30,5 @@ public class DiceRoll {
         return totalRoll;
     }
 }
+
+// unit test the dice roller

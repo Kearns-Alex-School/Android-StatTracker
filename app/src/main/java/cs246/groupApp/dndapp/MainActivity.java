@@ -14,5 +14,9 @@ public class MainActivity extends AppCompatActivity {
 //    create or load character
 //    save character
 //async!!
-    //
+    // unit test read/write files
+//    unit test input validation scripts
+//    https://byui-cs.github.io/CS246/week-08/teach.html
+
+
 }
