@@ -1,3 +1,5 @@
+package cs246.groupApp.dndapp;
+
 public class DiceRoll {
     public Integer lastRoll;
     public Integer numDie;
@@ -10,15 +12,13 @@ public class DiceRoll {
         this.dieSides = dieSides;
         this.numRolls = numRolls;
         this.bonus=bonus;
-        lastRoll = null;
+        lastRoll = 0;
     }
 
     // random number generator dice roller
     public Integer roll() {
         Integer totalRoll = 0;
-        if (lastRoll == null) {
-            lastRoll = 0;
-        }
+
         // generate a random number between the num of sides and 1. Repeat for each die. Repeat for num of rolls.
         for (int i = 0; i < numRolls; i++) {
             double roll = 0;
@@ -32,3 +32,5 @@ public class DiceRoll {
         return totalRoll;
     }
 }
+
+// unit test the dice roller
