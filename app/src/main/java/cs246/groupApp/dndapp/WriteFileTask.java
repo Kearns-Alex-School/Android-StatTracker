@@ -10,6 +10,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
+
+//To use: pass in an array of strings, with the first one being the filename to write and the second
+//          being the JSON serialized object to write.
+
+
 public class WriteFileTask extends AsyncTask<String, Integer, Void> {
     private WeakReference<Context> context;
     private WeakReference<ProgressBar> progressBar;

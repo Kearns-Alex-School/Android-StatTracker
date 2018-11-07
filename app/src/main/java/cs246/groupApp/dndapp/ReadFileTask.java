@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 
+// To use: pass in a string for the filename, and get a string of serialized JSON back.
+//          return functionality is WIP
+
 public class ReadFileTask extends AsyncTask<String, Integer, String> {
     private WeakReference<Context> contextReference;
     private WeakReference<ProgressBar> progressBar;
@@ -52,7 +55,7 @@ public class ReadFileTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String string) {
-
+        //add a callback function here, see 2nd answer here: https://stackoverflow.com/questions/10972114/how-to-get-a-string-back-from-asynctask
 
         Toast.makeText(contextReference.get(), "Loaded!", Toast.LENGTH_SHORT).show();
     }
