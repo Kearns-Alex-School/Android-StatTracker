@@ -32,7 +32,7 @@ public class WriteFileTask extends AsyncTask<String, Integer, Void> {
     }
 
     @Override
-    protected Void doInBackground(String... file) {
+    protected Void doInBackground(String... file) { //TODO use shared prefs???
         String filename = file[0];
 
         try (FileOutputStream outputStream = context.get().openFileOutput(filename, Context.MODE_PRIVATE)) {

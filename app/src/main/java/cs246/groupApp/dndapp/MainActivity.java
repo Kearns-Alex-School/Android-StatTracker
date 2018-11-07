@@ -19,5 +19,8 @@ public class MainActivity extends AppCompatActivity {
 //    unit test input validation scripts
 //    https://byui-cs.github.io/CS246/week-08/teach.html
 
+//    get list of all files in local dir
+//    https://developer.android.com/training/data-storage/files
+
 
 }
