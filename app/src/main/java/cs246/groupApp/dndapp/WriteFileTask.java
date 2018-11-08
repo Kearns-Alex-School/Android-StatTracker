@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,24 +19,31 @@ import java.lang.ref.WeakReference;
 public class WriteFileTask extends AsyncTask<String, Integer, Void> {
     private WeakReference<Context> context;
     private WeakReference<ProgressBar> progressBar;
+    private File dir;
 
-    public WriteFileTask(Context context, ProgressBar progressBar) {
-        this.context =  new WeakReference<>(context);
-        this.progressBar = new WeakReference<>(progressBar);
+    public WriteFileTask(Context context, ProgressBar progressBar, File dir) {
+        if (context != null && progressBar != null) {
+            this.context = new WeakReference<>(context);
+            this.progressBar = new WeakReference<>(progressBar);
+        }
+        this.dir = dir;
     }
 
     @Override
     protected void onPreExecute() {
-        progressBar.get().setProgress(0);
+        if (progressBar != null) {
+            progressBar.get().setProgress(0);
 
-        Toast.makeText(context.get(), "Saving...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context.get(), "Saving...", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
-    protected Void doInBackground(String... file) { //TODO use shared prefs???
-        String filename = file[0];
+    protected Void doInBackground(String... file) {
+        File outputFile = new File(dir, file[0]);
 
-        try (FileOutputStream outputStream = context.get().openFileOutput(filename, Context.MODE_PRIVATE)) {
+        try {
+            FileOutputStream outputStream = new FileOutputStream(outputFile);
             outputStream.write(file[1].getBytes());
         } catch (IOException e) {
             e.printStackTrace();
