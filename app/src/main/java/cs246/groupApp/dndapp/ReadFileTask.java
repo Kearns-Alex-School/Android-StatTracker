@@ -73,6 +73,6 @@ public class ReadFileTask extends AsyncTask<String, Integer, String> {
 
         Toast.makeText(contextReference.get(), "Loaded!", Toast.LENGTH_SHORT).show();
 
-        MainActivity.deserialize(dir, string);
+        MainActivity.deserialize(dir, string, contextReference.get());
     }
 }

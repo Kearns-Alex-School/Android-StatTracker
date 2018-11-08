@@ -14,7 +14,7 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity {
     public static File characterDir;
     public static File presetDir;
-    public static Context context;
+    public Context context;
     public ProgressBar progressBar;
 
     public MainActivity() {
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
 //    context.getDir(name,mode) can be used to create files. Returns a File object.
 
-    public static void deserialize(File dir, String json) {
+    public static void deserialize(File dir, String json, Context contextFromAsync) {
         Gson gson = new Gson();
         if (dir == characterDir) {
             Character character = gson.fromJson(json, Character.class);
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             //set up with presets
         }
         else {
-            Toast.makeText(context, "Error, incompatible file.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(contextFromAsync, "Error, incompatible file.", Toast.LENGTH_SHORT).show();
         }
     }
 
