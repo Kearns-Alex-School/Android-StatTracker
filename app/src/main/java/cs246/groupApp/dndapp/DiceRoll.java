@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiceRoll {
-    public Integer lastRoll;
     public Integer numDie;
     public Integer dieSides;
     public Integer numRolls;
@@ -16,7 +15,6 @@ public class DiceRoll {
         this.dieSides = dieSides;
         this.numRolls = numRolls;
         this.bonus=bonus;
-        lastRoll = 0;
 
         dice = new ArrayList<Die>();
         for (int i = 0; i < numDie * numRolls; i++) {
