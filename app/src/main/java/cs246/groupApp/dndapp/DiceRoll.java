@@ -28,11 +28,11 @@ public class DiceRoll {
     public Integer roll() {
         int totalRoll = 0;
 
-        for (int i = 0; i < numDie; i++) {
+        for (int i = 0; i < dice.size(); i++) {
             totalRoll += dice.get(i).roll();
         }
 
-        return totalRoll;
+        return totalRoll + bonus;
 
 //        Integer totalRoll = 0;
 //
