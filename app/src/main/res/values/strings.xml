@@ -38,4 +38,11 @@
         SOFTWARE.
     </string>
     <!--activity_main.xml end -->
+
+    <!--activity_preferences.xml start -->
+    <string name="preferences_Title">Preferences</string>
+    <string name="preference1">Our First Preference</string>
+    <string name="preferences_Save">Save</string>
+    <string name="preferences_Cancel">Cancel</string>
+    <!--activity_preferences.xml end -->
 </resources>
