@@ -335,15 +335,7 @@ public class MainActivity extends AppCompatActivity {
 
 //    context.getDir(name,mode) can be used to create files. Returns a File object.
 
-    public void onPause() {
-        super.onPause();
-        //save character? or do in character activity?
-    }
-
-    public void onResume() {
-        super.onResume();
-    }
-
+    //TODO Move to character activity
     public static void deserialize(File dir, String json, Context contextFromAsync) {
         Gson gson = new Gson();
         if (dir == characterDir) {
@@ -357,15 +349,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //TODO move to character activity
     public void serializeCharacter(Character character) {
         Gson gson = new Gson();
         String json = gson.toJson(character);
 
         new WriteFileTask(this, progressBar, characterDir);
-    }
-
-    public void serializePreset() {
-        //serialize preset
     }
 
     public void LoadCharacter(String name) {
@@ -380,5 +369,7 @@ public class MainActivity extends AppCompatActivity {
         //TODO do something to load file
         // AJK: start the new activity. Only pass in the file name.
         //      the rest of the heavy lifting will happen there onCreate()
+        //KM: Agreed. the deserialize and serialize functions will be moved to the new activity.
+        //      Saving will be done there as well.
     }
 }
