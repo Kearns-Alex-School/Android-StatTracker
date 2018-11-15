@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -94,6 +96,17 @@ public class MainActivity extends AppCompatActivity {
         // Now connect the ArrayAdapter to the ListView
         ListView listView = findViewById(R.id.characterListView);
         listView.setAdapter(arrayAdapter);
+
+        //listen for clicks on each item
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item text from ListView
+                String selectedItem = (String) parent.getItemAtPosition(position);
+
+                LoadCharacter(selectedItem);
+            }
+        });
 
         // Reset the progress bar
         ProgressBar progressBar = findViewById(R.id.mainProgressBar);
@@ -323,6 +336,15 @@ public class MainActivity extends AppCompatActivity {
 
 //    context.getDir(name,mode) can be used to create files. Returns a File object.
 
+    public void onPause() {
+        super.onPause();
+        //save character? or do in character activity?
+    }
+
+    public void onResume() {
+        super.onResume();
+    }
+
     public static void deserialize(File dir, String json, Context contextFromAsync) {
         Gson gson = new Gson();
         if (dir == characterDir) {
@@ -345,5 +367,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void serializePreset() {
         //serialize preset
+    }
+
+
+    public void LoadCharacter(String name) {
+        System.out.println(name);
+        //load character by getting name + ".txt" == filename
+        String filename = name + ".txt";
+
+        //TODO do something to load file
     }
 }
