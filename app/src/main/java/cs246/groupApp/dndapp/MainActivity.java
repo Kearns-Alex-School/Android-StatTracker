@@ -1,15 +1,15 @@
 package cs246.groupApp.dndapp;
 
+import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         if (!presetDir.exists())
             presetDir.mkdir();
 
-
         // AJK: debugging to make sure we have files/folders in our ROOT
         // https://blog.cindypotvin.com/saving-data-to-a-file-in-your-android-application/ w/ alterations to create dir and local not external
         {
@@ -65,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
             String pathRoot = context.getFilesDir().getPath();
 
             // holds all of our files in the ROOT
-            ArrayList<File> inFiles = new ArrayList<File>();
+            ArrayList<File> inFiles = new ArrayList<>();
 
             // holds all of our dirs in the ROOT
-            ArrayList<File> inDirs = new ArrayList<File>();
+            ArrayList<File> inDirs = new ArrayList<>();
 
             // grab all of the files/dirs in the ROOT location
             File[] files = new File(pathRoot).listFiles();
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     public void toLoad() {
         // First create the List and the ArrayAdapter
         characterList = new ArrayList<>();
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.character_list, characterList);
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.character_list, characterList);
 
         // Now connect the ArrayAdapter to the ListView
         ListView listView = findViewById(R.id.characterListView);
@@ -101,12 +100,12 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setProgress(0);
         characterList.clear();
 
+        // execute the async load to grab all of our characters
         new LoadList(progressBar, (ListView) findViewById(R.id.characterListView), context).execute();
     }
 
     // async task that will load our characters into our list
     private class LoadList extends AsyncTask<Void, Integer, Void> {
-
         ProgressBar updatingBar;
         ListView listView;
         Context thisContext;
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             ArrayAdapter<String> adapter = (ArrayAdapter<String>) listView.getAdapter();
 
-            //File[] files = characterDir.listFiles();
+            // grab all of the files in the dir and go through them all
             File[] files = new File(characterDir.getPath()).listFiles();
             for (File file : files)
             {
@@ -135,14 +134,11 @@ public class MainActivity extends AppCompatActivity {
                 if (!file.isDirectory())
                 {
                     // for now just add the whole file name.
-                    // AJK: Need to make a substring without the .txt extension
-                    characterList.add(file.getName());
+                    characterList.add(file.getName().replace(".txt", ""));
 
                     // See how many things are in the adapter, and update the ProgressBar
                     int adapterCount = (adapter.getCount() % files.length) * 100;
 
-                    // Simulate a more difficult task by sleeping for 1/4 second
-                    //Thread.sleep(250);
                     publishProgress(adapterCount);
                 }
             }
@@ -161,62 +157,64 @@ public class MainActivity extends AppCompatActivity {
             // Update the progress bar to be complete
             updatingBar.setProgress(100);
 
+            // set our listView's adapter to the one that we have created
             ArrayAdapter<String> adapter = (ArrayAdapter<String>) listView.getAdapter();
             adapter.notifyDataSetChanged();
 
             // Inform the user that the task is complete
-            Toast.makeText(thisContext, "Finished Loading Characters", Toast.LENGTH_SHORT).show();
+            //  https://stackoverflow.com/questions/2506876/how-to-change-position-of-toast-in-android
+            Toast toast= Toast.makeText(thisContext, "Finished Loading Characters", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
         }
     }
 
     // used to help us create a new character
     private String newCharacter = "";
 
-    // alert window that pops up and asks the user to enter a new character name
-    // https://stackoverflow.com/questions/10903754/input-text-dialog-android w/ alterations to our own need
+    // another way to use a custom layout [preferred way]
+    // https://stackoverflow.com/questions/4016313/how-to-keep-an-alertdialog-open-after-button-onclick-is-fired
     public void addCharacter(View view) {
-        // we need to make a layout that can be placed on top of our current screen
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Enter your character's name");
+        // create our popup dialog
+        final Dialog dialog = new Dialog(context);
 
-        // create the view that will become the overlay on the current activity
-        View viewInflated = LayoutInflater.from(context).inflate(R.layout.new_character, (ViewGroup) findViewById(android.R.id.content), false);
+        // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
+        // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.new_character);
+        dialog.setCancelable(true);
 
-        // Set up the input
-        final EditText input = viewInflated.findViewById(R.id.input);
+        // set up the EditText behavior
+        final EditText input = dialog.findViewById((R.id.input));
 
         // AJK: My very first easter egg that I have ever coded. 11/11/2018 23:45
         String[] hints = {"Kevin_Marsh","Jeffery_Hooker","Alex_Kearns"};
         input.setHint(hints[new Random().nextInt(hints.length)]);
 
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        builder.setView(viewInflated);
-
-        // Set up the buttons
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+        // set up the Create button behavior
+        Button b_Create = dialog.findViewById(R.id.Create);
+        b_Create.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // assign out input to our character variable
+            public void onClick(View v) {
+                // assign our input to our character variable
                 newCharacter = input.getText().toString();
 
                 // check to see if we have an empty input
-                if (newCharacter.length() != 0)
-                {
-                    // create the file path that we are checking
+                if (newCharacter.length() != 0) {
+                    // create the file name that we are checking
+                    String fileName = newCharacter + ".txt";
 
-                    String path = newCharacter + ".txt";
-
-                    // AJK: CHECK TO SEE IF THE FILE EXISTS ALREADY
-                    File file = new File(characterDir, path);
-                    if(!file.exists())
-                    {
+                    // check to see if the file exists
+                    File file = new File(characterDir, fileName);
+                    if (!file.exists()) {
+                        // try to create the file
                         try {
                             file.createNewFile();
 
                             // reload our character list
                             toLoad();
 
-                            // reset our character flag
+                            // reset our character string
                             newCharacter = "";
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -225,28 +223,90 @@ public class MainActivity extends AppCompatActivity {
 
                         // close the screen
                         dialog.dismiss();
-                    }
-                    else
-                    {
+                    } else {
                         // Inform the user that the file already exists
-                        Toast.makeText(context, newCharacter + " already exists.", Toast.LENGTH_SHORT).show();
+                        Toast toast= Toast.makeText(context, newCharacter + " already exists.", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
                     }
                 }
             }
         });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // reset our character flag
-                newCharacter = "";
 
-                // close the screen
-                dialog.cancel();
+        // set up the Delete button
+        Button b_Delete = dialog.findViewById(R.id.Delete);
+        b_Delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // assign our input to our character variable
+                newCharacter = input.getText().toString();
+
+                // check to see if we have an empty input
+                if (newCharacter.length() != 0) {
+                    // create the file name that we are checking
+                    String fileName = newCharacter + ".txt";
+
+                    // check to see if the file exists
+                    File file = new File(characterDir, fileName);
+                    if (file.exists()) {
+                        // try to create the file
+                        file.delete();
+
+                        // reload our character list
+                        toLoad();
+
+                        // reset our character string
+                        newCharacter = "";
+
+                        // close the screen
+                        dialog.dismiss();
+                    } else {
+                        // Inform the user that the file does not exist
+                        Toast toast= Toast.makeText(context, newCharacter + " does not exist.", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
+                    }
+                }
             }
         });
 
-        // show our alert to the user
-        builder.show();
+        // set up the Cancel button
+        Button b_Cancel = dialog.findViewById(R.id.Cancel);
+        b_Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // reset our character string
+                newCharacter = "";
+
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void about(View view) {
+        // create our popup dialog
+        final Dialog dialog = new Dialog(context);
+
+        // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
+        // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.legal);
+        dialog.setCancelable(true);
+
+        // set up the Cancel button
+        Button b_Close = dialog.findViewById(R.id.close);
+        b_Close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
 //    create or load character
