@@ -135,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!file.isDirectory())
                 {
                     // for now just add the whole file name.
-                    // AJK: Need to make a substring without the .txt extension
-                    characterList.add(file.getName());
+                    characterList.add(file.getName().replace(".txt", ""));
 
                     // See how many things are in the adapter, and update the ProgressBar
                     int adapterCount = (adapter.getCount() % files.length) * 100;
