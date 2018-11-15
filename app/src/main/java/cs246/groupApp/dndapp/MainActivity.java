@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -96,6 +97,17 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.characterListView);
         listView.setAdapter(arrayAdapter);
 
+        //listen for clicks on each item
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item text from ListView
+                String selectedItem = (String) parent.getItemAtPosition(position);
+
+                LoadCharacter(selectedItem);
+            }
+        });
+
         // Reset the progress bar
         ProgressBar progressBar = findViewById(R.id.mainProgressBar);
         progressBar.setProgress(0);
@@ -140,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
                     // See how many things are in the adapter, and update the ProgressBar
                     int adapterCount = (adapter.getCount() % files.length) * 100;
 
-                    // Simulate a more difficult task by sleeping for 1/4 second
-                    //Thread.sleep(250);
                     publishProgress(adapterCount);
                 }
             }
@@ -262,6 +272,15 @@ public class MainActivity extends AppCompatActivity {
 
 //    context.getDir(name,mode) can be used to create files. Returns a File object.
 
+    public void onPause() {
+        super.onPause();
+        //save character? or do in character activity?
+    }
+
+    public void onResume() {
+        super.onResume();
+    }
+
     public static void deserialize(File dir, String json, Context contextFromAsync) {
         Gson gson = new Gson();
         if (dir == characterDir) {
@@ -284,5 +303,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void serializePreset() {
         //serialize preset
+    }
+
+
+    public void LoadCharacter(String name) {
+        System.out.println(name);
+        //load character by getting name + ".txt" == filename
+        String filename = name + ".txt";
+
+        //TODO do something to load file
     }
 }
