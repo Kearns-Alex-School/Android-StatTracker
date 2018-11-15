@@ -2,11 +2,13 @@ package cs246.groupApp.dndapp;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -36,14 +38,12 @@ public class MainActivity extends AppCompatActivity {
     // This will help us connect the List to the ListView
     private ArrayAdapter<String> arrayAdapter;
 
-    public MainActivity() {
-        context = MainActivity.this;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = MainActivity.this;
 
         // set the file path. Create it if it does not exist
         // https://stackoverflow.com/questions/16237950/android-check-if-file-exists-without-creating-a-new-one
@@ -190,6 +190,10 @@ public class MainActivity extends AppCompatActivity {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
 
+        // have the keyboard show up once we have the ability to add a name
+        //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
         // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
         // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -321,6 +325,11 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void openPreferences(View view) {
+        Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
+    }
+
 //    create or load character
 //    save character
 //async!!
@@ -332,7 +341,6 @@ public class MainActivity extends AppCompatActivity {
 //    https://developer.android.com/training/data-storage/files
 
 //    files can be deleted by context.deleteFile(fileName);
-
 //    context.getDir(name,mode) can be used to create files. Returns a File object.
 
     public void onPause() {
