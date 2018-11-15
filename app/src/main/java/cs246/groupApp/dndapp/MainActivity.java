@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -177,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
             // Inform the user that the task is complete
             //  https://stackoverflow.com/questions/2506876/how-to-change-position-of-toast-in-android
             Toast toast= Toast.makeText(thisContext, "Finished Loading Characters", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 120);
             toast.show();
         }
     }
@@ -239,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         // Inform the user that the file already exists
                         Toast toast= Toast.makeText(context, newCharacter + " already exists.", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 120);
                         toast.show();
                     }
                 }
@@ -276,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         // Inform the user that the file does not exist
                         Toast toast= Toast.makeText(context, newCharacter + " does not exist.", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 120);
                         toast.show();
                     }
                 }
@@ -369,12 +368,17 @@ public class MainActivity extends AppCompatActivity {
         //serialize preset
     }
 
-
     public void LoadCharacter(String name) {
         System.out.println(name);
         //load character by getting name + ".txt" == filename
         String filename = name + ".txt";
 
+        Toast toast= Toast.makeText(context, filename, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 120);
+        toast.show();
+
         //TODO do something to load file
+        // AJK: start the new activity. Only pass in the file name.
+        //      the rest of the heavy lifting will happen there onCreate()
     }
 }
