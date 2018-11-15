@@ -28,13 +28,14 @@
 
         <Button
             android:id="@+id/Create"
-            android:layout_width="190dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/new_Create" />
 
         <Button
             android:id="@+id/Delete"
-            android:layout_width="217dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/new_Delete" />
