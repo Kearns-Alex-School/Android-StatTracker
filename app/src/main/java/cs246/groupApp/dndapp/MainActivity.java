@@ -1,5 +1,6 @@
 package cs246.groupApp.dndapp;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,13 +25,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String FILE_NAME = "cs246.groupApp.dndapp.MESSAGE";
+
     public static File characterDir;
     public static File presetDir;
     public Context context;
-    public ProgressBar progressBar;
+
+    // used to help us create a new character
+    private String newCharacter = "";
 
     // This list will store the strings for our ListView
     private List<String> characterList;
@@ -51,12 +57,16 @@ public class MainActivity extends AppCompatActivity {
         // https://developer.android.com/reference/java/io/File.html#mkdir()
         //      this is why we use the mkdir() function
         characterDir = new File(this.getFilesDir(), "characters");
-        if (!characterDir.exists())
-            characterDir.mkdir();
+        if (!characterDir.exists()) {
+            if (!characterDir.mkdir())
+                Toast.makeText(context, "Error creating Character Directory.", Toast.LENGTH_SHORT).show();
+        }
 
         presetDir = new File(this.getFilesDir(), "presets");
-        if (!presetDir.exists())
-            presetDir.mkdir();
+        if (!presetDir.exists()) {
+            if(!presetDir.mkdir())
+                Toast.makeText(context, "Error creating Preset Directory.", Toast.LENGTH_SHORT).show();
+        }
 
         // AJK: debugging to make sure we have files/folders in our ROOT
         // https://blog.cindypotvin.com/saving-data-to-a-file-in-your-android-application/ w/ alterations to create dir and local not external
@@ -96,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.characterListView);
         listView.setAdapter(arrayAdapter);
 
-        //listen for clicks on each item
+        // listen for clicks on each item
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Reset the progress bar
         ProgressBar progressBar = findViewById(R.id.mainProgressBar);
-        progressBar.setProgress(0);
         characterList.clear();
 
         // execute the async load to grab all of our characters
@@ -117,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // async task that will load our characters into our list
+    @SuppressLint("StaticFieldLeak")
     private class LoadList extends AsyncTask<Void, Integer, Void> {
         ProgressBar updatingBar;
         ListView listView;
@@ -131,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-
+            updatingBar.setProgress(0);
+            updatingBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -149,9 +160,10 @@ public class MainActivity extends AppCompatActivity {
                     characterList.add(file.getName().replace(".txt", ""));
 
                     // See how many things are in the adapter, and update the ProgressBar
-                    int adapterCount = (adapter.getCount() % files.length) * 100;
+                    int adapterCountPercent = (adapter.getCount() % files.length) * 100;
 
-                    publishProgress(adapterCount);
+                    // call our onProgressUpdate and pass in the current percentage
+                    publishProgress(adapterCountPercent);
                 }
             }
 
@@ -168,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             // Update the progress bar to be complete
             updatingBar.setProgress(100);
+            updatingBar.setVisibility(View.INVISIBLE);
 
             // set our listView's adapter to the one that we have created
             ArrayAdapter<String> adapter = (ArrayAdapter<String>) listView.getAdapter();
@@ -181,9 +194,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // used to help us create a new character
-    private String newCharacter = "";
-
     // another way to use a custom layout [preferred way]
     // https://stackoverflow.com/questions/4016313/how-to-keep-an-alertdialog-open-after-button-onclick-is-fired
     public void addCharacter(View view) {
@@ -192,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
         // have the keyboard show up once we have the ability to add a name
         //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
         // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
         // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
@@ -225,7 +235,11 @@ public class MainActivity extends AppCompatActivity {
                     if (!file.exists()) {
                         // try to create the file
                         try {
-                            file.createNewFile();
+                            if(!file.createNewFile())
+                            {
+                                Toast.makeText(context, "Error: Could not make file", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
                             // reload our character list
                             toLoad();
@@ -266,7 +280,11 @@ public class MainActivity extends AppCompatActivity {
                     File file = new File(characterDir, fileName);
                     if (file.exists()) {
                         // try to create the file
-                        file.delete();
+                        if(!file.delete())
+                        {
+                            Toast.makeText(context, "Error: Could not delete file", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         // reload our character list
                         toLoad();
@@ -330,65 +348,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    create or load character
-//    save character
-//async!!
-    // unit test read/write files
-//    unit test input validation scripts
-//    https://byui-cs.github.io/CS246/week-08/teach.html
-
-//    get list of all files in local dir
-//    https://developer.android.com/training/data-storage/files
-
-//    files can be deleted by context.deleteFile(fileName);
-//    context.getDir(name,mode) can be used to create files. Returns a File object.
-
-    public void onPause() {
-        super.onPause();
-        //save character? or do in character activity?
-    }
-
-    public void onResume() {
-        super.onResume();
-    }
-
-    public static void deserialize(File dir, String json, Context contextFromAsync) {
-        Gson gson = new Gson();
-        if (dir == characterDir) {
-            Character character = gson.fromJson(json, Character.class);
-        }
-        else if (dir == presetDir) {
-            //set up with presets
-        }
-        else {
-            Toast.makeText(contextFromAsync, "Error, incompatible file.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void serializeCharacter(Character character) {
-        Gson gson = new Gson();
-        String json = gson.toJson(character);
-
-        new WriteFileTask(this, progressBar, characterDir);
-    }
-
-    public void serializePreset() {
-        //serialize preset
-    }
-
     public void LoadCharacter(String name) {
-        System.out.println(name);
-        //load character by getting name + ".txt" == filename
+        // create the name + ".txt" == filename
         String filename = name + ".txt";
 
-        Toast toast= Toast.makeText(context, filename, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 120);
-        toast.show();
-
-        //TODO do something to load file
-        // AJK: start the new activity. Only pass in the file name.
-        //      the rest of the heavy lifting will happen there onCreate()
         Intent intent = new Intent(this, CharacterDetailsActivity.class);
+        intent.putExtra(FILE_NAME, filename);
+
         startActivity(intent);
     }
 }

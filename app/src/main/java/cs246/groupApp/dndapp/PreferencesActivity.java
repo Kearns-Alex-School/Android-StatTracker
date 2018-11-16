@@ -35,6 +35,7 @@ public class PreferencesActivity extends AppCompatActivity {
         LinearLayout linearLayout = findViewById(R.id.contentLLV);
 
         // because we dynamically add each parameter, we can then save them in the same order
+        // AJK: NEED TO REPLACE WITH OUT PREFERENCES THAT WE WANT TO KEEP TRACK OF
         for (int index = 1; index <= 10; index++)
         {
             String temp = "Parameter " + index;
@@ -80,10 +81,6 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     public void cancelClick(View view) {
-        Toast toast = Toast.makeText(context, "Canceled was clicked!", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
-
         this.finish();
     }
 }
