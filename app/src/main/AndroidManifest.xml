@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PreferencesActivity"></activity>
+        <activity android:name=".PreferencesActivity" />
+        <activity android:name=".CharacterDetailsActivity"></activity>
     </application>
 
 </manifest>
