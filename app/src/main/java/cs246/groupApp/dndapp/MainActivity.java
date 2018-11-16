@@ -388,5 +388,7 @@ public class MainActivity extends AppCompatActivity {
         //TODO do something to load file
         // AJK: start the new activity. Only pass in the file name.
         //      the rest of the heavy lifting will happen there onCreate()
+        Intent intent = new Intent(this, CharacterDetailsActivity.class);
+        startActivity(intent);
     }
 }
