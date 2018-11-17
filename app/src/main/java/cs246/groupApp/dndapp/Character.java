@@ -8,18 +8,19 @@ class Character implements CharacterPreset {
     public Integer HP;
     public Integer EXP;
     public Integer MP;
-    public Integer DMGResist;
+    public Integer ArmrRating;
+    public Integer speed;
     public String fileName;
     public List<Stat> CharacterStatsList;
     public List<Stat> statList;
     public List<Item> inventory;
 
-    public Character(String name, Integer HP, Integer EXP, Integer MP, Integer DMGResist) {
+    public Character(String name, Integer HP, Integer EXP, Integer MP, Integer ArmrRating) {
         this.name = name;
         this.HP = HP;
         this.EXP = EXP;
         this.MP = MP;
-        this.DMGResist = DMGResist;
+        this.ArmrRating = ArmrRating;
         loadPreset();
 
     }
@@ -29,7 +30,8 @@ class Character implements CharacterPreset {
         this.HP = 0;
         this.EXP = 0;
         this.MP = 0;
-        this.DMGResist = 0;
+        this.speed = 0;
+        this.ArmrRating = 0;
         this.CharacterStatsList = new ArrayList<>();
         this.statList = new ArrayList<>();
         this.inventory = new ArrayList<>();
