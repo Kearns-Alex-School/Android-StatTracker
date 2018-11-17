@@ -1,5 +1,6 @@
 package cs246.groupApp.dndapp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Character implements CharacterPreset {
@@ -29,6 +30,9 @@ class Character implements CharacterPreset {
         this.EXP = 0;
         this.MP = 0;
         this.DMGResist = 0;
+        this.CharacterStatsList = new ArrayList<>();
+        this.statList = new ArrayList<>();
+        this.inventory = new ArrayList<>();
     }
 
 
