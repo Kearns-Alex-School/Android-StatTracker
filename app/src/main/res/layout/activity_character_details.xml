@@ -13,6 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:onClick="editableTextView"
         android:text="CharacterNameGoesHere"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="@string/details_DiceRoller" />
 
         <Button
             android:id="@+id/button15"
@@ -118,11 +119,12 @@
             android:text="Button" />
 
         <Button
-            android:id="@+id/button24"
+            android:id="@+id/Home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:onClick="homeClick"
+            android:text="@string/details_Home" />
 
         <Button
             android:id="@+id/button25"

@@ -45,4 +45,14 @@
     <string name="preferences_Save">Save</string>
     <string name="preferences_Cancel">Cancel</string>
     <!--activity_preferences.xml end -->
+
+    <!--editable.xml start -->
+    <string name="edit_Save">Save</string>
+    <string name="edit_Cancel">Cancel</string>
+    <!--editable.xml end -->
+
+    <!--activity_character_details.xml end -->
+    <string name="details_Home">Home</string>
+    <string name="details_DiceRoller">Dice Roller</string>
+    <!--activity_character_details.xml end -->
 </resources>

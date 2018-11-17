@@ -23,6 +23,15 @@ class Character implements CharacterPreset {
 
     }
 
+    public Character() {
+        this.name = "";
+        this.HP = 0;
+        this.EXP = 0;
+        this.MP = 0;
+        this.DMGResist = 0;
+    }
+
+
     public void loadPreset(/*somehow indicate whether to load a preset or a custom*/) {
 //logic to load preset/call load custom from file
 //        this.CharacterStatsList = DnDStats;

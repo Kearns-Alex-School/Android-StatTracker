@@ -19,8 +19,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,8 +27,6 @@ import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String FILE_NAME = "cs246.groupApp.dndapp.MESSAGE";
-
     public static File characterDir;
     public static File presetDir;
     public Context context;
@@ -208,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
         // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.new_character);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(true);
 
         // set up the EditText behavior
@@ -328,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
         // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.legal);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(true);
 
         // set up the Cancel button
@@ -353,8 +351,14 @@ public class MainActivity extends AppCompatActivity {
         String filename = name + ".txt";
 
         Intent intent = new Intent(this, CharacterDetailsActivity.class);
-        intent.putExtra(FILE_NAME, filename);
-
+        intent.putExtra("filename", filename);
+        intent.putExtra("dir", characterDir);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        toLoad();
     }
 }
