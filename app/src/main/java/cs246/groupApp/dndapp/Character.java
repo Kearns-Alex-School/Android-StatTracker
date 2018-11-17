@@ -9,6 +9,7 @@ class Character implements CharacterPreset {
     public Integer EXP;
     public Integer MP;
     public Integer ArmrRating;
+    public Integer speed;
     public String fileName;
     public List<Stat> CharacterStatsList;
     public List<Stat> statList;
@@ -29,6 +30,7 @@ class Character implements CharacterPreset {
         this.HP = 0;
         this.EXP = 0;
         this.MP = 0;
+        this.speed = 0;
         this.ArmrRating = 0;
         this.CharacterStatsList = new ArrayList<>();
         this.statList = new ArrayList<>();
