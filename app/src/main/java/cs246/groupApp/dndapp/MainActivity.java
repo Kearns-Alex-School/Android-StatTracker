@@ -32,8 +32,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOAD_CONTENT = "loadContent";
     public static final String DIST_UNIT = "distUnit";
 
+    //directories
     public static File characterDir;
     public static File presetDir;
+
     public Context context;
 
     // This list will store the strings for our ListView

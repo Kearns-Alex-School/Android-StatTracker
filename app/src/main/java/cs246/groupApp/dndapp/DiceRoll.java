@@ -32,19 +32,6 @@ public class DiceRoll {
 
         return totalRoll + bonus;
 
-//        Integer totalRoll = 0;
-//
-//        // generate a random number between the num of sides and 1. Repeat for each die. Repeat for num of rolls.
-//        for (int i = 0; i < numRolls; i++) {
-//            double roll = 0;
-//            for (int j = 0; j < numDie; j++) {
-//                roll += (Math.random() * ((dieSides - 1) + 1)) + 1;
-//            }
-//            totalRoll = (int) roll + lastRoll + bonus;
-//            lastRoll = (int) roll;
-//        }
-//
-//        return totalRoll;
     }
 
     public List<Die> getDice() {

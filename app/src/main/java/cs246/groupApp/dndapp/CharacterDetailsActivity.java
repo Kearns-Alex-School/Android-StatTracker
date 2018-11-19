@@ -135,7 +135,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
         // update Health button
         button = findViewById(R.id.Health);
-        temp = "Health  " + character.HP;
+        temp = "Health  " + character.HPCurrent + "/" + character.HPMax;
         button.setText(temp);
 
         // update Armor Rating
@@ -248,7 +248,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 character.statList.add(newStat);
 
                 // save our data and re-load
-                writeFile(character.fileName);
+                writeFile(character.name + ".txt");
 
                 // close the screen
                 dialog.dismiss();
