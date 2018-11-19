@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,12 +25,16 @@ import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    // these are our preference names
+    public static final String DICE_SIDES = "numSides";
+    public static final String DICE_ROLLS = "numRolls";
+    public static final String DICE_ROLLONLOAD = "autoRoll";
+    public static final String LOAD_CONTENT = "loadContent";
+    public static final String DIST_UNIT = "distUnit";
+
     public static File characterDir;
     public static File presetDir;
     public Context context;
-
-    // used to help us create a new character
-    private String newCharacter = "";
 
     // This list will store the strings for our ListView
     private List<String> characterList;
@@ -55,13 +57,13 @@ public class MainActivity extends AppCompatActivity {
         characterDir = new File(this.getFilesDir(), "characters");
         if (!characterDir.exists()) {
             if (!characterDir.mkdir())
-                Toast.makeText(context, "Error creating Character Directory.", Toast.LENGTH_SHORT).show();
+                CommonMethods.showCenterTopToast(context,"Error creating Character Directory.", 0);
         }
 
         presetDir = new File(this.getFilesDir(), "presets");
         if (!presetDir.exists()) {
             if(!presetDir.mkdir())
-                Toast.makeText(context, "Error creating Preset Directory.", Toast.LENGTH_SHORT).show();
+                CommonMethods.showCenterTopToast(context,"Error creating Preset Directory.", 0);
         }
 
         // AJK: debugging to make sure we have files/folders in our ROOT
@@ -183,10 +185,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
 
             // Inform the user that the task is complete
-            //  https://stackoverflow.com/questions/2506876/how-to-change-position-of-toast-in-android
-            Toast toast= Toast.makeText(thisContext, "Finished Loading Characters", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 120);
-            toast.show();
+            CommonMethods.showCenterTopToast(thisContext, "Finished Loading Characters", 0);
         }
     }
 
@@ -220,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // assign our input to our character variable
-                newCharacter = input.getText().toString();
+                String newCharacter = input.getText().toString();
 
                 // check to see if we have an empty input
                 if (newCharacter.length() != 0) {
@@ -234,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             if(!file.createNewFile())
                             {
-                                Toast.makeText(context, "Error: Could not make file", Toast.LENGTH_SHORT).show();
+                                CommonMethods.showCenterTopToast(context, "Error: Could not make file", 0);
                                 return;
                             }
 
@@ -245,17 +244,14 @@ public class MainActivity extends AppCompatActivity {
                             newCharacter = "";
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Toast.makeText(context, "An error occurred.", Toast.LENGTH_SHORT).show();
+                            CommonMethods.showCenterTopToast(context, "An error occurred.", 0);
                         }
 
                         // close the screen
                         dialog.dismiss();
-                    } else {
+                    } else
                         // Inform the user that the file already exists
-                        Toast toast= Toast.makeText(context, newCharacter + " already exists.", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 120);
-                        toast.show();
-                    }
+                        CommonMethods.showCenterTopToast(context, newCharacter + " already exists.", 0);
                 }
             }
         });
@@ -266,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // assign our input to our character variable
-                newCharacter = input.getText().toString();
+                String newCharacter = input.getText().toString();
 
                 // check to see if we have an empty input
                 if (newCharacter.length() != 0) {
@@ -279,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                         // try to create the file
                         if(!file.delete())
                         {
-                            Toast.makeText(context, "Error: Could not delete file", Toast.LENGTH_SHORT).show();
+                            CommonMethods.showCenterTopToast(context, "Error: Could not delete file", 0);
                             return;
                         }
 
@@ -293,9 +289,7 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss();
                     } else {
                         // Inform the user that the file does not exist
-                        Toast toast= Toast.makeText(context, newCharacter + " does not exist.", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 120);
-                        toast.show();
+                        CommonMethods.showCenterTopToast(context, newCharacter + " does not exist.", 0);
                     }
                 }
             }
@@ -306,9 +300,6 @@ public class MainActivity extends AppCompatActivity {
         b_Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // reset our character string
-                newCharacter = "";
-
                 // close the screen
                 dialog.dismiss();
             }

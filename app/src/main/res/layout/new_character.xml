@@ -17,9 +17,11 @@
         android:id="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/default_Empty"
         android:imeOptions="actionDone"
         android:inputType="text"
-        android:singleLine="false" />
+        android:singleLine="false"
+        android:importantForAutofill="no" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -28,6 +30,7 @@
 
         <Button
             android:id="@+id/Create"
+            style="@android:style/Widget.Button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -35,6 +38,7 @@
 
         <Button
             android:id="@+id/Delete"
+            style="@android:style/Widget.Button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,6 +48,7 @@
 
     <Button
         android:id="@+id/Cancel"
+        style="@android:style/Widget.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/new_Cancel" />

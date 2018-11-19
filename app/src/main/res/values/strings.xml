@@ -46,13 +46,29 @@
     <string name="preferences_Cancel">Cancel</string>
     <!--activity_preferences.xml end -->
 
-    <!--editable.xml start -->
+    <!--editable_textview.xml start -->
     <string name="edit_Save">Save</string>
     <string name="edit_Cancel">Cancel</string>
-    <!--editable.xml end -->
+    <string name="edit_statName">Stat Name</string>
+    <string name="edit_StatValue">Stat Value</string>
+    <string name="edit_StatBonus">Stat Bonus</string>
+    <string name="edit_Remove">Remove</string>
+    <!--editable_textview.xml end -->
 
     <!--activity_character_details.xml end -->
     <string name="details_Home">Home</string>
-    <string name="details_DiceRoller">Dice Roller</string>
+    <string name="details_DiceRoller">Dice</string>
     <!--activity_character_details.xml end -->
+
+    <!--default end -->
+    <string name="default_Empty" />
+    <!--default end -->
+
+    <!--dice_roller.xml end -->
+    <string name="dice_Side"># Sides</string>
+    <string name="dice_Rolls"># Rolls</string>
+    <string name="dice_Roll">Roll</string>
+    <string name="dice_Close">Close</string>
+    <string name="dice_Clear">Clear</string>
+    <!--dice_roller.xml end -->
 </resources>

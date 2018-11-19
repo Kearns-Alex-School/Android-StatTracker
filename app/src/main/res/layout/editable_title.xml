@@ -9,6 +9,7 @@
         android:id="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/default_Empty"
         android:imeOptions="actionDone"
         android:inputType="text"
         android:singleLine="false" />
@@ -20,6 +21,7 @@
 
         <Button
             android:id="@+id/Save"
+            style="@android:style/Widget.Button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -27,6 +29,7 @@
 
         <Button
             android:id="@+id/Cancel"
+            style="@android:style/Widget.Button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
