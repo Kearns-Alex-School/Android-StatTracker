@@ -36,6 +36,7 @@
 
     <Button
         android:id="@+id/mainAbout"
+        style="@android:style/Widget.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -59,6 +60,7 @@
 
     <Button
         android:id="@+id/mainAddCharacter"
+        style="@android:style/Widget.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -71,9 +73,9 @@
 
     <Button
         android:id="@+id/mainPreferences"
+        style="@android:style/Widget.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:onClick="openPreferences"

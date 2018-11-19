@@ -3,6 +3,7 @@ package cs246.groupApp.dndapp;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 2018-11-17 AJK: Need to split HP into a Max and Current value
 class Character implements CharacterPreset {
     public String name;
     public Integer HP;
