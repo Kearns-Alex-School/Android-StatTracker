@@ -248,7 +248,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 character.statList.add(newStat);
 
                 // save our data and re-load
-                writeFile(character.name + ".txt");
+                writeFile(character.fileName);
 
                 // close the screen
                 dialog.dismiss();
