@@ -3,10 +3,10 @@ package cs246.groupApp.dndapp;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: 2018-11-17 AJK: Need to split HP into a Max and Current value
 class Character implements CharacterPreset {
     public String name;
-    public Integer HP;
+    public Integer HPMax;
+    public Integer HPCurrent;
     public Integer EXP;
     public Integer MP;
     public Integer ArmrRating;
@@ -18,7 +18,7 @@ class Character implements CharacterPreset {
 
     public Character(String name, Integer HP, Integer EXP, Integer MP, Integer ArmrRating) {
         this.name = name;
-        this.HP = HP;
+        this.HPMax = HP;
         this.EXP = EXP;
         this.MP = MP;
         this.ArmrRating = ArmrRating;
@@ -28,7 +28,8 @@ class Character implements CharacterPreset {
 
     public Character() {
         this.name = "";
-        this.HP = 0;
+        this.HPMax = 0;
+        this.HPCurrent = 0;
         this.EXP = 0;
         this.MP = 0;
         this.speed = 0;
