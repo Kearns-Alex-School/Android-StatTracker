@@ -1,5 +1,10 @@
 package cs246.groupApp.dndapp;
 
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +27,6 @@ class Character {
         this.EXP = EXP;
         this.MP = MP;
         this.ArmrRating = ArmrRating;
-        loadPreset();
-
     }
 
     public Character() {
@@ -39,13 +42,29 @@ class Character {
         this.inventory = new ArrayList<>();
     }
 
-//KM: TODO fill out this function
-    public void loadPreset(/*Call this function if we want to load a preset. Pass in the name of the preset*/) {
-//logic to load preset/call load custom from file
-//        this.CharacterStatsList = DnDStats;
-        //        Gson gson = new Gson();
-//        StatList stats = gson.fromJson(readFile(), StatList.class);
-//        this.statList = stats.getStatList();
+//KM: filling in preset.
+    // takes a preset name (without .txt), and the presetDir
+    public void loadPreset(String presetName, File dir) {
+        File file = new File(dir, presetName + ".txt");
+        String contentJson = null;
+
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(file);
+            byte[] data = new byte[(int) file.length()];
+            fis.read(data);
+            fis.close();
+
+            contentJson = new String(data, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(contentJson);
+
+        Gson gson = new Gson();
+        StatList stats = gson.fromJson(contentJson, StatList.class);
+        this.statList = stats.getStatList();
     }
 
 }
