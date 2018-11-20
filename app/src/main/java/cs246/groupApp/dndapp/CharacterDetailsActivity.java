@@ -291,6 +291,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        System.out.println(contentJson);
+
         // if file has contents, deserialize, otherwise create new character
         if (contentJson != null && !contentJson.equals("")) {
             Gson gson = new Gson();

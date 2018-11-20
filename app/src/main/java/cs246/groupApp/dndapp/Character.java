@@ -39,10 +39,13 @@ class Character {
         this.inventory = new ArrayList<>();
     }
 
-
-    public void loadPreset(/*somehow indicate whether to load a preset or a custom*/) {
+//KM: TODO fill out this function
+    public void loadPreset(/*Call this function if we want to load a preset. Pass in the name of the preset*/) {
 //logic to load preset/call load custom from file
 //        this.CharacterStatsList = DnDStats;
+        //        Gson gson = new Gson();
+//        StatList stats = gson.fromJson(readFile(), StatList.class);
+//        this.statList = stats.getStatList();
     }
 
 }
