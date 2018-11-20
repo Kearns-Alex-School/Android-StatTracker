@@ -3,7 +3,7 @@ package cs246.groupApp.dndapp;
 import java.util.ArrayList;
 import java.util.List;
 
-class Character implements CharacterPreset {
+class Character {
     public String name;
     public Integer HPMax;
     public Integer HPCurrent;
@@ -44,18 +44,5 @@ class Character implements CharacterPreset {
 //logic to load preset/call load custom from file
 //        this.CharacterStatsList = DnDStats;
     }
-
-    @Override
-    public List<Stat> LoadCustomPreset(String fileName) {
-//        this should be async
-        return null;
-    }
-
-    @Override
-    public void SaveCustomPreset(String fileName) {
-//this should be async
-//        save this.statList
-    }
-
 
 }
