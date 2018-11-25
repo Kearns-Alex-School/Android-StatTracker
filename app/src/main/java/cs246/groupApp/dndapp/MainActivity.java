@@ -92,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        //Generate all of the preset files, if they don't already exist. KM: this is synchronous, so keep it fast.
+        PresetGenerator presetGen = new PresetGenerator();
+        presetGen.generatePresets(presetDir);
+
         // load the characters that we have so far
         toLoad();
     }
@@ -345,7 +349,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, CharacterDetailsActivity.class);
         intent.putExtra("filename", filename);
-        intent.putExtra("dir", characterDir);
+        intent.putExtra("charDir", characterDir);
+        intent.putExtra("presetDir", presetDir);
         startActivity(intent);
     }
 

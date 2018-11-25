@@ -1,9 +1,14 @@
 package cs246.groupApp.dndapp;
 
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-class Character implements CharacterPreset {
+class Character {
     public String name;
     public Integer HPMax;
     public Integer HPCurrent;
@@ -22,8 +27,6 @@ class Character implements CharacterPreset {
         this.EXP = EXP;
         this.MP = MP;
         this.ArmrRating = ArmrRating;
-        loadPreset();
-
     }
 
     public Character() {
@@ -39,23 +42,29 @@ class Character implements CharacterPreset {
         this.inventory = new ArrayList<>();
     }
 
+//KM: filling in preset.
+    // takes a preset name (without .txt), and the presetDir
+    public void loadPreset(String presetName, File dir) {
+        File file = new File(dir, presetName + ".txt");
+        String contentJson = null;
 
-    public void loadPreset(/*somehow indicate whether to load a preset or a custom*/) {
-//logic to load preset/call load custom from file
-//        this.CharacterStatsList = DnDStats;
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(file);
+            byte[] data = new byte[(int) file.length()];
+            fis.read(data);
+            fis.close();
+
+            contentJson = new String(data, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(contentJson);
+
+        Gson gson = new Gson();
+        StatList stats = gson.fromJson(contentJson, StatList.class);
+        this.statList = stats.getStatList();
     }
-
-    @Override
-    public List<Stat> LoadCustomPreset(String fileName) {
-//        this should be async
-        return null;
-    }
-
-    @Override
-    public void SaveCustomPreset(String fileName) {
-//this should be async
-//        save this.statList
-    }
-
 
 }
