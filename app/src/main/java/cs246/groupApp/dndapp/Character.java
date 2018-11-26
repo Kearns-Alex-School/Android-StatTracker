@@ -6,20 +6,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class Character {
     public String name;
-    public Integer HPMax;
-    public Integer HPCurrent;
-    public Integer EXP;
-    public Integer MP;
-    public Integer ArmrRating;
+    Integer HPMax;
+    Integer HPCurrent;
+    Integer EXP;
+    Integer MP;
+    Integer ArmrRating;
     public Integer speed;
-    public String fileName;
-    public List<Stat> CharacterStatsList;
-    public List<Stat> statList;
-    public List<Item> inventory;
+    String fileName;
+    List<Stat> CharacterStatsList;
+    List<Stat> statList;
+    List<Item> inventory;
 
     public Character(String name, Integer HP, Integer EXP, Integer MP, Integer ArmrRating) {
         this.name = name;
@@ -29,7 +30,7 @@ class Character {
         this.ArmrRating = ArmrRating;
     }
 
-    public Character() {
+    Character() {
         this.name = "";
         this.HPMax = 0;
         this.HPCurrent = 0;
@@ -42,9 +43,8 @@ class Character {
         this.inventory = new ArrayList<>();
     }
 
-//KM: filling in preset.
     // takes a preset name (without .txt), and the presetDir
-    public void loadPreset(String presetName, File dir) {
+    void loadPreset(String presetName, File dir) {
         File file = new File(dir, presetName + ".txt");
         String contentJson = null;
 
@@ -63,8 +63,12 @@ class Character {
         System.out.println(contentJson);
 
         Gson gson = new Gson();
-        StatList stats = gson.fromJson(contentJson, StatList.class);
-        this.statList = stats.getStatList();
+
+        // get all of the stats out of the file
+        Stat[] temp =  gson.fromJson(contentJson, Stat[].class);
+
+        // add the stats to the list in our character
+        statList.addAll(Arrays.asList(temp));
     }
 
 }

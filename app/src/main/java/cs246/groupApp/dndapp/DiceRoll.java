@@ -10,7 +10,7 @@ public class DiceRoll {
     public Integer bonus;
     public List<Die> dice;
 
-    public DiceRoll(int numDie, int dieSides, int numRolls, int bonus) {
+    DiceRoll(int numDie, int dieSides, int numRolls, int bonus) {
         this.numDie = numDie;
         this.dieSides = dieSides;
         this.numRolls = numRolls;
@@ -44,13 +44,12 @@ class Die {
     public Integer numSides;
     public Integer value;
 
-    public Die(int numSides) {
+    Die(int numSides) {
         this.numSides = numSides;
     }
 
     public Integer roll() {
-        double roll = 0;
-        roll = (Math.random() * ((numSides - 1) + 1)) + 1;
+        double roll = (Math.random() * ((numSides - 1) + 1)) + 1;
         value = (int) roll;
         return value;
     }
