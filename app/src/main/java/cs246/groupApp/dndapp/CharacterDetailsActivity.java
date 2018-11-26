@@ -3,7 +3,6 @@ package cs246.groupApp.dndapp;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -276,8 +275,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // KM: not doing async right now since files are small.
     public Character readFile(String filename) {
+        // KM: not doing async right now since files are small.
         File file = new File(characterDir, filename);
         String contentJson = null;
         //create character object
@@ -313,8 +312,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         return character;
     }
 
-    // KM: not doing async because of small files
     public void writeFile(String filename) {
+        // KM: not doing async because of small files
         Gson gson = new Gson();
         String json = gson.toJson(this.character);
 
@@ -358,26 +357,38 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         b_Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // assign our input
-                textview.setText(input.getText());
 
-                // update our character name
-                character.name = input.getText().toString();
+                String newName = input.getText().toString();
+                String newFileName = newName + ".txt";
 
-                // get our current file
-                File currentFile = new File (characterDir, character.fileName);
+                // check to see if the file exists
+                File file = new File(characterDir, newFileName);
+                if (!file.exists()) {
+                    // assign our input
+                    textview.setText(newName);
 
-                // change our file name
-                character.fileName = fileName = input.getText().toString() + ".txt";
+                    // update our character name
+                    character.name = newName;
 
-                // create our new file
-                File newFile = new File (characterDir, character.fileName);
+                    // get our current file
+                    File currentFile = new File (characterDir, character.fileName);
 
-                // rename
-                currentFile.renameTo(newFile);
+                    // change our file name
+                    character.fileName = fileName = newFileName;
 
-                // close the screen
-                dialog.dismiss();
+                    // create our new file
+                    File newFile = new File (characterDir, character.fileName);
+
+                    // rename
+                    currentFile.renameTo(newFile);
+
+                    // close the screen
+                    dialog.dismiss();
+                }
+                else {
+                    CommonMethods.showCenterTopToast(context,"Character " + newName + " already exists", 0);
+                }
+
             }
         });
 
@@ -643,10 +654,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     return;
                 }
 
-                int current = Integer.parseInt(ratingInput.getText().toString());
-
                 // assign our input
-                character.ArmrRating = current;
+                character.ArmrRating = Integer.parseInt(ratingInput.getText().toString());
 
                 // save our data and re-load
                 writeFile(character.fileName);
@@ -705,10 +714,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     return;
                 }
 
-                int current = Integer.parseInt(speedInput.getText().toString());
-
                 // assign our input
-                character.speed = current;
+                character.speed = Integer.parseInt(speedInput.getText().toString());
 
                 // save our data and re-load
                 writeFile(character.fileName);

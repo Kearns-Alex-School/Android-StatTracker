@@ -74,5 +74,6 @@
     <string name="health_Max">Max</string>
     <string name="armor_Rate">Armor Rating</string>
     <string name="speed_Rate">Current Speed</string>
+    <string name="new_Preset">Preset</string>
     <!--dice_roller.xml end -->
 </resources>

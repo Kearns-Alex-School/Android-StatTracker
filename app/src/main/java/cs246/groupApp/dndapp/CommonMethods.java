@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.Gravity;
 import android.widget.Toast;
 
-public class CommonMethods {
+class CommonMethods {
 
-    public static void showCenterTopToast(Context context, String message, int length) {
+    static void showCenterTopToast(Context context, String message, int length) {
         Toast toast= Toast.makeText(context, message, length);
 
         //  https://stackoverflow.com/questions/2506876/how-to-change-position-of-toast-in-android

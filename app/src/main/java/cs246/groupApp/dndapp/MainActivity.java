@@ -16,8 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+
+import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
     // This list will store the strings for our ListView
     private List<String> characterList;
-
-    // This will help us connect the List to the ListView
-    private ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     public void toLoad() {
         // First create the List and the ArrayAdapter
         characterList = new ArrayList<>();
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.character_list, characterList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.character_list, characterList);
 
         // Now connect the ArrayAdapter to the ListView
         ListView listView = findViewById(R.id.characterListView);
@@ -214,7 +215,26 @@ public class MainActivity extends AppCompatActivity {
         dialog.setCancelable(true);
 
         // set up the EditText behavior
-        final EditText input = dialog.findViewById((R.id.input));
+        final EditText input = dialog.findViewById(R.id.input);
+
+        // set up our drop down menu
+        final Spinner presetValues = dialog.findViewById(R.id.PresetValues);
+
+        List<String> list = new ArrayList<>();
+        list.add("None");
+
+        // grab all of the files in the dir and go through them all
+        File[] files = new File(presetDir.getPath()).listFiles();
+        for (File file : files)
+        {
+            // check to make sure the item is not a folder
+            if (!file.isDirectory())
+                list.add(file.getName().replace(".txt", ""));
+        }
+
+        // set out dropdown to the list.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, list);
+        presetValues.setAdapter(adapter);
 
         // AJK: My very first easter egg that I have ever coded. 11/11/2018 23:45
         String[] hints = {"Kevin_Marsh","Jeffery_Hooker","Alex_Kearns"};
@@ -226,39 +246,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // assign our input to our character variable
-                String newCharacter = input.getText().toString();
+                String characterName = input.getText().toString();
 
                 // check to see if we have an empty input
-                if (newCharacter.length() != 0) {
+                if (characterName.length() != 0) {
                     // create the file name that we are checking
-                    String fileName = newCharacter + ".txt";
+                    String fileName = characterName + ".txt";
 
                     // check to see if the file exists
                     File file = new File(characterDir, fileName);
                     if (!file.exists()) {
-                        // try to create the file
-                        try {
-                            if(!file.createNewFile())
-                            {
-                                CommonMethods.showCenterTopToast(context, "Error: Could not make file", 0);
-                                return;
-                            }
+                        // create our new character
+                        Character newCharacter = new Character();
+                        newCharacter.fileName = fileName;
+                        newCharacter.name = characterName;
 
-                            // reload our character list
-                            toLoad();
+                        String text = presetValues.getSelectedItem().toString();
 
-                            // reset our character string
-                            newCharacter = "";
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            CommonMethods.showCenterTopToast(context, "An error occurred.", 0);
-                        }
+                        if (!text.equals("None"))
+                            newCharacter.loadPreset(text, presetDir);
+
+                        writeFile(fileName, newCharacter);
+
+                        // reload our character list
+                        toLoad();
 
                         // close the screen
                         dialog.dismiss();
                     } else
                         // Inform the user that the file already exists
-                        CommonMethods.showCenterTopToast(context, newCharacter + " already exists.", 0);
+                        CommonMethods.showCenterTopToast(context, characterName + " already exists.", 0);
                 }
             }
         });
@@ -289,9 +306,6 @@ public class MainActivity extends AppCompatActivity {
                         // reload our character list
                         toLoad();
 
-                        // reset our character string
-                        newCharacter = "";
-
                         // close the screen
                         dialog.dismiss();
                     } else {
@@ -314,6 +328,19 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.show();
     }
+    public void writeFile(String filename, Character character) {
+        Gson gson = new Gson();
+        String json = gson.toJson(character);
+
+        File outputFile = new File(characterDir, filename);
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(outputFile);
+            outputStream.write(json.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void about(View view) {
         // create our popup dialog
@@ -323,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
         // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.legal);
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(dialog.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(true);
 
         // set up the Cancel button
