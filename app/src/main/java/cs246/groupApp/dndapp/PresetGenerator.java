@@ -17,7 +17,8 @@ class PresetGenerator {
     private void writeFile(File dir, String fileName, String content) {
         File outputFile = new File(dir, fileName);
 
-        if (!outputFile.exists()) {
+        //TODO figure out a way to check if files need to be changed. This is inefficient.
+//        if (!outputFile.exists()) {
             Log.i("presetCreate", "Created file " + fileName);
 
             try {
@@ -27,10 +28,10 @@ class PresetGenerator {
                 Log.e("presetCreate", "Failed to create file " + fileName);
                 e.printStackTrace();
             }
-        }
-        else {
-            Log.i("presetCreate", "Preset file " + fileName + " exists.");
-        }
+//        }
+//        else {
+//            Log.i("presetCreate", "Preset file " + fileName + " exists.");
+//        }
     }
 
     private static final String SPECIAL =
