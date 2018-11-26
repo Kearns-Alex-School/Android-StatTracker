@@ -3,6 +3,7 @@ package cs246.groupApp.dndapp;
 import java.util.ArrayList;
 import java.util.List;
 
+//DiceRoll is a wrapper class for the die class.
 public class DiceRoll {
     public Integer numDie;
     public Integer dieSides;

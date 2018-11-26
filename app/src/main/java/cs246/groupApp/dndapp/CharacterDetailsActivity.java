@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class CharacterDetailsActivity extends AppCompatActivity {
@@ -778,14 +779,23 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 int rolls = Integer.parseInt(numRolls.getText().toString());
                 int sides = Integer.parseInt(numSides.getText().toString());
 
-                Die die = new Die(sides);
+                //KM: changed to use the diceroller class. Opinions?
+//                Die die = new Die(sides);
+                DiceRoll diceRoll = new DiceRoll(1, sides, rolls, 0);
+                diceRoll.roll();
+
                 TextView results = dialog.findViewById(R.id.Results);
 
                 // roll our die
                 results.append("Results of " + rolls + " rolls with " + sides + " sides:\n");
 
-                for (int index = 1; index <= rolls; index++) {
-                    results.append("Roll " + index + ": " + die.roll() + "\n");
+//                for (int index = 1; index <= rolls; index++) {
+//                    results.append("Roll " + index + ": " + die.roll() + "\n");
+//                }
+                //KM: changed to use the diceroller class. Opinions?
+                List<Die> dice = diceRoll.getDice();
+                for (int i = 0; i < dice.size(); i++) {
+                    results.append("Roll " + (i+1) + ": " + dice.get(i).value + "\n");
                 }
 
                 results.append("\n");
