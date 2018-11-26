@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String DICE_SIDES = "numSides";
     public static final String DICE_ROLLS = "numRolls";
     public static final String DICE_ROLLONLOAD = "autoRoll";
+    public static final String DICE_AUTOSCROLL = "autoScroll";
     public static final String LOAD_CONTENT = "loadContent";
     public static final String DIST_UNIT = "distUnit";
 

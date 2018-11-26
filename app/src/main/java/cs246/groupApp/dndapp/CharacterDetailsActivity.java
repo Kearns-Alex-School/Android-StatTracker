@@ -3,6 +3,7 @@ package cs246.groupApp.dndapp;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -135,7 +137,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
         // update Health button
         button = findViewById(R.id.Health);
-        temp = "Health  " + character.HPCurrent + "/" + character.HPMax;
+        temp = "Health\n" + character.HPCurrent + "/" + character.HPMax;
         button.setText(temp);
 
         // update Armor Rating
@@ -145,7 +147,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
         // update Speed button
         button = findViewById(R.id.Speed);
-        temp = character.speed + " " + SP.getString(MainActivity.DIST_UNIT, "ft/rd");
+        temp = character.speed + "\n" + SP.getString(MainActivity.DIST_UNIT, "ft/rd");
         button.setText(temp);
 
         // TODO: 2018-11-17 AJK: Need to add background code to figure out which we are displaying first
@@ -408,7 +410,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         final EditText valueInput = dialog.findViewById((R.id.StatValue));
         final EditText bonusInput = dialog.findViewById((R.id.StatBonusValue));
 
-        final String[] parsed = ((Button)view).getText().toString().split(" |\n");
+        final String[] parsed = ((Button)view).getText().toString().split("\n");
         final String stat = parsed[0];
 
         // find the stat index to change
@@ -526,15 +528,203 @@ public class CharacterDetailsActivity extends AppCompatActivity {
     }
 
     public void editHealth(View view) {
+        // create our popup dialog
+        final Dialog dialog = new Dialog(context);
 
+        // have the keyboard show up once we have the ability
+        //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
+        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+        // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
+        // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.editable_health);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+
+        // set up the EditText behavior
+        final EditText currentInput = dialog.findViewById((R.id.Current));
+        final EditText maxInput = dialog.findViewById((R.id.Max));
+
+        // we are only expecting to have three different values in this exact order
+        String current = Integer.toString(character.HPCurrent);
+        String max = Integer.toString(character.HPMax);
+
+        currentInput.setText(current);
+        maxInput.setText(max);
+
+        // set up the Save button behavior
+        Button b_Save = dialog.findViewById(R.id.Save);
+        b_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // make sure we have something in each field
+                if(currentInput.getText().toString().length() == 0 ||
+                   maxInput.getText().toString().length() == 0 )
+                {
+                    // Inform the user that values empty
+                    CommonMethods.showCenterTopToast(context, "Please enter all values", 0);
+                    return;
+                }
+
+                int current = Integer.parseInt(currentInput.getText().toString());
+                int max = Integer.parseInt(maxInput.getText().toString());
+
+                // use these lines to check if the current is bigger than the max.
+                /*if (max < current)
+                {
+                    // Inform the user that the current needs to be smaller
+                    CommonMethods.showCenterTopToast(context, "Current is larger than max", 0);
+                    return;
+                }*/
+
+                // assign our input
+                character.HPCurrent = current;
+                character.HPMax = max;
+
+                // save our data and re-load
+                writeFile(character.fileName);
+
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        // set up the Cancel button
+        Button b_Cancel = dialog.findViewById(R.id.Cancel);
+        b_Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     public void editArmor(View view) {
+        // create our popup dialog
+        final Dialog dialog = new Dialog(context);
 
+        // have the keyboard show up once we have the ability
+        //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
+        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+        // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
+        // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.editable_armorrating);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+
+        // set up the EditText behavior
+        final EditText ratingInput = dialog.findViewById((R.id.Rating));
+
+        // we are only expecting to have three different values in this exact order
+        String current = Integer.toString(character.ArmrRating);
+
+        ratingInput.setText(current);
+
+        // set up the Save button behavior
+        Button b_Save = dialog.findViewById(R.id.Save);
+        b_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // make sure we have something in each field
+                if(ratingInput.getText().toString().length() == 0 )
+                {
+                    // Inform the user that values empty
+                    CommonMethods.showCenterTopToast(context, "Please enter all values", 0);
+                    return;
+                }
+
+                int current = Integer.parseInt(ratingInput.getText().toString());
+
+                // assign our input
+                character.ArmrRating = current;
+
+                // save our data and re-load
+                writeFile(character.fileName);
+
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        // set up the Cancel button
+        Button b_Cancel = dialog.findViewById(R.id.Cancel);
+        b_Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     public void editSpeed(View view) {
+        // create our popup dialog
+        final Dialog dialog = new Dialog(context);
 
+        // have the keyboard show up once we have the ability
+        //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
+        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+        // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
+        // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.editable_speed);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+
+        // set up the EditText behavior
+        final EditText speedInput = dialog.findViewById((R.id.Speed));
+
+        // we are only expecting to have three different values in this exact order
+        String current = Integer.toString(character.speed);
+
+        speedInput.setText(current);
+
+        // set up the Save button behavior
+        Button b_Save = dialog.findViewById(R.id.Save);
+        b_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // make sure we have something in each field
+                if(speedInput.getText().toString().length() == 0 )
+                {
+                    // Inform the user that values empty
+                    CommonMethods.showCenterTopToast(context, "Please enter all values", 0);
+                    return;
+                }
+
+                int current = Integer.parseInt(speedInput.getText().toString());
+
+                // assign our input
+                character.speed = current;
+
+                // save our data and re-load
+                writeFile(character.fileName);
+
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        // set up the Cancel button
+        Button b_Cancel = dialog.findViewById(R.id.Cancel);
+        b_Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     public void diceRoll(View view) {
@@ -556,7 +746,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         final EditText numSides = dialog.findViewById((R.id.Sides));
         final EditText numRolls = dialog.findViewById((R.id.Rolls));
 
-        // AJK: Will need to replace with saved preferences
+        // replace with saved preferences
         numSides.setText(SP.getString(MainActivity.DICE_SIDES, "6"));
         numRolls.setText(SP.getString(MainActivity.DICE_ROLLS, "1"));
 
@@ -567,9 +757,9 @@ public class CharacterDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // make sure we have something in each field
                 if(numRolls.getText().toString().length() == 0 ||
-                        numSides.getText().toString().length() == 0)
+                   numSides.getText().toString().length() == 0)
                 {
-                    // Inform the user that values empty
+                    // inform the user that values empty
                     CommonMethods.showCenterTopToast(context, "Please enter all values", 0);
                     return;
                 }
@@ -580,19 +770,32 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 Die die = new Die(sides);
                 TextView results = dialog.findViewById(R.id.Results);
 
-                // check to see that we do not clash with any other names
-                for (int index = 1; index <= rolls; index++)
-                {
+                // roll our die
+                results.append("Results of " + rolls + " rolls with " + sides + " sides:\n");
+
+                for (int index = 1; index <= rolls; index++) {
                     results.append("Roll " + index + ": " + die.roll() + "\n");
                 }
 
                 results.append("\n");
+
+                if(SP.getBoolean(MainActivity.DICE_AUTOSCROLL, false))
+                {
+                    final ScrollView scroll = dialog.findViewById((R.id.Scoller));
+
+                    // just use this line if you want to stay at the top of the roll
+                    scroll.fullScroll(View.FOCUS_DOWN);
+
+                    // use these lines to scroll to the absolute bottom
+                    /*scroll.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scroll.fullScroll(View.FOCUS_DOWN);
+                        }
+                    });*/
+                }
             }
         });
-
-        // check to see if we are going to auto roll or not
-        if (SP.getBoolean(MainActivity.DICE_ROLLONLOAD, false))
-            b_Roll.callOnClick();
 
         // set up the Cancel button
         Button b_Clear = dialog.findViewById(R.id.Clear);
@@ -614,6 +817,10 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+
+        // check to see if we are going to auto roll or not
+        if (SP.getBoolean(MainActivity.DICE_ROLLONLOAD, false))
+            b_Roll.callOnClick();
 
         dialog.show();
     }

@@ -70,5 +70,9 @@
     <string name="dice_Roll">Roll</string>
     <string name="dice_Close">Close</string>
     <string name="dice_Clear">Clear</string>
+    <string name="health_Current">Current</string>
+    <string name="health_Max">Max</string>
+    <string name="armor_Rate">Armor Rating</string>
+    <string name="speed_Rate">Current Speed</string>
     <!--dice_roller.xml end -->
 </resources>

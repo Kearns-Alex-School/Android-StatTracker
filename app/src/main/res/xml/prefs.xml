@@ -1,35 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <EditTextPreference
-        android:defaultValue="6"
-        android:inputType="number"
-        android:key="numSides"
-        android:singleLine="true"
-        android:summary="The default number of sides that you want your die to load with when rolling."
-        android:title="Die Sides" />
-    <EditTextPreference
-        android:defaultValue="1"
-        android:inputType="number"
-        android:key="numRolls"
-        android:singleLine="true"
-        android:summary="The default number of times that you want your die to load with when rolling."
-        android:title="Die Rolls" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="autoRoll"
-        android:summary="Automatically roll the die when opening the die roller."
-        android:title="Auto Roll" />
-    <EditTextPreference
-        android:defaultValue="ft/rd"
-        android:key="distUnit"
-        android:singleLine="true"
-        android:summary="The unit that you want to display along with your speed stat."
-        android:title="Distance Units" />
-    <ListPreference
-        android:defaultValue="Sub-Stats"
-        android:entries="@array/listArray"
-        android:entryValues="@array/listValues"
-        android:key="loadContent"
-        android:summary="Which sub-list screen you want to load up first when you click a character."
-        android:title="Content Load" />
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Dice Settings" >
+
+        <EditTextPreference
+            android:defaultValue="6"
+            android:inputType="number"
+            android:key="numSides"
+            android:singleLine="true"
+            android:summary="The default number of sides that you want your die to load with when rolling."
+            android:title="Die Sides" />
+        <EditTextPreference
+            android:defaultValue="1"
+            android:inputType="number"
+            android:key="numRolls"
+            android:singleLine="true"
+            android:summary="The default number of times that you want your die to load with when rolling."
+            android:title="Die Rolls" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="autoRoll"
+            android:summary="Automatically roll the die when opening the die roller."
+            android:title="Auto Roll" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="autoScroll"
+            android:title="Auto Scroll"
+            android:summary="Automatically scroll the results of the roll to the bottom of the set."/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Character Detail">
+
+        <EditTextPreference
+            android:defaultValue="ft/rd"
+            android:key="distUnit"
+            android:singleLine="true"
+            android:summary="The unit that you want to display along with your speed stat."
+            android:title="Distance Units" />
+        <ListPreference
+            android:defaultValue="Sub-Stats"
+            android:entries="@array/listArray"
+            android:entryValues="@array/listValues"
+            android:key="loadContent"
+            android:summary="Which sub-list screen you want to load up first when you click a character."
+            android:title="Content Load" />
+
+    </PreferenceCategory>
+
+    <!--PreferenceCategory
+        android:title="Theme">
+
+        <ListPreference
+            android:defaultValue="Light"
+            android:entries="@array/themeArray"
+            android:entryValues="@array/themeValues"
+            android:key="themeStyle"
+            android:summary="Change your style."
+            android:title="Layout Style" />
+
+    </PreferenceCategory-->
+
 </PreferenceScreen>
