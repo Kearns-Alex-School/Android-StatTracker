@@ -31,6 +31,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
     public Context context;
     public Character character;
     public File characterDir;
+    public File presetDir;
 
     public int ccGravity = Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL;
     public int tcGravity = Gravity.TOP|Gravity.CENTER_HORIZONTAL;
@@ -47,7 +48,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         // get from intent
-        characterDir = (File) Objects.requireNonNull(getIntent().getExtras()).get("dir");
+        characterDir = (File) Objects.requireNonNull(getIntent().getExtras()).get("charDir");
+        presetDir = (File) Objects.requireNonNull(getIntent().getExtras()).get("presetDir");
         fileName = (String) getIntent().getExtras().get("filename");
 
         // read file
@@ -292,6 +294,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println(contentJson);
 
         // if file has contents, deserialize, otherwise create new character
         if (contentJson != null && !contentJson.equals("")) {
