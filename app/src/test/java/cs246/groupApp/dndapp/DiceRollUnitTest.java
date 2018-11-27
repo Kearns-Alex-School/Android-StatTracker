@@ -2,30 +2,23 @@ package cs246.groupApp.dndapp;
 
 import org.junit.Test;
 
-import cs246.groupApp.dndapp.DiceRoll;
-
+/**
+ * Unit test for die class.
+ * @author Kevin Marsh
+ */
 public class DiceRollUnitTest {
     @Test
     public void DiceRollerTest() {
-        //TODO redo this
-        //test 1 die
-        DiceRoll dice = new DiceRoll(1,6,1,0);
-        Integer roll = dice.roll();
-        assert(roll >= 1 && roll <= 6);
+        Die die = new Die(6);
+        int roll = die.roll();
+        assert (roll >= 1 && roll <= 6);
 
-        //test 3 dice
-        dice = new DiceRoll(3,6,1,0);
-        roll = dice.roll();
-        assert (roll >= 3 && roll <= 18);
+        die.numSides = 20;
+        roll = die.roll();
+        assert (roll >= 1 && roll <= 20);
 
-        //test bonus
-        dice = new DiceRoll(1,6,1,1);
-        roll = dice.roll();
-        assert (roll >= 2 && roll <= 7);
-
-        //test 3 rolls
-        dice = new DiceRoll(1,6,3,0);
-        roll = dice.roll();
-        assert (roll >= 3 && roll <= 18);
+        die.numSides = 4;
+        roll = die.roll();
+        assert (roll >= 1 && roll <= 4);
     }
 }
