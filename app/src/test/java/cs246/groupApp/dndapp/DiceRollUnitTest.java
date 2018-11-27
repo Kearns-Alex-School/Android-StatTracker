@@ -7,6 +7,7 @@ import cs246.groupApp.dndapp.DiceRoll;
 public class DiceRollUnitTest {
     @Test
     public void DiceRollerTest() {
+        //TODO redo this
         //test 1 die
         DiceRoll dice = new DiceRoll(1,6,1,0);
         Integer roll = dice.roll();

@@ -25,6 +25,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This is the Character details page.
+ * @author Alex Kearns, Kevin Marsh
+ */
 public class CharacterDetailsActivity extends AppCompatActivity {
     SharedPreferences SP;
 
@@ -39,6 +43,12 @@ public class CharacterDetailsActivity extends AppCompatActivity {
     String fileName;
 
     @Override
+    /**
+     * When the activity starts, this function is called.
+     * Expects that the main activity has placed two File objects and one String into the Intent Extras.
+     * @see MainActivity#LoadCharacter(String)
+     * @author Alex Kearns, Kevin Marsh
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_details);
@@ -93,6 +103,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         UpdateStatList((LinearLayout) findViewById(R.id.contentLLV));
     }
 
+    /**
+     * Updates the sidebar stat list, and setup the top row of buttons
+     * @param sidebar LinearLayout Object - The layout element for the sidebar
+     * @author Alex Kearns
+     */
     public void UpdateStatList(final LinearLayout sidebar) {
         // remove any of the views that we currently are holding
         if (0 < sidebar.getChildCount())
@@ -181,6 +196,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         button.setText(temp2);
     }
 
+    /**
+     * Dialog to create a new stat and add the new stat to the character's stat list.
+     * @param v View object - passed in when a button is pressed.
+     * @author Alex Kearns
+     */
     public void createStat(View v) {
         /// create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -276,6 +296,13 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Reads a JSON serialized character file, to load a saved character. If the file is blank,
+     * a new character is created.
+     * @param filename A String containing the name of the file. Must include the file extension.
+     * @return Character.class object.
+     * @author Kevin Marsh
+     */
     public Character readFile(String filename) {
         // KM: not doing async right now since files are small.
         File file = new File(characterDir, filename);
@@ -313,6 +340,12 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         return character;
     }
 
+    /**
+     * Writes the current instance of Character.class to a serialized JSON file.
+     * @param filename A String containing the name of the file to be written. Must include the
+     *                 file extension.
+     * @author Kevin Marsh
+     */
     public void writeFile(String filename) {
         // KM: not doing async because of small files
         Gson gson = new Gson();
@@ -333,6 +366,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         UpdateStatList((LinearLayout) findViewById(R.id.contentLLV));
     }
 
+    /**
+     * Allows the character's name to be edited. Doing so also changes the filename.
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     public void editName(View view) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -406,6 +444,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows a stat in the stat list to be edited. Shows a dialog to the user.
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     public void editStat(View view) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -543,6 +586,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows the character's health to be edited. Shows a dialog to the user.
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     public void editHealth(View view) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -619,6 +667,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows the character's armor to be edited. Shows a dialog to the user.
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     public void editArmor(View view) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -679,6 +732,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows the character's speed to be edited. Shows a dialog to the user.
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     public void editSpeed(View view) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -739,6 +797,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Handles the dice roll behavior. Shows a dialog to the user.
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     public void diceRoll(View view) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -779,23 +842,15 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 int rolls = Integer.parseInt(numRolls.getText().toString());
                 int sides = Integer.parseInt(numSides.getText().toString());
 
-                //KM: changed to use the diceroller class. Opinions?
-//                Die die = new Die(sides);
-                DiceRoll diceRoll = new DiceRoll(1, sides, rolls, 0);
-                diceRoll.roll();
+                Die die = new Die(sides);
 
                 TextView results = dialog.findViewById(R.id.Results);
 
                 // roll our die
                 results.append("Results of " + rolls + " rolls with " + sides + " sides:\n");
 
-//                for (int index = 1; index <= rolls; index++) {
-//                    results.append("Roll " + index + ": " + die.roll() + "\n");
-//                }
-                //KM: changed to use the diceroller class. Opinions?
-                List<Die> dice = diceRoll.getDice();
-                for (int i = 0; i < dice.size(); i++) {
-                    results.append("Roll " + (i+1) + ": " + dice.get(i).value + "\n");
+                for (int index = 1; index <= rolls; index++) {
+                    results.append("Roll " + index + ": " + die.roll() + "\n");
                 }
 
                 results.append("\n");
@@ -845,28 +900,46 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
         dialog.show();
     }
-    
+
+    /**
+     * TODO
+     * @param view
+     */
     public void rightClicked(View view) {
         updateContentList(view, true);
     }
 
+    /**
+     * TODO
+     * @param view
+     */
     public void leftClicked(View view) {
         updateContentList(view, false);
     }
-    
+
+    /**
+     * TODO
+     * @param view
+     * @param isRight
+     */
     public void updateContentList(View view, Boolean isRight) {
         // TODO: 2018-11-17 AJK: Handle switching the content list here 
     }
 
+    /**
+     * Save the character on activity pause
+     * @author Kevin Marsh
+     */
     protected void onPause() {
         super.onPause();
         writeFile(this.character.fileName);
     }
 
-    protected void onResume() {
-        super.onResume();
-    }
-
+    /**
+     * Return to the previous activity when clicked
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     public void homeClick(View view) {
         this.finish();
     }

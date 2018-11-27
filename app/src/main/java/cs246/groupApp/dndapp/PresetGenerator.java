@@ -6,19 +6,40 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Preset Generator Class. Uses static strings found in this file to generate the preset JSON
+ * files.
+ * @author Kevin Marsh
+ */
 class PresetGenerator {
 
+    /**
+     * Generate presets function. Abstracts the act of generating the preset files into one function
+     * call. This function should be updated if/when new presets are added to the file.
+     * @param dir A File object containing the directory in which the preset files should be stored.
+     * @author Kevin Marsh
+     */
     //KM:TODO update this as presets are added
     void generatePresets(File dir) {
         writeFile(dir,"special.txt",SPECIAL);
         writeFile(dir, "dnd.txt", DnD);
     }
 
+    /**
+     * WriteFile function. Called only by GeneratePresets. Writes the specified file and content.
+     * @see #generatePresets(File)
+     * @param dir A File object containing the directory to write to.
+     * @param fileName A String containing the name of the file to be written.
+     * @param content A String containing the text to be written.
+     * @author Kevin Marsh
+     */
     private void writeFile(File dir, String fileName, String content) {
         File outputFile = new File(dir, fileName);
 
         //TODO figure out a way to check if files need to be changed. This is inefficient.
-//        if (!outputFile.exists()) {
+        // maybe use Shared prefs?
+
+        //if (!outputFile.exists()) {
             Log.i("presetCreate", "Created file " + fileName);
 
             try {
@@ -28,12 +49,15 @@ class PresetGenerator {
                 Log.e("presetCreate", "Failed to create file " + fileName);
                 e.printStackTrace();
             }
-//        }
-//        else {
-//            Log.i("presetCreate", "Preset file " + fileName + " exists.");
-//        }
+        //}
+        //else {
+        //    Log.i("presetCreate", "Preset file " + fileName + " exists.");
+        //}
     }
 
+    /**
+     * The SPECIAL preset is used in the Interplay/Bethesda series Fallout.
+     */
     private static final String SPECIAL =
 "[\n" +
 "    {\n" +
@@ -73,6 +97,9 @@ class PresetGenerator {
 "    }\n" +
 "]";
 
+    /**
+     * This is the traditional Dungeons and Dragons preset.
+     */
     private static final String DnD =
 "[\n" +
 "    {\n" +
