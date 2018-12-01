@@ -22,6 +22,7 @@ class Character {
     List<Stat> statList;
     List<Item> inventory;
     List<Item> abilities;
+    public String notes;
 
     public Character(String name, Integer HP, Integer EXP, Integer MP, Integer ArmrRating) {
         this.name = name;
@@ -43,6 +44,7 @@ class Character {
         this.statList = new ArrayList<>();
         this.inventory = new ArrayList<>();
         this.abilities = new ArrayList<>();
+        this.notes = "";
     }
 
     // takes a preset name (without .txt), and the presetDir

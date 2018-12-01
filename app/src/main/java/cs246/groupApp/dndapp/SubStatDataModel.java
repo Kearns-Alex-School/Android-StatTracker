@@ -4,7 +4,7 @@ public class SubStatDataModel
 {
     String bonus;
     String name;
-    String statname;
+    private String statName;
 
     private Boolean showBonus;
     private Boolean showName;
@@ -20,7 +20,7 @@ public class SubStatDataModel
     SubStatDataModel() {
         this.bonus = "";
         this.name = "";
-        this.statname = "";
+        this.statName = "";
 
         this.showBonus = true;
         this.showName = true;
@@ -42,31 +42,31 @@ public class SubStatDataModel
         return name;
     }
 
-    public String getStatname() {
-        return statname;
+    String getStatName() {
+        return statName;
     }
 
-    public Boolean getShowBonus() {
+    Boolean getShowBonus() {
         return showBonus;
     }
 
-    public Boolean getShowName() {
+    Boolean getShowName() {
         return showName;
     }
 
-    public Boolean getShowStatName() {
+    Boolean getShowStatName() {
         return showStatName;
     }
 
-    public Boolean getShowDelete() {
+    Boolean getShowDelete() {
         return showDelete;
     }
 
-    public int getMainTextSize() {
+    int getMainTextSize() {
         return mainTextSize;
     }
 
-    public int getSubTextSize() {
+    int getSubTextSize() {
         return subTextSize;
     }
 
@@ -85,8 +85,8 @@ public class SubStatDataModel
         this.name = name;
     }
 
-    public void setStatname(String statname) {
-        this.statname = statname;
+    public void setStatName(String statName) {
+        this.statName = statName;
     }
 
     public void setShowBonus(Boolean showBonus) {

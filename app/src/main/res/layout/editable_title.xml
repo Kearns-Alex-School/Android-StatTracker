@@ -14,6 +14,30 @@
         android:inputType="text"
         android:singleLine="false" />
 
+    <TextView
+        android:id="@+id/Notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Notes:"
+        android:textSize="18sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:fillViewport="true"
+        android:layout_gravity="top"
+        android:scrollbarDefaultDelayBeforeFade="0"
+        android:scrollbars="vertical">
+
+        <EditText
+            android:id="@+id/notesValue"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:textSize="14sp" />
+    </ScrollView>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

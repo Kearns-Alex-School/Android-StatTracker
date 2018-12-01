@@ -14,14 +14,38 @@
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/input"
+        android:id="@+id/Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/default_Empty"
         android:imeOptions="actionDone"
+        android:importantForAutofill="no"
         android:inputType="text"
-        android:singleLine="false"
-        android:importantForAutofill="no" />
+        android:singleLine="false" />
+
+    <TextView
+        android:id="@+id/Notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Notes:"
+        android:textSize="18sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:fillViewport="true"
+        android:layout_gravity="top"
+        android:scrollbarDefaultDelayBeforeFade="0"
+        android:scrollbars="vertical">
+
+        <EditText
+            android:id="@+id/notesValue"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:textSize="14sp" />
+    </ScrollView>
 
     <TextView
         android:id="@+id/textView"
@@ -50,19 +74,13 @@
             android:text="@string/new_Create" />
 
         <Button
-            android:id="@+id/Delete"
+            android:id="@+id/Cancel"
             style="@android:style/Widget.Button"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/new_Delete" />
+            android:text="@string/new_Cancel" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/Cancel"
-        style="@android:style/Widget.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/new_Cancel" />
 </LinearLayout>

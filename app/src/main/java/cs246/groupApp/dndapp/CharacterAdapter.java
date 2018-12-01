@@ -14,23 +14,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Objects;
 
-//https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
-public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements View.OnClickListener {
-
-    private ArrayList<SubStatDataModel> dataSet;
+public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implements View.OnClickListener {
+    private ArrayList<CharacterDataModel> dataSet;
     private Context mContext;
 
     private static class ViewHolder {
-        TextView txtBonus;
         TextView txtName;
-        TextView txtStatName;
+        TextView txtNotes;
         Button bDelete;
     }
 
-    public SubStatAdapter(ArrayList<SubStatDataModel> data, Context context) {
-        super(context, R.layout.custom_layout_substat, data);
+    public CharacterAdapter(ArrayList<CharacterDataModel> data, Context context) {
+        super(context, R.layout.custom_layout_character, data);
         this.dataSet = data;
-        this.mContext = context;
+        this.mContext=context;
     }
 
     @Override
@@ -42,7 +39,7 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
         Object object = getItem(position);
 
         // cast the object into our model
-        final SubStatDataModel dataModel = (SubStatDataModel) object;
+        final CharacterDataModel dataModel = (CharacterDataModel) object;
 
         // figure out which one we clicked
         switch (v.getId()) {
@@ -62,7 +59,7 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
                 dialog.setCancelable(true);
 
                 TextView title = dialog.findViewById(R.id.Name);
-                String message = "Are you sure you want to delete \n'" + Objects.requireNonNull(dataModel).name + "'?";
+                String message = "Are you sure you want to delete \n'" + Objects.requireNonNull(dataModel).getCharacter().name + "'?";
 
                 title.setText(message);
 
@@ -71,17 +68,11 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
                 b_Confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Character character = dataModel.getCharacter();
-
-                        for (int index = 0; index < character.subStats.size(); index++)
-                            if (character.subStats.get(index).name.equals(dataModel.name))
-                                character.subStats.remove(index);
-
                         dialog.dismiss();
 
-                        // call our writeFile from the CharacterDetailsActivity
+                        // call our delete character from the MainActivity
                         //https://stackoverflow.com/questions/17315842/how-to-call-a-method-in-mainactivity-from-another-class/25260829
-                        CharacterDetailsActivity.getInstance().writeFile(character.fileName, true);
+                        MainActivity.getInstance().deleteCharacter(dataModel.getCharacter());
                     }
                 });
 
@@ -104,66 +95,31 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        SubStatDataModel dataModel = getItem(position);
+        CharacterDataModel dataModel = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
 
         if (convertView == null) {
-
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
 
-            convertView = inflater.inflate(R.layout.custom_layout_substat, parent, false);
-            viewHolder.txtBonus = convertView.findViewById(R.id.Bonus);
+            convertView = inflater.inflate(R.layout.custom_layout_character, parent, false);
             viewHolder.txtName = convertView.findViewById(R.id.Name);
-            viewHolder.txtStatName = convertView.findViewById(R.id.StatName);
+            viewHolder.txtNotes = convertView.findViewById(R.id.Notes);
             viewHolder.bDelete = convertView.findViewById(R.id.Delete);
-
-            // icon stuff possibly helpful in the near future
-            /*viewHolder.info = (ImageView) convertView.findViewById(R.id.item_info);*/
 
             convertView.setTag(viewHolder);
         } else
             viewHolder = (ViewHolder) convertView.getTag();
 
-        // check all of our custom stuff
+        // set up our textViews
+        viewHolder.txtName.setText(Objects.requireNonNull(dataModel).getCharacter().name);
+        viewHolder.txtNotes.setText(dataModel.getCharacter().notes);
 
-        // bonus text
-        if(dataModel.getShowBonus()) {
-            viewHolder.txtBonus.setText(dataModel.getBonus());
-            viewHolder.txtBonus.setTextSize(dataModel.getMainTextSize());
-        }
-        else
-            viewHolder.txtBonus.setVisibility(View.GONE);
-
-        // name text
-        if(dataModel.getShowName()) {
-            viewHolder.txtName.setText(dataModel.getName());
-            viewHolder.txtName.setTextSize(dataModel.getMainTextSize());
-        }
-        else
-            viewHolder.txtName.setVisibility(View.GONE);
-
-        // stat name txt
-        if(dataModel.getShowStatName()) {
-            viewHolder.txtStatName.setText(dataModel.getStatName());
-            viewHolder.txtStatName.setTextSize(dataModel.getSubTextSize());
-        }
-        else
-            viewHolder.txtStatName.setVisibility(View.GONE);
-
-        // delete button
-        if(dataModel.getShowDelete()) {
-            viewHolder.bDelete.setOnClickListener(this);
-            viewHolder.bDelete.setTag(position);
-        }
-        else
-            viewHolder.bDelete.setVisibility(View.GONE);
-
-        // icon stuff possibly helpful in the near future
-        /*viewHolder.info.setOnClickListener(this);
-        viewHolder.info.setTag(position);*/
+        // set up our delete button
+        viewHolder.bDelete.setOnClickListener(this);
+        viewHolder.bDelete.setTag(position);
 
         // Return the completed view to render on screen
         return convertView;
