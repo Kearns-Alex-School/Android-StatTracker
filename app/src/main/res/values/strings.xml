@@ -75,5 +75,7 @@
     <string name="armor_Rate">Armor Rating</string>
     <string name="speed_Rate">Current Speed</string>
     <string name="new_Preset">Preset</string>
+    <string name="confirm_Confirm">Confirm</string>
+    <string name="confirm_Cancel">Cancel</string>
     <!--dice_roller.xml end -->
 </resources>

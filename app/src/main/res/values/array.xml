@@ -3,13 +3,13 @@
     <string-array name="listArray">
         <item>Sub-Stats</item>
         <item>Inventory</item>
-        <item>Magic</item>
+        <item>Abilities</item>
     </string-array>
 
     <string-array name="listValues">
         <item>subStats</item>
         <item>inventory</item>
-        <item>magic</item>
+        <item>abilities</item>
     </string-array>
 
     <string-array name="themeArray">

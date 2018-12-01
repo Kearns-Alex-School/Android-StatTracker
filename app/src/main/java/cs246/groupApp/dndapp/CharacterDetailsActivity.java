@@ -10,10 +10,14 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -22,9 +26,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CharacterDetailsActivity extends AppCompatActivity {
+    private static CharacterDetailsActivity instance;
+
     SharedPreferences SP;
 
     public Context context;
@@ -36,6 +44,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
     public int tcGravity = Gravity.TOP|Gravity.CENTER_HORIZONTAL;
 
     String fileName;
+    String currentMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_character_details);
 
         context = CharacterDetailsActivity.this;
+        instance = this;
 
         SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -90,6 +100,9 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
         // populate our layout stats
         UpdateStatList((LinearLayout) findViewById(R.id.contentLLV));
+
+        // load our content list area
+        updateContentList();
     }
 
     public void UpdateStatList(final LinearLayout sidebar) {
@@ -151,26 +164,29 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         temp = character.speed + "\n" + SP.getString(MainActivity.DIST_UNIT, "ft/rd");
         button.setText(temp);
 
-        // TODO: 2018-11-17 AJK: Need to add background code to figure out which we are displaying first
         // update Context List Menu
         String temp2;
         switch (Objects.requireNonNull(SP.getString(MainActivity.LOAD_CONTENT, "subStats")))
         {
             case "subStats":
+                currentMenu = "subStats";
                 temp = "Inventory";
-                temp2 = "Magic";
+                temp2 = "Abilities";
                 break;
             case "inventory":
+                currentMenu = "inventory";
                 temp = "Sub-Stats";
-                temp2 = "Magic";
+                temp2 = "Abilities";
                 break;
-            case "magic":
+            case "abilities":
+                currentMenu = "abilities";
                 temp = "Sub-Stats";
                 temp2 = "Inventory";
                 break;
             default:
+                currentMenu = "subStats";
                 temp = "Inventory";
-                temp2 = "Magic";
+                temp2 = "Abilities";
                 break;
         }
         button = findViewById(R.id.ContextMenu1);
@@ -251,7 +267,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 character.statList.add(newStat);
 
                 // save our data and re-load
-                writeFile(character.fileName);
+                writeFile(character.fileName, true);
 
                 // close the screen
                 dialog.dismiss();
@@ -312,10 +328,10 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         return character;
     }
 
-    public void writeFile(String filename) {
+    public void writeFile(String filename, boolean update) {
         // KM: not doing async because of small files
         Gson gson = new Gson();
-        String json = gson.toJson(this.character);
+        String json = gson.toJson(character);
 
         File outputFile = new File(characterDir, filename);
 
@@ -326,10 +342,15 @@ public class CharacterDetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        CommonMethods.showCenterTopToast(this,"Saved Character", 0);
+        CommonMethods.showCenterTopToast(context,"Saved Character", 0);
 
         // re-populate our side bar of stats
-        UpdateStatList((LinearLayout) findViewById(R.id.contentLLV));
+        if (update)
+        {
+            UpdateStatList((LinearLayout) findViewById(R.id.contentLLV));
+
+            updateContentList();
+        }
     }
 
     public void editName(View view) {
@@ -431,12 +452,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         // find the stat index to change
         int statIndex = -1;
         for (int index = 0; index < character.statList.size(); index++)
-        {
             if (character.statList.get(index).name.equals(stat))
-            {
                 statIndex = index;
-            }
-        }
 
         // check to see if we did not find the index
         if(statIndex == -1)
@@ -465,8 +482,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // make sure we have something in each field
                 if(nameInput.getText().toString().length() == 0 ||
-                        valueInput.getText().toString().length() == 0 ||
-                        bonusInput.getText().toString().length() == 0)
+                   valueInput.getText().toString().length() == 0 ||
+                   bonusInput.getText().toString().length() == 0)
                 {
                     // Inform the user that values empty
                     CommonMethods.showCenterTopToast(context, "Please enter all values", 0);
@@ -500,13 +517,19 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     }
                 }
 
+                String oldName = character.statList.get(fStatIndex).name;
+
                 // assign our input
                 character.statList.get(fStatIndex).name = name;
                 character.statList.get(fStatIndex).value = value;
                 character.statList.get(fStatIndex).bonus = bonus;
 
+                for (Item item :character.subStats)
+                    if (item.statBonus.name.equals(oldName))
+                        item.statBonus = character.statList.get(fStatIndex);
+
                 // save our data and re-load
-                writeFile(character.fileName);
+                writeFile(character.fileName, true);
 
                 // close the screen
                 dialog.dismiss();
@@ -522,7 +545,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 character.statList.remove(fStatIndex);
 
                 // save our data and re-load
-                writeFile(character.fileName);
+                writeFile(character.fileName, true);
 
                 // close the screen
                 dialog.dismiss();
@@ -598,7 +621,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 character.HPMax = max;
 
                 // save our data and re-load
-                writeFile(character.fileName);
+                writeFile(character.fileName, true);
 
                 // close the screen
                 dialog.dismiss();
@@ -658,7 +681,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 character.ArmrRating = Integer.parseInt(ratingInput.getText().toString());
 
                 // save our data and re-load
-                writeFile(character.fileName);
+                writeFile(character.fileName, true);
 
                 // close the screen
                 dialog.dismiss();
@@ -718,7 +741,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 character.speed = Integer.parseInt(speedInput.getText().toString());
 
                 // save our data and re-load
-                writeFile(character.fileName);
+                writeFile(character.fileName, true);
 
                 // close the screen
                 dialog.dismiss();
@@ -796,14 +819,6 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
                     // just use this line if you want to stay at the top of the roll
                     scroll.fullScroll(View.FOCUS_DOWN);
-
-                    // use these lines to scroll to the absolute bottom
-                    /*scroll.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            scroll.fullScroll(View.FOCUS_DOWN);
-                        }
-                    });*/
                 }
             }
         });
@@ -836,21 +851,300 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
     
-    public void rightClicked(View view) {
-        updateContentList(view, true);
-    }
+    public void contentClicked(View view) {
+        // switch the strings around
+        String newCurrentMenu = "";
+        String newButtonText = "";
+        Button button = (Button) view;
 
-    public void leftClicked(View view) {
-        updateContentList(view, false);
+        switch (button.getText().toString())
+        {
+            case "Sub-Stats":
+                newCurrentMenu = "subStats";
+                break;
+            case "Inventory":
+                newCurrentMenu = "inventory";
+                break;
+            case "Abilities":
+                newCurrentMenu = "abilities";
+                break;
+        }
+
+        switch (currentMenu)
+        {
+            case "subStats":
+                newButtonText = "Sub-Stats";
+                break;
+            case "inventory":
+                newButtonText = "Inventory";
+                break;
+            case "abilities":
+                newButtonText = "Abilities";
+                break;
+        }
+
+        currentMenu = newCurrentMenu;
+        button.setText(newButtonText);
+
+        // update the content list with what is in the currentMenu variable
+        updateContentList();
     }
     
-    public void updateContentList(View view, Boolean isRight) {
-        // TODO: 2018-11-17 AJK: Handle switching the content list here 
+    public void updateContentList() {
+        // TODO: 2018-11-17 AJK: Handle switching the content list here
+
+        ListView listView = findViewById(R.id.Content_Menu);
+
+        switch (currentMenu)
+        {
+            case "subStats":
+                final ArrayList<SubStatDataModel> substatModels = new ArrayList<>();
+
+                SubStatAdapter subStatAdapter = new SubStatAdapter(substatModels,context);
+
+                for (Item item: character.subStats) {
+                    // create new model
+                    SubStatDataModel newSubStat = new SubStatDataModel();
+
+                    // add data to the model
+                    newSubStat.setBonus(item.statBonus.bonus.toString());
+                    newSubStat.setName(item.name);
+                    newSubStat.setStatname("(" + item.statBonus.name + ")");
+                    newSubStat.setCharacter(character);
+
+                    substatModels.add(newSubStat);
+                }
+
+                // add the last option to add an item.
+                SubStatDataModel newSubStat = new SubStatDataModel();
+                newSubStat.setShowBonus(false);
+                newSubStat.setName("Add Sub-Stat");
+                newSubStat.setShowStatName(false);
+                newSubStat.setShowDelete(false);
+
+                substatModels.add(newSubStat);
+
+                listView.setAdapter(subStatAdapter);
+
+                //https://stackoverflow.com/questions/6703390/listview-setonitemclicklistener-not-working-by-adding-button
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // Get the selected item text from ListView
+                        SubStatDataModel dataModel= substatModels.get(position);
+
+                        editSubStat(dataModel);
+                    }
+                });
+                break;
+            case "inventory":
+                /*final ArrayList<InventoryDataModel> inventroyModels = new ArrayList<>();
+
+                InventoryAdapter inventoryAdapter = new InventoryAdapter(inventroyModels,getApplicationContext());
+
+                for (Item item: character.inventory)
+                {
+                    // create new model
+                    InventoryDataModel newInventory = new InventoryDataModel();
+
+                    // add data to the model
+                    newInventory.set
+                    newInventory.set
+                    newInventory.set
+
+                    inventroyModels.add(newInventory);
+                }
+
+                // add the last option to add an item.
+                InventoryDataModel newInventory = new InventoryDataModel();
+                newInventory.set
+                newInventory.set
+                newInventory.set
+                newInventory.set
+
+                inventroyModels.add(newInventory);
+
+                listView.setAdapter(inventoryAdapter);*/
+
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // Get the selected item text from ListView
+                        //InventoryDataModel dataModel= inventroyModels.get(position);
+
+                        editInventory();
+                    }
+                });
+                break;
+            case "abilities":
+                /*final ArrayList<AbilitiesDataModel> abilityModels = new ArrayList<>();
+
+                AbilitiesAdapter abilitiesAdapter = new AbilitiesAdapter(abilityModels,getApplicationContext());
+
+                for (Item item: character.abilities)
+                {
+                    // create new model
+                    AbilitiesDataModel newAbilities = new AbilitiesDataModel();
+
+                    // add data to the model
+                    newAbilities.set
+                    newAbilities.set
+                    newAbilities.set
+
+                    abilityModels.add(newAbilities);
+                }
+
+                // add the last option to add an item.
+                AbilitiesDataModel newAbilities = new AbilitiesDataModel();
+                newAbilities.set
+                newAbilities.set
+                newAbilities.set
+                newAbilities.set
+
+                abilityModels.add(newAbilities);
+
+                listView.setAdapter(abilitiesAdapter);*/
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // Get the selected item text from ListView
+                        //AbilitiesDataModel dataModel= abilityModels.get(position);
+
+                        editAbilities();
+                    }
+                });
+                break;
+        }
+    }
+
+    public void editSubStat(SubStatDataModel data) {
+        // create our popup dialog
+        final Dialog dialog = new Dialog(context);
+
+        // have the keyboard show up once we have the ability
+        //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
+        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+        // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
+        // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.editable_substat);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+
+        // set up the EditText behavior
+        final EditText nameInput = dialog.findViewById((R.id.NameValue));
+
+        // set up our drop down menu
+        final Spinner stats = dialog.findViewById(R.id.Stat);
+        int statIndex = 0;
+
+        List<String> list = new ArrayList<>();
+
+        // grab all of the stats in the character
+        for (int index = 0; index < character.statList.size(); index++) {
+            if (character.statList.get(index).name.equals(data.statname))
+                statIndex = index;
+            list.add(character.statList.get(index).name);
+        }
+
+        // set out dropdown to the list.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, list);
+        stats.setAdapter(adapter);
+        stats.setSelection(statIndex);
+
+        // find the current stat index to change
+        int substatIndex = -1;
+
+        for (int index = 0; index < character.subStats.size(); index++)
+            if (character.subStats.get(index).name.equals(data.name))
+                substatIndex = index;
+
+        final int fsubstatIndex = substatIndex;
+
+        boolean isNew = false;
+        if (data.name.equals("Add Sub-Stat"))
+            isNew = true;
+        else
+            nameInput.setText(data.name);
+
+        final boolean fisNew = isNew;
+
+
+        // set up the Save button behavior
+        Button b_Save = dialog.findViewById(R.id.Save);
+        b_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // make sure we have something in each field
+                if(nameInput.getText().toString().length() == 0)
+                {
+                    // Inform the user that values empty
+                    CommonMethods.showCenterTopToast(context, "Please enter all values", 0);
+                    return;
+                }
+
+                String name = nameInput.getText().toString();
+
+                // check to see that we do not clash with any other names
+                for (int index = 0; index < character.subStats.size(); index++)
+                {
+                    // make sure the index is also different (same name as current index is acceptable)
+                    if (character.subStats.get(index).name.equals(name) && index != fsubstatIndex)
+                    {
+                        // Inform the user that the name is empty
+                        CommonMethods.showCenterTopToast(context, name + " already exist.", 0);
+                        return;
+                    }
+                }
+
+                // see if this is a new stat or an old one
+                if(fisNew)
+                {
+                    Item newSubStat = new Item();
+                    newSubStat.name = name;
+                    newSubStat.statBonus = character.statList.get(stats.getSelectedItemPosition());
+
+                    character.subStats.add(newSubStat);
+                } else {
+                    character.subStats.get(fsubstatIndex).name = name;
+                    character.subStats.get(fsubstatIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
+                }
+
+                // save our data and re-load
+                writeFile(character.fileName, true);
+
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        // set up the Cancel button
+        Button b_Cancel = dialog.findViewById(R.id.Cancel);
+        b_Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void editInventory() {
+
+    }
+
+    public void editAbilities() {
+
     }
 
     protected void onPause() {
         super.onPause();
-        writeFile(this.character.fileName);
+        writeFile(character.fileName, false);
     }
 
     protected void onResume() {
@@ -859,6 +1153,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
     public void homeClick(View view) {
         this.finish();
+    }
+
+    //https://stackoverflow.com/questions/17315842/how-to-call-a-method-in-mainactivity-from-another-class/25260829
+    public static CharacterDetailsActivity getInstance() {
+        return instance;
     }
 
 }

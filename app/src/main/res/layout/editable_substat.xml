@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/StatName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sub-Stat Name"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/NameValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:singleLine="false" />
+
+    <Spinner
+        android:id="@+id/Stat"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@android:drawable/btn_dropdown" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/Save"
+            style="@android:style/Widget.Button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/edit_Save" />
+
+        <Button
+            android:id="@+id/Cancel"
+            style="@android:style/Widget.Button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/edit_Cancel" />
+
+    </LinearLayout>
+
+</LinearLayout>

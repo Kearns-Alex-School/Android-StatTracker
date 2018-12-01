@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     public void toLoad() {
         // First create the List and the ArrayAdapter
         characterList = new ArrayList<>();
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.character_list, characterList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.textbox_list_layout, characterList);
 
         // Now connect the ArrayAdapter to the ListView
         ListView listView = findViewById(R.id.characterListView);
