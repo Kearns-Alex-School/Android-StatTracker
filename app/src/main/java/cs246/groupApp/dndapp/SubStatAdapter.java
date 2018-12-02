@@ -18,19 +18,19 @@ import java.util.Objects;
 public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements View.OnClickListener {
 
     private ArrayList<SubStatDataModel> dataSet;
-    private Context mContext;
+    private Context context;
 
     private static class ViewHolder {
-        TextView txtBonus;
         TextView txtName;
         TextView txtStatName;
+        TextView txtBonus;
         Button bDelete;
     }
 
     public SubStatAdapter(ArrayList<SubStatDataModel> data, Context context) {
         super(context, R.layout.custom_layout_substat, data);
         this.dataSet = data;
-        this.mContext = context;
+        this.context = context;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
         switch (v.getId()) {
             case R.id.Delete:
                 // create our popup dialog
-                final Dialog dialog = new Dialog(mContext);
+                final Dialog dialog = new Dialog(context);
 
                 // have the keyboard show up once we have the ability
                 //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
@@ -61,8 +61,8 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
                 dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
                 dialog.setCancelable(true);
 
-                TextView title = dialog.findViewById(R.id.Name);
-                String message = "Are you sure you want to delete \n'" + Objects.requireNonNull(dataModel).name + "'?";
+                TextView title = dialog.findViewById(R.id.Message);
+                String message = "Are you sure you want to delete \n'" + Objects.requireNonNull(dataModel).getName() + "'?";
 
                 title.setText(message);
 
@@ -74,7 +74,7 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
                         Character character = dataModel.getCharacter();
 
                         for (int index = 0; index < character.subStats.size(); index++)
-                            if (character.subStats.get(index).name.equals(dataModel.name))
+                            if (character.subStats.get(index).name.equals(dataModel.getName()))
                                 character.subStats.remove(index);
 
                         dialog.dismiss();
@@ -116,7 +116,7 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
 
             convertView = inflater.inflate(R.layout.custom_layout_substat, parent, false);
             viewHolder.txtBonus = convertView.findViewById(R.id.Bonus);
-            viewHolder.txtName = convertView.findViewById(R.id.Name);
+            viewHolder.txtName = convertView.findViewById(R.id.Message);
             viewHolder.txtStatName = convertView.findViewById(R.id.StatName);
             viewHolder.bDelete = convertView.findViewById(R.id.Delete);
 
@@ -131,7 +131,7 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
 
         // bonus text
         if(dataModel.getShowBonus()) {
-            viewHolder.txtBonus.setText(dataModel.getBonus());
+            viewHolder.txtBonus.setText(Integer.toString(dataModel.getBonus()));
             viewHolder.txtBonus.setTextSize(dataModel.getMainTextSize());
         }
         else

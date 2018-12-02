@@ -1,10 +1,10 @@
 package cs246.groupApp.dndapp;
 
-public class SubStatDataModel
-{
-    String bonus;
-    String name;
+public class SubStatDataModel {
+    private Character character;
+    private String name;
     private String statName;
+    private int bonus;
 
     private Boolean showBonus;
     private Boolean showName;
@@ -14,13 +14,12 @@ public class SubStatDataModel
     private int mainTextSize;
     private int subTextSize;
 
-    private Character character;
-
     //https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
     SubStatDataModel() {
-        this.bonus = "";
+        this.character = new Character();
         this.name = "";
         this.statName = "";
+        this.bonus = 0;
 
         this.showBonus = true;
         this.showName = true;
@@ -34,51 +33,51 @@ public class SubStatDataModel
     /*********\
     * GETTERS *
     \*********/
-    public String getBonus() {
-        return bonus;
+    public Character getCharacter() {
+        return character;
     }
 
     public String getName() {
         return name;
     }
 
-    String getStatName() {
+    public String getStatName() {
         return statName;
     }
 
-    Boolean getShowBonus() {
+    public int getBonus() {
+        return bonus;
+    }
+
+    public Boolean getShowBonus() {
         return showBonus;
     }
 
-    Boolean getShowName() {
+    public Boolean getShowName() {
         return showName;
     }
 
-    Boolean getShowStatName() {
+    public Boolean getShowStatName() {
         return showStatName;
     }
 
-    Boolean getShowDelete() {
+    public Boolean getShowDelete() {
         return showDelete;
     }
 
-    int getMainTextSize() {
+    public int getMainTextSize() {
         return mainTextSize;
     }
 
-    int getSubTextSize() {
+    public int getSubTextSize() {
         return subTextSize;
-    }
-
-    public Character getCharacter() {
-        return character;
     }
 
     /*********\
     * SETTERS *
     \*********/
-    public void setBonus(String bonus) {
-        this.bonus = bonus;
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
     public void setName(String name) {
@@ -87,6 +86,10 @@ public class SubStatDataModel
 
     public void setStatName(String statName) {
         this.statName = statName;
+    }
+
+    public void setBonus(int bonus) {
+        this.bonus = bonus;
     }
 
     public void setShowBonus(Boolean showBonus) {
@@ -111,9 +114,5 @@ public class SubStatDataModel
 
     public void setSubTextSize(int subTextSize) {
         this.subTextSize = subTextSize;
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
     }
 }

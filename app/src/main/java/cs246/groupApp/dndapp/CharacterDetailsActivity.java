@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,6 +60,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         // get from intent
         characterDir = (File) Objects.requireNonNull(getIntent().getExtras()).get("charDir");
         fileName = (String) getIntent().getExtras().get("filename");
+        currentMenu = Objects.requireNonNull(SP.getString(MainActivity.LOAD_CONTENT, "subStats"));
 
         // read file
         this.character = readFile(fileName);
@@ -165,7 +167,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
         // update Context List Menu
         String temp2;
-        switch (Objects.requireNonNull(SP.getString(MainActivity.LOAD_CONTENT, "subStats")))
+        switch (currentMenu)
         {
             case "subStats":
                 currentMenu = "subStats";
@@ -203,16 +205,17 @@ public class CharacterDetailsActivity extends AppCompatActivity {
             case "subStats":
                 final ArrayList<SubStatDataModel> subStatModels = new ArrayList<>();
 
-                SubStatAdapter subStatAdapter = new SubStatAdapter(subStatModels,context);
+                SubStatAdapter subStatAdapter = new SubStatAdapter(subStatModels, context);
 
                 for (Item item: character.subStats) {
                     // create new model
                     SubStatDataModel newSubStat = new SubStatDataModel();
 
                     // add data to the model
-                    newSubStat.setBonus(item.statBonus.bonus.toString());
+                    newSubStat.setBonus(item.statBonus.bonus);
                     newSubStat.setName(item.name);
                     newSubStat.setStatName("(" + item.statBonus.name + ")");
+                    newSubStat.setCharacter(character);
 
                     subStatModels.add(newSubStat);
                 }
@@ -240,9 +243,9 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 });
                 break;
             case "inventory":
-                /*final ArrayList<InventoryDataModel> inventroyModels = new ArrayList<>();
+                final ArrayList<InventoryDataModel> inventoryModels = new ArrayList<>();
 
-                InventoryAdapter inventoryAdapter = new InventoryAdapter(inventroyModels,getApplicationContext());
+                InventoryAdapter inventoryAdapter = new InventoryAdapter(inventoryModels, context);
 
                 for (Item item: character.inventory)
                 {
@@ -250,32 +253,35 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     InventoryDataModel newInventory = new InventoryDataModel();
 
                     // add data to the model
-                    newInventory.set
-                    newInventory.set
-                    newInventory.set
+                    newInventory.setName(item.name);
+                    newInventory.setDMG(item.DMG);
+                    newInventory.setAMR(item.AMR);
+                    newInventory.setStatBonus(item.statBonus);
+                    newInventory.setBonus1(item.bonus1);
+                    newInventory.setBonus2(item.bonus2);
+                    newInventory.setNotes(item.notes);
+                    newInventory.setCharacter(character);
 
-                    inventroyModels.add(newInventory);
+                    inventoryModels.add(newInventory);
                 }
 
                 // add the last option to add an item.
                 InventoryDataModel newInventory = new InventoryDataModel();
-                newInventory.set
-                newInventory.set
-                newInventory.set
-                newInventory.set
+                newInventory.setAddNew(true);
+                newInventory.setName("Add to Inventory");
 
-                inventroyModels.add(newInventory);
+                inventoryModels.add(newInventory);
 
-                listView.setAdapter(inventoryAdapter);*/
+                listView.setAdapter(inventoryAdapter);
 
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         // Get the selected item text from ListView
-                        //InventoryDataModel dataModel= inventroyModels.get(position);
+                        InventoryDataModel dataModel= inventoryModels.get(position);
 
-                        editInventory();
+                        editInventory(dataModel);
                     }
                 });
                 break;
@@ -701,7 +707,13 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 character.statList.get(fStatIndex).value = value;
                 character.statList.get(fStatIndex).bonus = bonus;
 
+                // update all subStats
                 for (Item item :character.subStats)
+                    if (item.statBonus.name.equals(oldName))
+                        item.statBonus = character.statList.get(fStatIndex);
+
+                // update all inventory items
+                for (Item item :character.inventory)
                     if (item.statBonus.name.equals(oldName))
                         item.statBonus = character.statList.get(fStatIndex);
 
@@ -936,7 +948,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
         // have the keyboard show up once we have the ability
         //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
-        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
         // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
@@ -949,11 +961,32 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         final EditText numSides = dialog.findViewById((R.id.Sides));
         final EditText numRolls = dialog.findViewById((R.id.Rolls));
 
+        // set up our drop down menu
+        final Spinner statBonus = dialog.findViewById(R.id.Bonus);
+
+        List<String> stats = new ArrayList<>();
+        final HashMap<String, Integer> map = new HashMap<>();
+
+        Stat none = new Stat();
+        none.name = "None";
+        none.bonus = 0;
+        stats.add(none.name);
+
+        map.put(none.name, none.bonus);
+
+        for (Stat stat : character.statList) {
+            stats.add(stat.name);
+            map.put(stat.name, stat.bonus);
+        }
+
+        // set out dropdown to the list.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, stats);
+
+        statBonus.setAdapter(adapter);
+
         // replace with saved preferences
         numSides.setText(SP.getString(MainActivity.DICE_SIDES, "6"));
         numRolls.setText(SP.getString(MainActivity.DICE_ROLLS, "1"));
-
-        // TODO: 2018-12-01 AJK: Add stat drop down menu for bonus to roll
 
         // set up the Save button behavior
         Button b_Roll = dialog.findViewById(R.id.Roll);
@@ -974,13 +1007,17 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
                 Die die = new Die(sides);
                 TextView results = dialog.findViewById(R.id.Results);
+                String bonusStat = statBonus.getSelectedItem().toString();
 
                 // roll our die
-                results.append("Results of " + rolls + " rolls with " + sides + " sides:\n");
+                results.append("Results of " + rolls + " rolls with " + sides + " sides  with bonus '" + bonusStat + "':\n");
 
                 for (int index = 1; index <= rolls; index++) {
-                    // TODO: 2018-12-01 AJK: Need to add extra math for stat bonus
-                    results.append("Roll " + index + ": " + die.roll() + "\n");
+                    int bonus = map.get(bonusStat);
+                    int roll = die.roll();
+                    int total = bonus + roll;
+
+                    results.append("Roll " + index + ": " + roll + " + (" + bonus + ") = " + total + "\n");
                 }
 
                 results.append("\n");
@@ -1063,16 +1100,16 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         int subStatIndex = -1;
 
         for (int index = 0; index < character.subStats.size(); index++)
-            if (character.subStats.get(index).name.equals(data.name))
+            if (character.subStats.get(index).name.equals(data.getName()))
                 subStatIndex = index;
 
         final int fSubStatIndex = subStatIndex;
 
         boolean isNew = false;
-        if (data.name.equals("Add Sub-Stat"))
+        if (data.getName().equals("Add Sub-Stat"))
             isNew = true;
         else
-            nameInput.setText(data.name);
+            nameInput.setText(data.getName());
 
         final boolean fisNew = isNew;
 
@@ -1138,8 +1175,157 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void editInventory() {
+    public void editInventory(InventoryDataModel data) {
+        // create our popup dialog
+        final Dialog dialog = new Dialog(context);
 
+        // have the keyboard show up once we have the ability
+        //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
+        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+        // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
+        // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.editable_inventory);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+
+        // set up the EditText behavior
+        final EditText nameInput = dialog.findViewById((R.id.NameValue));
+        final EditText dmgInput = dialog.findViewById((R.id.DMGValue));
+        final EditText amrInput = dialog.findViewById((R.id.AMRValue));
+        final EditText bns1Input = dialog.findViewById((R.id.BNS1Value));
+        final EditText bns2Input = dialog.findViewById((R.id.BNS2));
+        final EditText noteInput = dialog.findViewById((R.id.NotesValue));
+
+        // set up our drop down menu
+        final Spinner stats = dialog.findViewById(R.id.StatValues);
+        int statIndex = 0;
+
+        List<String> list = new ArrayList<>();
+
+        // grab all of the stats in the character
+        for (int index = 0; index < character.statList.size(); index++) {
+            if (character.statList.get(index).name.equals(data.getStatBonus().name))
+                statIndex = index;
+            list.add(character.statList.get(index).name);
+        }
+
+        // set out dropdown to the list.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, list);
+        stats.setAdapter(adapter);
+        stats.setSelection(statIndex);
+
+        // find the current stat index to change
+        int inventoryIndex = -1;
+
+        for (int index = 0; index < character.inventory.size(); index++)
+            if (character.inventory.get(index).name.equals(data.getName()))
+                inventoryIndex = index;
+
+        final int fSubStatIndex = inventoryIndex;
+
+        boolean isNew = false;
+        if (data.getName().equals("Add to Inventory"))
+            isNew = true;
+        else {
+            nameInput.setText(data.getName());
+
+            String temp = Integer.toString(data.getDMG());
+            dmgInput.setText(temp);
+
+            temp = Integer.toString(data.getAMR());
+            amrInput.setText(temp);
+
+            temp = Integer.toString(data.getBonus1());
+            bns1Input.setText(temp);
+
+            temp = Integer.toString(data.getBonus2());
+            bns2Input.setText(temp);
+            noteInput.setText(data.getNotes());
+        }
+
+        final boolean fisNew = isNew;
+
+        // set up the Save button behavior
+        Button b_Save = dialog.findViewById(R.id.Save);
+        b_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // make sure we have something in each field
+                if(nameInput.getText().toString().length() == 0 ||
+                   dmgInput.getText().toString().length() == 0 ||
+                   amrInput.getText().toString().length() == 0 ||
+                   bns1Input.getText().toString().length() == 0 ||
+                   bns2Input.getText().toString().length() == 0)
+                {
+                    // Inform the user that values empty
+                    CommonMethods.showCenterTopToast(context, "Please enter all values (notes are optional)", 0);
+                    return;
+                }
+
+                String name = nameInput.getText().toString();
+                int dmg = Integer.parseInt(dmgInput.getText().toString());
+                int amr = Integer.parseInt(amrInput.getText().toString());
+                int bns1 = Integer.parseInt(bns1Input.getText().toString());
+                int bns2 = Integer.parseInt(bns2Input.getText().toString());
+                String note = noteInput.getText().toString();
+
+                // check to see that we do not clash with any other names
+                for (int index = 0; index < character.inventory.size(); index++)
+                {
+                    // make sure the index is also different (same name as current index is acceptable)
+                    if (character.inventory.get(index).name.equals(name) && index != fSubStatIndex)
+                    {
+                        // Inform the user that the name is empty
+                        CommonMethods.showCenterTopToast(context, name + " already exist.", 0);
+                        return;
+                    }
+                }
+
+                // see if this is a new stat or an old one
+                if(fisNew)
+                {
+                    Item newInventory = new Item();
+                    newInventory.name = name;
+                    newInventory.DMG = dmg;
+                    newInventory.AMR = amr;
+                    newInventory.bonus1 = bns1;
+                    newInventory.bonus2 = bns2;
+                    newInventory.notes = note;
+
+                    newInventory.statBonus = character.statList.get(stats.getSelectedItemPosition());
+
+                    character.inventory.add(newInventory);
+                } else {
+                    character.inventory.get(fSubStatIndex).name = name;
+                    character.inventory.get(fSubStatIndex).DMG = dmg;
+                    character.inventory.get(fSubStatIndex).AMR = amr;
+                    character.inventory.get(fSubStatIndex).bonus1 = bns1;
+                    character.inventory.get(fSubStatIndex).bonus2 = bns2;
+                    character.inventory.get(fSubStatIndex).notes = note;
+                    character.inventory.get(fSubStatIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
+                }
+
+                // save our data and re-load
+                writeFile(character.fileName, true);
+
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        // set up the Cancel button
+        Button b_Cancel = dialog.findViewById(R.id.Cancel);
+        b_Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     public void editAbilities() {

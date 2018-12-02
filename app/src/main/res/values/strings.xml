@@ -11,7 +11,7 @@
     <!--new_character.xml start -->
     <string name="new_Create">Create</string>
     <string name="new_Delete">Delete</string>
-    <string name="new_Description">Enter your character\'s name that you want to create</string>
+    <string name="new_Description">Enter your character\'s name</string>
     <string name="new_Cancel">Cancel</string>
     <!--new_character.xml end -->
 
@@ -77,5 +77,6 @@
     <string name="new_Preset">Preset</string>
     <string name="confirm_Confirm">Confirm</string>
     <string name="confirm_Cancel">Cancel</string>
+    <string name="dice_Bonus">Stat Bonus</string>
     <!--dice_roller.xml end -->
 </resources>

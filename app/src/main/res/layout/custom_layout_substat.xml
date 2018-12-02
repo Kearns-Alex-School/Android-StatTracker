@@ -9,44 +9,45 @@
         android:id="@+id/Bonus"
         android:layout_width="35dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="100"
         android:textColor="@android:color/black"
         android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/Message"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/Name"
-        android:layout_width="wrap_content"
+        android:id="@+id/Message"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="15sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/Bonus"
+        app:layout_constraintBaseline_toBaselineOf="@+id/StatName"
+        app:layout_constraintEnd_toStartOf="@+id/StatName"
         app:layout_constraintStart_toEndOf="@+id/Bonus" />
 
     <TextView
         android:id="@+id/StatName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="10sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/Name"
-        app:layout_constraintEnd_toStartOf="@+id/Delete" />
+        app:layout_constraintBottom_toBottomOf="@+id/Delete"
+        app:layout_constraintEnd_toStartOf="@+id/Delete"
+        app:layout_constraintTop_toTopOf="@+id/Delete" />
 
     <Button
         android:id="@+id/Delete"
         style="@android:style/Widget.Button"
-        android:layout_width="64dp"
-        android:layout_height="33dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:focusable="false"
-        android:text="Delete"
-        android:textAlignment="viewStart"
+        android:text="-"
+        android:textAlignment="center"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Name" />
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

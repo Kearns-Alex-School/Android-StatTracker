@@ -9,23 +9,30 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implements View.OnClickListener {
-    private ArrayList<CharacterDataModel> dataSet;
+public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implements View.OnClickListener {
+
+    private ArrayList<InventoryDataModel> dataSet;
     private Context context;
 
     private static class ViewHolder {
         TextView txtName;
+        TextView txtDMG;
+        TextView txtAMR;
+        TextView txtBNS1;
+        TextView txtBNS2;
+        ScrollView scrlNotes;
         TextView txtNotes;
         Button bDelete;
     }
 
-    public CharacterAdapter(ArrayList<CharacterDataModel> data, Context context) {
-        super(context, R.layout.custom_layout_character, data);
+    public InventoryAdapter(ArrayList<InventoryDataModel> data, Context context) {
+        super(context, R.layout.custom_layout_inventory, data);
         this.dataSet = data;
         this.context = context;
     }
@@ -39,7 +46,7 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
         Object object = getItem(position);
 
         // cast the object into our model
-        final CharacterDataModel dataModel = (CharacterDataModel) object;
+        final InventoryDataModel dataModel = (InventoryDataModel) object;
 
         // figure out which one we clicked
         switch (v.getId()) {
@@ -59,7 +66,7 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
                 dialog.setCancelable(true);
 
                 TextView title = dialog.findViewById(R.id.Message);
-                String message = "Are you sure you want to delete \n'" + Objects.requireNonNull(dataModel).getCharacter().name + "'?";
+                String message = "Are you sure you want to delete \n'" + Objects.requireNonNull(dataModel).getName() + "'?";
 
                 title.setText(message);
 
@@ -68,11 +75,17 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
                 b_Confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Character character = dataModel.getCharacter();
+
+                        for (int index = 0; index < character.inventory.size(); index++)
+                            if (character.inventory.get(index).name.equals(dataModel.getName()))
+                                character.inventory.remove(index);
+
                         dialog.dismiss();
 
-                        // call our delete character from the MainActivity
+                        // call our writeFile from the CharacterDetailsActivity
                         //https://stackoverflow.com/questions/17315842/how-to-call-a-method-in-mainactivity-from-another-class/25260829
-                        MainActivity.getInstance().deleteCharacter(dataModel.getCharacter());
+                        CharacterDetailsActivity.getInstance().writeFile(character.fileName, true);
                     }
                 });
 
@@ -89,13 +102,16 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
                 dialog.show();
 
                 break;
+            case R.id.Scroller:
+
+                break;
         }
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        CharacterDataModel dataModel = getItem(position);
+        InventoryDataModel dataModel = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
@@ -104,8 +120,13 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
 
-            convertView = inflater.inflate(R.layout.custom_layout_character, parent, false);
-            viewHolder.txtName = convertView.findViewById(R.id.Message);
+            convertView = inflater.inflate(R.layout.custom_layout_inventory, parent, false);
+            viewHolder.txtName = convertView.findViewById(R.id.Name);
+            viewHolder.txtDMG = convertView.findViewById(R.id.DMG);
+            viewHolder.txtAMR = convertView.findViewById(R.id.AMR);
+            viewHolder.txtBNS1 = convertView.findViewById(R.id.BNS1);
+            viewHolder.txtBNS2 = convertView.findViewById(R.id.BNS2);
+            viewHolder.scrlNotes = convertView.findViewById(R.id.Scroller);
             viewHolder.txtNotes = convertView.findViewById(R.id.Notes);
             viewHolder.bDelete = convertView.findViewById(R.id.Delete);
 
@@ -113,13 +134,44 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
         } else
             viewHolder = (ViewHolder) convertView.getTag();
 
-        // set up our textViews
-        viewHolder.txtName.setText(Objects.requireNonNull(dataModel).getCharacter().name);
-        viewHolder.txtNotes.setText(dataModel.getCharacter().notes);
+        // go through all of the custom stuff
 
-        // set up our delete button
-        viewHolder.bDelete.setOnClickListener(this);
-        viewHolder.bDelete.setTag(position);
+        viewHolder.txtName.setText(dataModel.getName());
+
+        // check to see if we are a "Add New" item
+        if(dataModel.getAddNew()) {
+            viewHolder.txtDMG.setVisibility(View.GONE);
+            viewHolder.txtAMR.setVisibility(View.GONE);
+            viewHolder.txtBNS1.setVisibility(View.GONE);
+            viewHolder.txtBNS2.setVisibility(View.GONE);
+            viewHolder.txtNotes.setVisibility(View.GONE);
+            viewHolder.scrlNotes.setVisibility(View.GONE);
+            viewHolder.bDelete.setVisibility(View.GONE);
+            viewHolder.txtName.setTextSize(15);
+        } else {
+            String temp = "DMG: " + dataModel.getDMG();
+            viewHolder.txtDMG.setText(temp);
+
+            temp = "AMR: " + dataModel.getAMR();
+            viewHolder.txtAMR.setText(temp);
+
+            temp = "BNS: " + dataModel.getBonus1();
+            viewHolder.txtBNS1.setText(temp);
+
+            temp = "BNS: " + dataModel.getBonus2();
+            viewHolder.txtBNS2.setText(temp);
+
+            temp = "(" + dataModel.getStatBonus().name + ")  " + dataModel.getStatBonus().bonus +
+                          "\n" +
+                          "\n" + dataModel.getNotes();
+
+            viewHolder.txtNotes.setText(temp);
+
+            //viewHolder.scrlNotes.setOnScrollChangeListener(this);
+
+            viewHolder.bDelete.setOnClickListener(this);
+            viewHolder.bDelete.setTag(position);
+        }
 
         // Return the completed view to render on screen
         return convertView;

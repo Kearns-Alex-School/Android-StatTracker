@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.setCancelable(true);
 
         // set up the EditText behavior
-        final EditText inputName = dialog.findViewById(R.id.Name);
+        final EditText inputName = dialog.findViewById(R.id.Message);
         final EditText inputNotes = dialog.findViewById(R.id.notesValue);
 
         // set up our drop down menu
@@ -337,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        //toLoad();
+        toLoad();
     }
 
     public static MainActivity getInstance() {
