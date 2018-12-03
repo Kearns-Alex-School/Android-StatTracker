@@ -70,13 +70,18 @@
     <string name="dice_Roll">Roll</string>
     <string name="dice_Close">Close</string>
     <string name="dice_Clear">Clear</string>
-    <string name="health_Current">Current</string>
-    <string name="health_Max">Max</string>
-    <string name="armor_Rate">Armor Rating</string>
-    <string name="speed_Rate">Current Speed</string>
-    <string name="new_Preset">Preset</string>
-    <string name="confirm_Confirm">Confirm</string>
-    <string name="confirm_Cancel">Cancel</string>
     <string name="dice_Bonus">Stat Bonus</string>
     <!--dice_roller.xml end -->
+
+    <string name="health_Current">Current</string>
+    <string name="health_Max">Max</string>
+
+    <string name="armor_Rate">Armor Rating</string>
+
+    <string name="speed_Rate">Current Speed</string>
+
+    <string name="new_Preset">Preset</string>
+
+    <string name="confirm_Confirm">Confirm</string>
+    <string name="confirm_Cancel">Cancel</string>
 </resources>
