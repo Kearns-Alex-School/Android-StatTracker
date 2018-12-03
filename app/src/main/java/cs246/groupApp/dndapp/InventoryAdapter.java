@@ -2,6 +2,7 @@ package cs246.groupApp.dndapp;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,7 +26,6 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
         TextView txtAMR;
         TextView txtBNS1;
         TextView txtBNS2;
-        ScrollView scrlNotes;
         TextView txtNotes;
         Button bDelete;
     }
@@ -102,9 +101,6 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
                 dialog.show();
 
                 break;
-            case R.id.Scroller:
-
-                break;
         }
     }
 
@@ -126,7 +122,6 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
             viewHolder.txtAMR = convertView.findViewById(R.id.AMR);
             viewHolder.txtBNS1 = convertView.findViewById(R.id.BNS1);
             viewHolder.txtBNS2 = convertView.findViewById(R.id.BNS2);
-            viewHolder.scrlNotes = convertView.findViewById(R.id.Scroller);
             viewHolder.txtNotes = convertView.findViewById(R.id.Notes);
             viewHolder.bDelete = convertView.findViewById(R.id.Delete);
 
@@ -140,25 +135,37 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
 
         // check to see if we are a "Add New" item
         if(dataModel.getAddNew()) {
+            TextView temp = convertView.findViewById(R.id.txtDMG);
+            temp.setVisibility(View.GONE);
             viewHolder.txtDMG.setVisibility(View.GONE);
+
+            temp = convertView.findViewById(R.id.txtAMR);
+            temp.setVisibility(View.GONE);
             viewHolder.txtAMR.setVisibility(View.GONE);
+
+            temp = convertView.findViewById(R.id.txtBNS1);
+            temp.setVisibility(View.GONE);
             viewHolder.txtBNS1.setVisibility(View.GONE);
+
+            temp = convertView.findViewById(R.id.txtBNS2);
+            temp.setVisibility(View.GONE);
             viewHolder.txtBNS2.setVisibility(View.GONE);
             viewHolder.txtNotes.setVisibility(View.GONE);
-            viewHolder.scrlNotes.setVisibility(View.GONE);
             viewHolder.bDelete.setVisibility(View.GONE);
+
             viewHolder.txtName.setTextSize(15);
+            viewHolder.txtName.setTypeface(null, Typeface.NORMAL);
         } else {
-            String temp = "DMG: " + dataModel.getDMG();
+            String temp = "" + dataModel.getDMG();
             viewHolder.txtDMG.setText(temp);
 
-            temp = "AMR: " + dataModel.getAMR();
+            temp = "" + dataModel.getAMR();
             viewHolder.txtAMR.setText(temp);
 
-            temp = "BNS: " + dataModel.getBonus1();
+            temp = "" + dataModel.getBonus1();
             viewHolder.txtBNS1.setText(temp);
 
-            temp = "BNS: " + dataModel.getBonus2();
+            temp = "" + dataModel.getBonus2();
             viewHolder.txtBNS2.setText(temp);
 
             temp = "(" + dataModel.getStatBonus().name + ")  " + dataModel.getStatBonus().bonus +
@@ -166,8 +173,6 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
                           "\n" + dataModel.getNotes();
 
             viewHolder.txtNotes.setText(temp);
-
-            //viewHolder.scrlNotes.setOnScrollChangeListener(this);
 
             viewHolder.bDelete.setOnClickListener(this);
             viewHolder.bDelete.setTag(position);

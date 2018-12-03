@@ -56,7 +56,7 @@
     <!--editable_textview.xml end -->
 
     <!--activity_character_details.xml end -->
-    <string name="details_Home">Home</string>
+    <string name="details_Home">H</string>
     <string name="details_DiceRoller">Dice</string>
     <!--activity_character_details.xml end -->
 

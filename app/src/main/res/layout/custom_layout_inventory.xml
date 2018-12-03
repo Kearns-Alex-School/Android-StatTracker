@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:nestedScrollingEnabled="true">
 
     <TextView
         android:id="@+id/Name"
@@ -11,9 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:text="Sword"
+        android:textColor="@android:color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/Delete"
@@ -26,77 +29,125 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_gravity="center"
+        android:layout_marginEnd="4dp"
         android:layout_weight="0"
         android:text="-"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/Name" />
 
-    <TextView
-        android:id="@+id/DMG"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="DMG: 200"
-        android:textSize="12sp"
-        android:typeface="monospace"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Name" />
-
-    <TextView
-        android:id="@+id/AMR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:text="AMR: 200"
-        android:textSize="12sp"
-        android:typeface="monospace"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DMG" />
-
-    <TextView
-        android:id="@+id/BNS1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:text="BNS: 200"
-        android:textSize="12sp"
-        android:typeface="monospace"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AMR" />
-
-    <TextView
-        android:id="@+id/BNS2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:text="BNS: 200"
-        android:textSize="12sp"
-        android:typeface="monospace"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BNS1" />
-
-    <ScrollView
-        android:id="@+id/Scroller"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="73dp"
-        android:layout_marginStart="6dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="4dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/AMR"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Delete">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtDMG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DMG: "
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txtAMR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="AMR: "
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txtBNS1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="BNS: "
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txtBNS2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="BNS: "
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/DMG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="200"
+                android:textSize="12sp"
+                android:typeface="monospace"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="199dp" />
+
+            <TextView
+                android:id="@+id/AMR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="200"
+                android:textSize="12sp"
+                android:typeface="monospace"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="219dp" />
+
+            <TextView
+                android:id="@+id/BNS1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="200"
+                android:textSize="12sp"
+                android:typeface="monospace"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="243dp" />
+
+            <TextView
+                android:id="@+id/BNS2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="200"
+                android:textSize="12sp"
+                android:typeface="monospace"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="267dp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/Notes"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="(Strength) 5\n\ndescription" />
-    </ScrollView>
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="(Strength) 5\n\ndescription"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Delete" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

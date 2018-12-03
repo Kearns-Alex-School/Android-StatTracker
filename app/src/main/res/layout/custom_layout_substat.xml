@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,12 +21,14 @@
         android:id="@+id/Message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="15sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/StatName"
         app:layout_constraintEnd_toStartOf="@+id/StatName"
-        app:layout_constraintStart_toEndOf="@+id/Bonus" />
+        app:layout_constraintStart_toEndOf="@+id/Bonus"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/StatName"
@@ -43,11 +46,13 @@
         style="@android:style/Widget.Button"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:layout_marginEnd="4dp"
         android:focusable="false"
         android:text="-"
         android:textAlignment="center"
         android:textSize="14sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/Message"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/Message" />
 </android.support.constraint.ConstraintLayout>

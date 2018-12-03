@@ -220,15 +220,6 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     subStatModels.add(newSubStat);
                 }
 
-                // add the last option to add an item.
-                SubStatDataModel newSubStat = new SubStatDataModel();
-                newSubStat.setShowBonus(false);
-                newSubStat.setName("Add Sub-Stat");
-                newSubStat.setShowStatName(false);
-                newSubStat.setShowDelete(false);
-
-                subStatModels.add(newSubStat);
-
                 listView.setAdapter(subStatAdapter);
 
                 //https://stackoverflow.com/questions/6703390/listview-setonitemclicklistener-not-working-by-adding-button
@@ -238,7 +229,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                         // Get the selected item text from ListView
                         SubStatDataModel dataModel= subStatModels.get(position);
 
-                        editSubStat(dataModel);
+                        editSubStat(dataModel, false);
                     }
                 });
                 break;
@@ -265,13 +256,6 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     inventoryModels.add(newInventory);
                 }
 
-                // add the last option to add an item.
-                InventoryDataModel newInventory = new InventoryDataModel();
-                newInventory.setAddNew(true);
-                newInventory.setName("Add to Inventory");
-
-                inventoryModels.add(newInventory);
-
                 listView.setAdapter(inventoryAdapter);
 
 
@@ -281,46 +265,43 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                         // Get the selected item text from ListView
                         InventoryDataModel dataModel= inventoryModels.get(position);
 
-                        editInventory(dataModel);
+                        editInventory(dataModel, false);
                     }
                 });
                 break;
             case "abilities":
-                /*final ArrayList<AbilitiesDataModel> abilityModels = new ArrayList<>();
+                final ArrayList<InventoryDataModel> abilitiesModels = new ArrayList<>();
 
-                AbilitiesAdapter abilitiesAdapter = new AbilitiesAdapter(abilityModels,getApplicationContext());
+                InventoryAdapter abilitiesAdapter = new InventoryAdapter(abilitiesModels, context);
 
                 for (Item item: character.abilities)
                 {
                     // create new model
-                    AbilitiesDataModel newAbilities = new AbilitiesDataModel();
+                    InventoryDataModel newAbilities = new InventoryDataModel();
 
                     // add data to the model
-                    newAbilities.set
-                    newAbilities.set
-                    newAbilities.set
+                    newAbilities.setName(item.name);
+                    newAbilities.setDMG(item.DMG);
+                    newAbilities.setAMR(item.AMR);
+                    newAbilities.setStatBonus(item.statBonus);
+                    newAbilities.setBonus1(item.bonus1);
+                    newAbilities.setBonus2(item.bonus2);
+                    newAbilities.setNotes(item.notes);
+                    newAbilities.setCharacter(character);
 
-                    abilityModels.add(newAbilities);
+                    abilitiesModels.add(newAbilities);
                 }
 
-                // add the last option to add an item.
-                AbilitiesDataModel newAbilities = new AbilitiesDataModel();
-                newAbilities.set
-                newAbilities.set
-                newAbilities.set
-                newAbilities.set
+                listView.setAdapter(abilitiesAdapter);
 
-                abilityModels.add(newAbilities);
-
-                listView.setAdapter(abilitiesAdapter);*/
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         // Get the selected item text from ListView
-                        //AbilitiesDataModel dataModel= abilityModels.get(position);
+                        InventoryDataModel dataModel= abilitiesModels.get(position);
 
-                        editAbilities();
+                        editAbilities(dataModel, false);
                     }
                 });
                 break;
@@ -1060,7 +1041,22 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void editSubStat(SubStatDataModel data) {
+    public void addItem(View view) {
+        switch (currentMenu)
+        {
+            case "subStats":
+                editSubStat(new SubStatDataModel(), true);
+                break;
+            case "inventory":
+                editInventory(new InventoryDataModel(), true);
+                break;
+            case "abilities":
+                editAbilities(new InventoryDataModel(), true);
+                break;
+        }
+    }
+
+    public void editSubStat(SubStatDataModel data, final Boolean isNew) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
 
@@ -1105,14 +1101,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
         final int fSubStatIndex = subStatIndex;
 
-        boolean isNew = false;
-        if (data.getName().equals("Add Sub-Stat"))
-            isNew = true;
-        else
-            nameInput.setText(data.getName());
-
-        final boolean fisNew = isNew;
-
+        nameInput.setText(data.getName());
 
         // set up the Save button behavior
         Button b_Save = dialog.findViewById(R.id.Save);
@@ -1142,7 +1131,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 }
 
                 // see if this is a new stat or an old one
-                if(fisNew)
+                if(isNew)
                 {
                     Item newSubStat = new Item();
                     newSubStat.name = name;
@@ -1175,7 +1164,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void editInventory(InventoryDataModel data) {
+    public void editInventory(InventoryDataModel data, final Boolean isNew) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
 
@@ -1223,29 +1212,22 @@ public class CharacterDetailsActivity extends AppCompatActivity {
             if (character.inventory.get(index).name.equals(data.getName()))
                 inventoryIndex = index;
 
-        final int fSubStatIndex = inventoryIndex;
+        final int fInventoryIndex = inventoryIndex;
 
-        boolean isNew = false;
-        if (data.getName().equals("Add to Inventory"))
-            isNew = true;
-        else {
-            nameInput.setText(data.getName());
+        nameInput.setText(data.getName());
 
-            String temp = Integer.toString(data.getDMG());
-            dmgInput.setText(temp);
+        String temp = Integer.toString(data.getDMG());
+        dmgInput.setText(temp);
 
-            temp = Integer.toString(data.getAMR());
-            amrInput.setText(temp);
+        temp = Integer.toString(data.getAMR());
+        amrInput.setText(temp);
 
-            temp = Integer.toString(data.getBonus1());
-            bns1Input.setText(temp);
+        temp = Integer.toString(data.getBonus1());
+        bns1Input.setText(temp);
 
-            temp = Integer.toString(data.getBonus2());
-            bns2Input.setText(temp);
-            noteInput.setText(data.getNotes());
-        }
-
-        final boolean fisNew = isNew;
+        temp = Integer.toString(data.getBonus2());
+        bns2Input.setText(temp);
+        noteInput.setText(data.getNotes());
 
         // set up the Save button behavior
         Button b_Save = dialog.findViewById(R.id.Save);
@@ -1275,7 +1257,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 for (int index = 0; index < character.inventory.size(); index++)
                 {
                     // make sure the index is also different (same name as current index is acceptable)
-                    if (character.inventory.get(index).name.equals(name) && index != fSubStatIndex)
+                    if (character.inventory.get(index).name.equals(name) && index != fInventoryIndex)
                     {
                         // Inform the user that the name is empty
                         CommonMethods.showCenterTopToast(context, name + " already exist.", 0);
@@ -1284,7 +1266,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 }
 
                 // see if this is a new stat or an old one
-                if(fisNew)
+                if(isNew)
                 {
                     Item newInventory = new Item();
                     newInventory.name = name;
@@ -1298,13 +1280,13 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
                     character.inventory.add(newInventory);
                 } else {
-                    character.inventory.get(fSubStatIndex).name = name;
-                    character.inventory.get(fSubStatIndex).DMG = dmg;
-                    character.inventory.get(fSubStatIndex).AMR = amr;
-                    character.inventory.get(fSubStatIndex).bonus1 = bns1;
-                    character.inventory.get(fSubStatIndex).bonus2 = bns2;
-                    character.inventory.get(fSubStatIndex).notes = note;
-                    character.inventory.get(fSubStatIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
+                    character.inventory.get(fInventoryIndex).name = name;
+                    character.inventory.get(fInventoryIndex).DMG = dmg;
+                    character.inventory.get(fInventoryIndex).AMR = amr;
+                    character.inventory.get(fInventoryIndex).bonus1 = bns1;
+                    character.inventory.get(fInventoryIndex).bonus2 = bns2;
+                    character.inventory.get(fInventoryIndex).notes = note;
+                    character.inventory.get(fInventoryIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
                 }
 
                 // save our data and re-load
@@ -1328,8 +1310,150 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void editAbilities() {
+    public void editAbilities(InventoryDataModel data, final Boolean isNew) {
+        // create our popup dialog
+        final Dialog dialog = new Dialog(context);
 
+        // have the keyboard show up once we have the ability
+        //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
+        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+        // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
+        // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.editable_inventory);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+
+        // set up the EditText behavior
+        final EditText nameInput = dialog.findViewById((R.id.NameValue));
+        final EditText dmgInput = dialog.findViewById((R.id.DMGValue));
+        final EditText amrInput = dialog.findViewById((R.id.AMRValue));
+        final EditText bns1Input = dialog.findViewById((R.id.BNS1Value));
+        final EditText bns2Input = dialog.findViewById((R.id.BNS2));
+        final EditText noteInput = dialog.findViewById((R.id.NotesValue));
+
+        // set up our drop down menu
+        final Spinner stats = dialog.findViewById(R.id.StatValues);
+        int statIndex = 0;
+
+        List<String> list = new ArrayList<>();
+
+        // grab all of the stats in the character
+        for (int index = 0; index < character.statList.size(); index++) {
+            if (character.statList.get(index).name.equals(data.getStatBonus().name))
+                statIndex = index;
+            list.add(character.statList.get(index).name);
+        }
+
+        // set out dropdown to the list.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, list);
+        stats.setAdapter(adapter);
+        stats.setSelection(statIndex);
+
+        // find the current stat index to change
+        int abilitiesIndex = -1;
+
+        for (int index = 0; index < character.abilities.size(); index++)
+            if (character.abilities.get(index).name.equals(data.getName()))
+                abilitiesIndex = index;
+
+        final int fAbilitiesIndex = abilitiesIndex;
+
+        nameInput.setText(data.getName());
+
+        String temp = Integer.toString(data.getDMG());
+        dmgInput.setText(temp);
+
+        temp = Integer.toString(data.getAMR());
+        amrInput.setText(temp);
+
+        temp = Integer.toString(data.getBonus1());
+        bns1Input.setText(temp);
+
+        temp = Integer.toString(data.getBonus2());
+        bns2Input.setText(temp);
+        noteInput.setText(data.getNotes());
+
+        // set up the Save button behavior
+        Button b_Save = dialog.findViewById(R.id.Save);
+        b_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // make sure we have something in each field
+                if(nameInput.getText().toString().length() == 0 ||
+                        dmgInput.getText().toString().length() == 0 ||
+                        amrInput.getText().toString().length() == 0 ||
+                        bns1Input.getText().toString().length() == 0 ||
+                        bns2Input.getText().toString().length() == 0)
+                {
+                    // Inform the user that values empty
+                    CommonMethods.showCenterTopToast(context, "Please enter all values (notes are optional)", 0);
+                    return;
+                }
+
+                String name = nameInput.getText().toString();
+                int dmg = Integer.parseInt(dmgInput.getText().toString());
+                int amr = Integer.parseInt(amrInput.getText().toString());
+                int bns1 = Integer.parseInt(bns1Input.getText().toString());
+                int bns2 = Integer.parseInt(bns2Input.getText().toString());
+                String note = noteInput.getText().toString();
+
+                // check to see that we do not clash with any other names
+                for (int index = 0; index < character.abilities.size(); index++)
+                {
+                    // make sure the index is also different (same name as current index is acceptable)
+                    if (character.abilities.get(index).name.equals(name) && index != fAbilitiesIndex)
+                    {
+                        // Inform the user that the name is empty
+                        CommonMethods.showCenterTopToast(context, name + " already exist.", 0);
+                        return;
+                    }
+                }
+
+                // see if this is a new stat or an old one
+                if(isNew)
+                {
+                    Item newAbilities = new Item();
+                    newAbilities.name = name;
+                    newAbilities.DMG = dmg;
+                    newAbilities.AMR = amr;
+                    newAbilities.bonus1 = bns1;
+                    newAbilities.bonus2 = bns2;
+                    newAbilities.notes = note;
+
+                    newAbilities.statBonus = character.statList.get(stats.getSelectedItemPosition());
+
+                    character.abilities.add(newAbilities);
+                } else {
+                    character.abilities.get(fAbilitiesIndex).name = name;
+                    character.abilities.get(fAbilitiesIndex).DMG = dmg;
+                    character.abilities.get(fAbilitiesIndex).AMR = amr;
+                    character.abilities.get(fAbilitiesIndex).bonus1 = bns1;
+                    character.abilities.get(fAbilitiesIndex).bonus2 = bns2;
+                    character.abilities.get(fAbilitiesIndex).notes = note;
+                    character.abilities.get(fAbilitiesIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
+                }
+
+                // save our data and re-load
+                writeFile(character.fileName, true);
+
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        // set up the Cancel button
+        Button b_Cancel = dialog.findViewById(R.id.Cancel);
+        b_Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // close the screen
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     protected void onPause() {
