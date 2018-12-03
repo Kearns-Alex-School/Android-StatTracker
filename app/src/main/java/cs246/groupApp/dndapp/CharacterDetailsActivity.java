@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -186,17 +185,14 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         switch (currentMenu)
         {
             case "subStats":
-                currentMenu = "subStats";
                 temp = "Inventory";
                 temp2 = "Abilities";
                 break;
             case "inventory":
-                currentMenu = "inventory";
                 temp = "Sub-Stats";
                 temp2 = "Abilities";
                 break;
             case "abilities":
-                currentMenu = "abilities";
                 temp = "Sub-Stats";
                 temp2 = "Inventory";
                 break;

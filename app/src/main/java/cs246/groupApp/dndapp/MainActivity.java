@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Starts the character detail activity.
-     * @param name String. Name of character file.
+     * @param filename String. Name of character file.
      * @author Alex Kearns, Kevin Marsh
      * @see CharacterDetailsActivity
      * @see CharacterDetailsActivity#onCreate(Bundle)
