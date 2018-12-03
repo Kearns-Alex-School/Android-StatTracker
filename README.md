@@ -2,25 +2,25 @@
 
 ## Required Features
 
-- [ ] Track variable stats
+- [X] Track variable stats
 
-- [ ] Track static stats
+- [X] Track static stats
 
-- [ ] Track inventory
+- [X] Track inventory
 
-- [ ] cs246.groupApp.dndapp.Character types/races/details
+- [X] Character types/races/details
 
-- [ ] Dice roller (d2,4,6,8,10,12,20/custom)
+- [X] Dice roller (d2,4,6,8,10,12,20/custom)
 
 ## Advanced Features (Stretch)
 
-- [ ] Presets for different systems
+- [X] Presets for different systems
 
-- [ ] Custom defined stats
+- [X] Custom defined stats
 
 - [ ] Icon sets
 
-- [ ] Dice roll with modifiers (multiple rolls & bonus)
+- [X] Dice roll with modifiers (multiple rolls & bonus)
 
 - [ ] Customizable color scheme
 

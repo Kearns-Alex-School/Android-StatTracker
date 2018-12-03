@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Main activity. This contains the home screen of the app.
+ */
 public class MainActivity extends AppCompatActivity {
     // used to help us call methods in this class with all of the current variables while we are in our custom layout menu
     private static MainActivity instance;
@@ -44,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
     public Context context;
 
+    /**
+     * Runs on creation of the activity. Creates all of the important directories, generates presets, etc.
+     * @author Alex Kearns, Kevin Marsh
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
         toLoad();
     }
 
+    /**
+     * Loads the list of files into the list view.
+     * @author Alex Kearns
+     */
     // since we will be loading more than once in different ways, this method does it all
     public void toLoad() {
         // grab the listview
@@ -170,6 +181,11 @@ public class MainActivity extends AppCompatActivity {
         return character;
     }
 
+    /**
+     * Create a new character in the list.
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     // another way to use a custom layout [preferred way]
     // https://stackoverflow.com/questions/4016313/how-to-keep-an-alertdialog-open-after-button-onclick-is-fired
     public void addCharacter(View view) {
@@ -281,6 +297,12 @@ public class MainActivity extends AppCompatActivity {
             CommonMethods.showCenterTopToast(context, character.name + " does not exist.", 0);
     }
 
+    /**
+     * Writes a character object to a file as serialized JSON
+     * @param filename String. Name of file to be written.
+     * @param character Character.class object to be written
+     * @author Kevin Marsh
+     */
     public void writeFile(String filename, Character character) {
         Gson gson = new Gson();
         String json = gson.toJson(character);
@@ -298,6 +320,11 @@ public class MainActivity extends AppCompatActivity {
         toLoad();
     }
 
+    /**
+     * Shows the about dialog, containing the license information
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     public void about(View view) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -322,11 +349,23 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Starts the preferences activity.
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     public void openPreferences(View view) {
         Intent intent = new Intent(this, PreferencesActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Starts the character detail activity.
+     * @param name String. Name of character file.
+     * @author Alex Kearns, Kevin Marsh
+     * @see CharacterDetailsActivity
+     * @see CharacterDetailsActivity#onCreate(Bundle)
+     */
     public void LoadCharacter(String filename) {
         Intent intent = new Intent(this, CharacterDetailsActivity.class);
         intent.putExtra("filename", filename);
@@ -334,6 +373,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Reload character list on return to homepage.
+     * @author Alex Kearns
+     */
     @Override
     protected void onRestart() {
         super.onRestart();

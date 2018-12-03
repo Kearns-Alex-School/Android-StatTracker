@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Character class. Holds all of the information about a character.
+ * @author Kevin Marsh
+ */
 class Character {
     public String name;
     Integer HPMax;
@@ -24,14 +28,9 @@ class Character {
     List<Item> abilities;
     public String notes;
 
-    public Character(String name, Integer HP, Integer EXP, Integer MP, Integer ArmrRating) {
-        this.name = name;
-        this.HPMax = HP;
-        this.EXP = EXP;
-        this.MP = MP;
-        this.ArmrRating = ArmrRating;
-    }
-
+    /**
+     * Constructor. Takes no parameters. Allocates List objects, and sets all member variables to 0.
+     */
     Character() {
         this.name = "";
         this.HPMax = 0;
@@ -47,7 +46,16 @@ class Character {
         this.notes = "";
     }
 
-    // takes a preset name (without .txt), and the presetDir
+
+    /**
+     * This function loads a specified preset from a file into the character statList variable.
+     * @param presetName: A string containing the name of the preset, expected to be in lower-case
+     *                  and not including a file extension (.txt).
+     * @param dir: A File object for the path to the directory where preset files are stored.
+     * @see PresetGenerator for information regarding the presets themselves.
+     * @author Kevin Marsh, Alex Kearns
+     * */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     void loadPreset(String presetName, File dir) {
         File file = new File(dir, presetName + ".txt");
         String contentJson = null;

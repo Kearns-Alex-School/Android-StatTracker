@@ -4,8 +4,19 @@ import android.content.Context;
 import android.view.Gravity;
 import android.widget.Toast;
 
+/**
+ * Class to encapsulate commonly used code.
+ * @author Alex Kearns
+ */
 class CommonMethods {
 
+    /**
+     * Shows a toast message in the center top of the screen.
+     * @param context Context object.
+     * @param message String containing message to be displayed.
+     * @param length Length of time to show toast.
+     * @author Alex Kearns
+     */
     static void showCenterTopToast(Context context, String message, int length) {
         Toast toast= Toast.makeText(context, message, length);
 
