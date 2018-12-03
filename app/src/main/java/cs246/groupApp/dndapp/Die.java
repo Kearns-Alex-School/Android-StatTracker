@@ -1,8 +1,5 @@
 package cs246.groupApp.dndapp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Die class encapsulates the concept of a single configurable die with an adjustable numbe of sides.
  * @author Kevin Marsh

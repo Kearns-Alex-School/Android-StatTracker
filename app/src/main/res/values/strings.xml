@@ -4,18 +4,18 @@
     <!--activity_main.xml start -->
     <string name="main_Title">Select Your Character</string>
     <string name="main_About">About</string>
-    <string name="main_Add">Create/Delete a Character</string>
+    <string name="main_Add">Create a Character</string>
     <string name="main_Pref">Preferences</string>
     <!--activity_main.xml end -->
 
-    <!--activity_main.xml start -->
+    <!--new_character.xml start -->
     <string name="new_Create">Create</string>
     <string name="new_Delete">Delete</string>
-    <string name="new_Description">Enter your character\'s name that you want to create or delete</string>
+    <string name="new_Description">Enter your character\'s name</string>
     <string name="new_Cancel">Cancel</string>
-    <!--activity_main.xml end -->
+    <!--new_character.xml end -->
 
-    <!--activity_main.xml start -->
+    <!--legal.xml start -->
     <string name="legal_Title">Legal/Disclaimer/Copyright</string>
     <string name="legal_Close">Close</string>
     <string name="legal_Content">
@@ -37,7 +37,7 @@
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         SOFTWARE.
     </string>
-    <!--activity_main.xml end -->
+    <!--legal.xml end -->
 
     <!--activity_preferences.xml start -->
     <string name="preferences_Title">Preferences</string>
@@ -56,7 +56,7 @@
     <!--editable_textview.xml end -->
 
     <!--activity_character_details.xml end -->
-    <string name="details_Home">Home</string>
+    <string name="details_Home">H</string>
     <string name="details_DiceRoller">Dice</string>
     <!--activity_character_details.xml end -->
 
@@ -70,10 +70,18 @@
     <string name="dice_Roll">Roll</string>
     <string name="dice_Close">Close</string>
     <string name="dice_Clear">Clear</string>
+    <string name="dice_Bonus">Stat Bonus</string>
+    <!--dice_roller.xml end -->
+
     <string name="health_Current">Current</string>
     <string name="health_Max">Max</string>
+
     <string name="armor_Rate">Armor Rating</string>
+
     <string name="speed_Rate">Current Speed</string>
+
     <string name="new_Preset">Preset</string>
-    <!--dice_roller.xml end -->
+
+    <string name="confirm_Confirm">Confirm</string>
+    <string name="confirm_Cancel">Cancel</string>
 </resources>

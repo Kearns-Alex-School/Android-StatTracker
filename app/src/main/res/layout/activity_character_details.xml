@@ -117,6 +117,7 @@
         </ScrollView>
 
         <ListView
+            android:id="@+id/Content_Menu"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1" />
@@ -136,22 +137,23 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
+            android:id="@+id/Home"
+            style="@android:style/Widget.Button"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:onClick="homeClick"
+            android:text="@string/details_Home"
+            android:textAlignment="center"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/ContextMenu1"
             style="@android:style/Widget.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="leftClicked"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/Home"
-            style="@android:style/Widget.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="homeClick"
-            android:text="@string/details_Home"
+            android:onClick="contentClicked"
             android:textAllCaps="false" />
 
         <Button
@@ -160,7 +162,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="rightClicked"
+            android:onClick="contentClicked"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/Add"
+            style="@android:style/Widget.Button"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:onClick="addItem"
+            android:text="+"
+            android:textAlignment="center"
             android:textAllCaps="false" />
     </LinearLayout>
 
