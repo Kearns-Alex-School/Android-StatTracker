@@ -131,7 +131,7 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
 
         // go through all of the custom stuff
 
-        viewHolder.txtName.setText(dataModel.getName());
+        viewHolder.txtName.setText(Objects.requireNonNull(dataModel).getName());
 
         // check to see if we are a "Add New" item
         if(dataModel.getAddNew()) {

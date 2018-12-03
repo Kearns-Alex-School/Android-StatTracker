@@ -570,7 +570,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                 File newFile = new File (characterDir, character.fileName);
 
                 // rename
-                currentFile.renameTo(newFile);
+                if(!currentFile.renameTo(newFile))
+                {
+                    CommonMethods.showCenterTopToast(context,"Problem renaming file.", 0);
+                    return;
+                }
 
                 // close the screen
                 dialog.dismiss();

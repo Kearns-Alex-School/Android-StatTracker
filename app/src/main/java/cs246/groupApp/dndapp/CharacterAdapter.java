@@ -24,7 +24,7 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
         Button bDelete;
     }
 
-    public CharacterAdapter(ArrayList<CharacterDataModel> data, Context context) {
+    CharacterAdapter(ArrayList<CharacterDataModel> data, Context context) {
         super(context, R.layout.custom_layout_character, data);
         this.dataSet = data;
         this.context = context;

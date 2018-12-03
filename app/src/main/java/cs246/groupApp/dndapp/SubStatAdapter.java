@@ -130,8 +130,9 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
         // check all of our custom stuff
 
         // bonus text
-        if(dataModel.getShowBonus()) {
-            viewHolder.txtBonus.setText(Integer.toString(dataModel.getBonus()));
+        if(Objects.requireNonNull(dataModel).getShowBonus()) {
+            String temp = Integer.toString(dataModel.getBonus());
+            viewHolder.txtBonus.setText(temp);
             viewHolder.txtBonus.setTextSize(dataModel.getMainTextSize());
         }
         else

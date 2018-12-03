@@ -44,7 +44,7 @@ public class InventoryDataModel {
         return AMR;
     }
 
-    public Stat getStatBonus() {
+    Stat getStatBonus() {
         return statBonus;
     }
 
@@ -60,7 +60,7 @@ public class InventoryDataModel {
         return notes;
     }
 
-    public Boolean getAddNew() {
+    Boolean getAddNew() {
         return isAddNew;
     }
 
@@ -83,7 +83,7 @@ public class InventoryDataModel {
         this.AMR = AMR;
     }
 
-    public void setStatBonus(Stat statBonus) {
+    void setStatBonus(Stat statBonus) {
         this.statBonus = statBonus;
     }
 
