@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DnDapp</string>
+    <string name="app_name">Tabletop Tracker</string>
 
     <!--activity_main.xml start -->
     <string name="main_Title">Select Your Character</string>
