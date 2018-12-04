@@ -3,6 +3,7 @@ package cs246.groupApp.dndapp;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -85,14 +87,21 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         // set the title to the character's name
         titleText.setText(character.name);
 
+        //immageButton Test
+        ImageButton immageButtonDice = findViewById(R.id.imageButtonDice);
+        immageButtonDice.setPadding(0,immageButtonDice.getPaddingTop(),0,immageButtonDice.getPaddingBottom());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            immageButtonDice.setForegroundGravity(tcGravity);
+        }
+
         // Set some constraints for Dice button
-        Button button = findViewById(R.id.Dice);
-        button.setPadding(0,button.getPaddingTop(),0,button.getPaddingBottom());
-        button.setLineSpacing(-5,1);
-        button.setGravity(tcGravity);
+        //Button button = findViewById(R.id.Dice);
+        //button.setPadding(0,button.getPaddingTop(),0,button.getPaddingBottom());
+        //button.setLineSpacing(-5,1);
+        //button.setGravity(tcGravity);
 
         // Set some constraints for Health button
-        button = findViewById(R.id.Health);
+        Button button = findViewById(R.id.Health);
         button.setPadding(0,button.getPaddingTop(),0,button.getPaddingBottom());
         button.setLineSpacing(-5,1);
         button.setGravity(tcGravity);
