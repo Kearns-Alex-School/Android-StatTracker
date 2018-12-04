@@ -218,6 +218,10 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         button.setText(temp2);
     }
 
+    /**
+     * Update the content display based on the current menu selection.
+     * @author Alex Kearns
+     */
     public void updateContentList() {
         ListView listView = findViewById(R.id.Content_Menu);
 
@@ -1115,6 +1119,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Controller to add items to one of the context display lists.
+     * @param view View object. Passed in on click.
+     * @author Alex Kearns
+     */
     public void addItem(View view) {
         switch (currentMenu)
         {
@@ -1130,6 +1139,12 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Allows for editing or creating stats in a list of sub-stats.
+     * @param data Stat to be changed/added
+     * @param isNew whether the stat is new or not.
+     * @author Alex Kearns
+     */
     public void editSubStat(SubStatDataModel data, final Boolean isNew) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -1238,6 +1253,12 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows for editing or creating inventory items in a list of items.
+     * @param data Item to be changed/added
+     * @param isNew whether the item is new or not.
+     * @author Alex Kearns
+     */
     public void editInventory(InventoryDataModel data, final Boolean isNew) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -1384,6 +1405,12 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows for editing or creating abilities in a list of items. Uses the Item class.
+     * @param data Item to be changed/added
+     * @param isNew whether the item is new or not.
+     * @author Alex Kearns
+     */
     public void editAbilities(InventoryDataModel data, final Boolean isNew) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -1530,6 +1557,10 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * OnPause handler
+     * @author Kevin Marsh
+     */
     protected void onPause() {
         super.onPause();
         writeFile(character.fileName, false);

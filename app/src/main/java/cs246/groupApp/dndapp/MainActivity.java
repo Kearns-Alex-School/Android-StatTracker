@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
         presetValues.setAdapter(adapter);
 
         // AJK: My very first easter egg that I have ever coded. 11/11/2018 23:45
-        String[] hints = {"Kevin_Marsh","Jeffery_Hooker","LegendOfTechno"};
+        String[] hints = {"zzt53","Jeffery_Hooker","LegendOfTechno"};
         inputName.setHint(hints[new Random().nextInt(hints.length)]);
 
         // set up the Create button behavior
@@ -279,6 +279,11 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows a character to be deleted
+     * @param character Character to be deleted
+     * @author Alex Kearns
+     */
     public void deleteCharacter(Character character) {
         // check to see if the file exists
         File file = new File(characterDir, character.fileName);
