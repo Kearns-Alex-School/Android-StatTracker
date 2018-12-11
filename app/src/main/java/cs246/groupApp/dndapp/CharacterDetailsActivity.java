@@ -52,6 +52,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
     String fileName;
     String currentMenu;
+    String preferedTheme;
 
     @Override
     /**
@@ -73,6 +74,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         characterDir = (File) Objects.requireNonNull(getIntent().getExtras()).get("charDir");
         fileName = (String) getIntent().getExtras().get("filename");
         currentMenu = Objects.requireNonNull(SP.getString(MainActivity.LOAD_CONTENT, "subStats"));
+        preferedTheme = Objects.requireNonNull(SP.getString(MainActivity.THEME_STYLE, "DnDark"));
 
         // read file
         this.character = readFile(fileName);
