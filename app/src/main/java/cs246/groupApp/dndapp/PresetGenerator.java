@@ -23,6 +23,7 @@ class PresetGenerator {
     void generatePresets(File dir) {
         writeFile(dir,"special.txt",SPECIAL);
         writeFile(dir, "dnd.txt", DnD);
+        writeFile(dir, "fellowquest.txt",Fellowquest);
     }
 
     /**
@@ -133,4 +134,111 @@ class PresetGenerator {
 "        \"value\": 0\n" +
 "    }\n" +
 "]";
+
+    /**
+     * The Fellowquest format, used in the Fellowquest system.
+     */
+    private static final String Fellowquest =
+            "[\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Alchemy\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"The Arts\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Assassination\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Common Wisdom\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Creation Magic\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Destructive Magic\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Healing Magic\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "   {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Illusion\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Invention\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Knowledge/Expertise\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Martial Combat\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Mystic Magic\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Nature\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "   {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Nutrition/Fitness\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Public Speech\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Reaction\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Stealth\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Thieving\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Transformation Magic\",\n" +
+                    "        \"value\": 0\n" +
+                    "    },\n" +
+                    "   {\n" +
+                    "        \"bonus\": 0,\n" +
+                    "        \"name\": \"Unarmed Combat\",\n" +
+                    "        \"value\": 0\n" +
+                    "    }\n" +
+                    "]";
 }

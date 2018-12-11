@@ -51,7 +51,7 @@
 
     </PreferenceCategory>
 
-    <!--PreferenceCategory
+    <PreferenceCategory
         android:title="Theme">
 
         <ListPreference
@@ -59,9 +59,9 @@
             android:entries="@array/themeArray"
             android:entryValues="@array/themeValues"
             android:key="themeStyle"
-            android:summary="Change your style."
+            android:summary="@string/themeSummary"
             android:title="Layout Style" />
 
-    </PreferenceCategory-->
+    </PreferenceCategory>
 
 </PreferenceScreen>

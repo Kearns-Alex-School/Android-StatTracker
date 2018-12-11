@@ -1,5 +1,6 @@
 package cs246.groupApp.dndapp;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String DICE_AUTOSCROLL = "autoScroll";
     public static final String LOAD_CONTENT = "loadContent";
     public static final String DIST_UNIT = "distUnit";
+    public static final String THEME_STYLE = "themeStyle";
 
     //directories
     public static File characterDir;
@@ -54,10 +56,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setTheme(R.style.DnDark);
         setContentView(R.layout.activity_main);
-
         context = MainActivity.this;
-        instance = this;
 
         // set the file path. Create it if it does not exist
         // https://stackoverflow.com/questions/16237950/android-check-if-file-exists-without-creating-a-new-one
@@ -67,13 +68,13 @@ public class MainActivity extends AppCompatActivity {
         characterDir = new File(this.getFilesDir(), "characters");
         if (!characterDir.exists()) {
             if (!characterDir.mkdir())
-                CommonMethods.showCenterTopToast(context,"Error creating Character Directory.", 0);
+                CommonMethods.showCenterTopToast(context, "Error creating Character Directory.", 0);
         }
 
         presetDir = new File(this.getFilesDir(), "presets");
         if (!presetDir.exists()) {
-            if(!presetDir.mkdir())
-                CommonMethods.showCenterTopToast(context,"Error creating Preset Directory.", 0);
+            if (!presetDir.mkdir())
+                CommonMethods.showCenterTopToast(context, "Error creating Preset Directory.", 0);
         }
 
         // AJK: debugging to make sure we have files/folders in our ROOT
