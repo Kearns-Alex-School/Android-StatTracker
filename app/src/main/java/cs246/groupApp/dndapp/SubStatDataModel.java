@@ -1,5 +1,10 @@
 package cs246.groupApp.dndapp;
 
+/**
+ * Data model for substats. Establishes getters and setters.
+ * @see CharacterDataModel
+ * @author Alex Kearns
+ */
 public class SubStatDataModel {
     private Character character;
     private String name;

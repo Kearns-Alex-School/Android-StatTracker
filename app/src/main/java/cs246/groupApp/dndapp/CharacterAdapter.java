@@ -14,6 +14,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Character adapter class is used for a customized array adapter.
+ * @author Alex Kearns
+ */
 public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implements View.OnClickListener {
     private ArrayList<CharacterDataModel> dataSet;
     private Context context;
@@ -24,12 +28,23 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
         Button bDelete;
     }
 
+    /**
+     * Constructor.
+     * @param data ArrayList of CharacterDataModel. Contains the data to be displayed
+     * @param context Context object from caller.
+     * @author Alex Kearns
+     */
     CharacterAdapter(ArrayList<CharacterDataModel> data, Context context) {
         super(context, R.layout.custom_layout_character, data);
         this.dataSet = data;
         this.context = context;
     }
 
+    /**
+     * Click handler on a per-item basis. Allows clicks to be handled for any item in the arrayadapter
+     * @param v View object. Passed in on click event.
+     * @author Alex Kearns
+     */
     @Override
     public void onClick(View v) {
         // get the position that was clicked
@@ -92,6 +107,14 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
         }
     }
 
+    /**
+     * Sets up the view.
+     * @param position Position of item in the array
+     * @param convertView View object to be changed
+     * @param parent Parent ViewGroup
+     * @return returns the converted view object
+     * @author Alex Kearns
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position

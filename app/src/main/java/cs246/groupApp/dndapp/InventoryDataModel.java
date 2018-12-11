@@ -1,5 +1,10 @@
 package cs246.groupApp.dndapp;
 
+/**
+ * Inventory data model. Establishes getters/setters for the inventory
+ * @see CharacterDataModel
+ * @author Alex Kearns
+ */
 public class InventoryDataModel {
     private Character character;
     private String name;

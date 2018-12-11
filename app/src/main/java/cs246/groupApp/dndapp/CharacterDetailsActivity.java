@@ -3,6 +3,7 @@ package cs246.groupApp.dndapp;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -85,14 +87,21 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         // set the title to the character's name
         titleText.setText(character.name);
 
+        //immageButton Test
+        ImageButton immageButtonDice = findViewById(R.id.imageButtonDice);
+        immageButtonDice.setPadding(0,immageButtonDice.getPaddingTop(),0,immageButtonDice.getPaddingBottom());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            immageButtonDice.setForegroundGravity(tcGravity);
+        }
+
         // Set some constraints for Dice button
-        Button button = findViewById(R.id.Dice);
-        button.setPadding(0,button.getPaddingTop(),0,button.getPaddingBottom());
-        button.setLineSpacing(-5,1);
-        button.setGravity(tcGravity);
+        //Button button = findViewById(R.id.Dice);
+        //button.setPadding(0,button.getPaddingTop(),0,button.getPaddingBottom());
+        //button.setLineSpacing(-5,1);
+        //button.setGravity(tcGravity);
 
         // Set some constraints for Health button
-        button = findViewById(R.id.Health);
+        Button button = findViewById(R.id.Health);
         button.setPadding(0,button.getPaddingTop(),0,button.getPaddingBottom());
         button.setLineSpacing(-5,1);
         button.setGravity(tcGravity);
@@ -215,6 +224,10 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         button.setText(temp2);
     }
 
+    /**
+     * Update the content display based on the current menu selection.
+     * @author Alex Kearns
+     */
     public void updateContentList() {
         ListView listView = findViewById(R.id.Content_Menu);
 
@@ -1118,6 +1131,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Controller to add items to one of the context display lists.
+     * @param view View object. Passed in on click.
+     * @author Alex Kearns
+     */
     public void addItem(View view) {
         switch (currentMenu)
         {
@@ -1133,6 +1151,12 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Allows for editing or creating stats in a list of sub-stats.
+     * @param data Stat to be changed/added
+     * @param isNew whether the stat is new or not.
+     * @author Alex Kearns
+     */
     public void editSubStat(SubStatDataModel data, final Boolean isNew) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -1241,6 +1265,12 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows for editing or creating inventory items in a list of items.
+     * @param data Item to be changed/added
+     * @param isNew whether the item is new or not.
+     * @author Alex Kearns
+     */
     public void editInventory(InventoryDataModel data, final Boolean isNew) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -1387,6 +1417,12 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows for editing or creating abilities in a list of items. Uses the Item class.
+     * @param data Item to be changed/added
+     * @param isNew whether the item is new or not.
+     * @author Alex Kearns
+     */
     public void editAbilities(InventoryDataModel data, final Boolean isNew) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
@@ -1533,6 +1569,10 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * OnPause handler
+     * @author Kevin Marsh
+     */
     protected void onPause() {
         super.onPause();
         writeFile(character.fileName, false);

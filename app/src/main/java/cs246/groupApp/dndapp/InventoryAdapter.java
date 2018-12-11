@@ -15,6 +15,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Inventory array adapter.
+ * @see CharacterAdapter
+ * @author Alex Kearns
+ */
 public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implements View.OnClickListener {
 
     private ArrayList<InventoryDataModel> dataSet;
