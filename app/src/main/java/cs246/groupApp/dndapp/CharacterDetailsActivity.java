@@ -33,6 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import static cs246.groupApp.dndapp.CommonMethods.updateTheme;
+
 /**
  * This is the Character details page.
  * @author Alex Kearns, Kevin Marsh
@@ -63,6 +65,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        updateTheme(this, false);
         setContentView(R.layout.activity_character_details);
 
         context = CharacterDetailsActivity.this;
@@ -1582,6 +1585,19 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
+    }
+
+    /**
+     * Reload character list on return to homepage.
+     * @author Alex Kearns
+     */
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        updateTheme(this, true);
+
+        //toLoad();
     }
 
     /**

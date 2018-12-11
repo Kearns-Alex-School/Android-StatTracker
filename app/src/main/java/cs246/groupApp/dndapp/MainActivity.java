@@ -1,10 +1,11 @@
 package cs246.groupApp.dndapp;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+
+import static cs246.groupApp.dndapp.CommonMethods.updateTheme;
 
 /**
  * Main activity. This contains the home screen of the app.
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     public Context context;
 
+    SharedPreferences SP;
+
     /**
      * Runs on creation of the activity. Creates all of the important directories, generates presets, etc.
      * @author Alex Kearns, Kevin Marsh
@@ -56,7 +61,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setTheme(R.style.DnDark);
+
+        SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        updateTheme(this, false);
+
         setContentView(R.layout.activity_main);
         context = MainActivity.this;
 
@@ -386,7 +395,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        toLoad();
+
+        updateTheme(this, true);
+
+        //toLoad();
     }
 
     public static MainActivity getInstance() {
