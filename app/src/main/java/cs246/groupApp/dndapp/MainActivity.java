@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import static cs246.groupApp.dndapp.CommonMethods.updateTheme;
-
 /**
  * Main activity. This contains the home screen of the app.
  */
@@ -64,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        updateTheme(this, false);
+        CommonMethods.updateTheme(this, false);
 
         setContentView(R.layout.activity_main);
         context = MainActivity.this;
@@ -396,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
 
-        updateTheme(this, true);
+        CommonMethods.updateTheme(this, true);
 
         //toLoad();
     }
