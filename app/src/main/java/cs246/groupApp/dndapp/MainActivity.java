@@ -3,7 +3,9 @@ package cs246.groupApp.dndapp;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -40,12 +42,15 @@ public class MainActivity extends AppCompatActivity {
     public static final String DICE_AUTOSCROLL = "autoScroll";
     public static final String LOAD_CONTENT = "loadContent";
     public static final String DIST_UNIT = "distUnit";
+    public static final String THEME_STYLE = "themeStyle";
 
     //directories
     public static File characterDir;
     public static File presetDir;
 
     public Context context;
+
+    SharedPreferences SP;
 
     /**
      * Runs on creation of the activity. Creates all of the important directories, generates presets, etc.
@@ -54,10 +59,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        CommonMethods.updateTheme(this, false);
+
+        setContentView(R.layout.activity_main);
         context = MainActivity.this;
-        instance = this;
 
         // set the file path. Create it if it does not exist
         // https://stackoverflow.com/questions/16237950/android-check-if-file-exists-without-creating-a-new-one
@@ -67,13 +75,13 @@ public class MainActivity extends AppCompatActivity {
         characterDir = new File(this.getFilesDir(), "characters");
         if (!characterDir.exists()) {
             if (!characterDir.mkdir())
-                CommonMethods.showCenterTopToast(context,"Error creating Character Directory.", 0);
+                CommonMethods.showCenterTopToast(context, "Error creating Character Directory.", 0);
         }
 
         presetDir = new File(this.getFilesDir(), "presets");
         if (!presetDir.exists()) {
-            if(!presetDir.mkdir())
-                CommonMethods.showCenterTopToast(context,"Error creating Preset Directory.", 0);
+            if (!presetDir.mkdir())
+                CommonMethods.showCenterTopToast(context, "Error creating Preset Directory.", 0);
         }
 
         // AJK: debugging to make sure we have files/folders in our ROOT
@@ -385,7 +393,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        toLoad();
+
+        CommonMethods.updateTheme(this, true);
+
+        //toLoad();
     }
 
     public static MainActivity getInstance() {

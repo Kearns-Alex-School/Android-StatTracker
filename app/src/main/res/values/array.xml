@@ -15,11 +15,13 @@
     <string-array name="themeArray">
         <item>Light</item>
         <item>Dark</item>
+        <item>DnDark</item>
     </string-array>
 
     <string-array name="themeValues">
-        <item>@style/AppThemeLight</item>
-        <item>@style/AppThemeDark</item>
+        <item>light</item>
+        <item>dark</item>
+        <item>dndark</item>
     </string-array>
 
 </resources>

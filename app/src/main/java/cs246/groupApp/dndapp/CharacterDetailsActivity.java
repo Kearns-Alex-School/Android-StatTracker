@@ -52,6 +52,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
     String fileName;
     String currentMenu;
+    String preferedTheme;
 
     @Override
     /**
@@ -62,6 +63,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonMethods.updateTheme(this, false);
         setContentView(R.layout.activity_character_details);
 
         context = CharacterDetailsActivity.this;
@@ -73,6 +75,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         characterDir = (File) Objects.requireNonNull(getIntent().getExtras()).get("charDir");
         fileName = (String) getIntent().getExtras().get("filename");
         currentMenu = Objects.requireNonNull(SP.getString(MainActivity.LOAD_CONTENT, "subStats"));
+        preferedTheme = Objects.requireNonNull(SP.getString(MainActivity.THEME_STYLE, "DnDark"));
 
         // read file
         this.character = readFile(fileName);
@@ -190,25 +193,31 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         button.setText(temp);
 
         // update Context List Menu
+        TextView contentTitle = findViewById(R.id.ContentTitle);
+
         String temp2;
         switch (currentMenu)
         {
             case "subStats":
                 temp = "Inventory";
                 temp2 = "Abilities";
+                contentTitle.setText("Sub-Stats");
                 break;
             case "inventory":
                 temp = "Sub-Stats";
                 temp2 = "Abilities";
+                contentTitle.setText("Inventory");
                 break;
             case "abilities":
                 temp = "Sub-Stats";
                 temp2 = "Inventory";
+                contentTitle.setText("Abilities");
                 break;
             default:
                 currentMenu = "subStats";
                 temp = "Inventory";
                 temp2 = "Abilities";
+                contentTitle.setText("Sub-Stats");
                 break;
         }
         button = findViewById(R.id.ContextMenu1);
@@ -515,16 +524,22 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         String newButtonText = "";
         Button button = (Button) view;
 
+        // get the content title
+        TextView contentTitle = findViewById(R.id.ContentTitle);
+
         switch (button.getText().toString())
         {
             case "Sub-Stats":
                 newCurrentMenu = "subStats";
+                contentTitle.setText("Sub-Stats");
                 break;
             case "Inventory":
                 newCurrentMenu = "inventory";
+                contentTitle.setText("Inventory");
                 break;
             case "Abilities":
                 newCurrentMenu = "abilities";
+                contentTitle.setText("Abilities");
                 break;
         }
 
@@ -1568,6 +1583,17 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
+    }
+
+    /**
+     * Reload character list on return to homepage.
+     * @author Alex Kearns
+     */
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        CommonMethods.updateTheme(this, true);
     }
 
     /**

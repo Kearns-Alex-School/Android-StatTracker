@@ -1,4 +1,5 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
@@ -6,6 +7,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/background_dark</item>
+        <item name="android:colorBackground">@color/colorAccent</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
@@ -13,6 +17,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@android:color/background_light</item>
+        <item name="android:textColorSecondary">@android:color/background_light</item>
+        <item name="android:colorBackground">@android:color/background_dark</item>
+    </style>
+
+    <style name="DnDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:colorBackground">@color/DnDarkBackground</item>
+        <item name="android:colorAccent" tools:targetApi="lollipop">@color/DnDarkAccent</item>
+        <item name="android:textColorPrimary">@color/DnDarkText</item>
+        <item name="android:textColorSecondary">@color/DnDarkText</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/DnDarkStatusbar</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/DnDarkStatusbar</item>
+        <item name="android:colorForeground">@color/foreground_material_dark</item>
     </style>
 
 </resources>
