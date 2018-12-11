@@ -14,6 +14,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Array adapter for substats.
+ * @see CharacterAdapter
+ * @author Alex Kearns
+ */
 //https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
 public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements View.OnClickListener {
 

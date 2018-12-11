@@ -36,23 +36,15 @@ class PresetGenerator {
     private void writeFile(File dir, String fileName, String content) {
         File outputFile = new File(dir, fileName);
 
-        //TODO figure out a way to check if files need to be changed. This is inefficient.
-        // maybe use Shared prefs?
+        Log.i("presetCreate", "Created file " + fileName);
 
-        //if (!outputFile.exists()) {
-            Log.i("presetCreate", "Created file " + fileName);
-
-            try {
-                FileOutputStream outputStream = new FileOutputStream(outputFile);
-                outputStream.write(content.getBytes());
-            } catch (IOException e) {
-                Log.e("presetCreate", "Failed to create file " + fileName);
-                e.printStackTrace();
-            }
-        //}
-        //else {
-        //    Log.i("presetCreate", "Preset file " + fileName + " exists.");
-        //}
+        try {
+            FileOutputStream outputStream = new FileOutputStream(outputFile);
+            outputStream.write(content.getBytes());
+        } catch (IOException e) {
+            Log.e("presetCreate", "Failed to create file " + fileName);
+            e.printStackTrace();
+        }
     }
 
     /**
