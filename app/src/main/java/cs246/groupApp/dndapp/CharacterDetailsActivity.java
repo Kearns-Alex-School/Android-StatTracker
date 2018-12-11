@@ -181,25 +181,31 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         button.setText(temp);
 
         // update Context List Menu
+        TextView contentTitle = findViewById(R.id.ContentTitle);
+
         String temp2;
         switch (currentMenu)
         {
             case "subStats":
                 temp = "Inventory";
                 temp2 = "Abilities";
+                contentTitle.setText("Sub-Stats");
                 break;
             case "inventory":
                 temp = "Sub-Stats";
                 temp2 = "Abilities";
+                contentTitle.setText("Inventory");
                 break;
             case "abilities":
                 temp = "Sub-Stats";
                 temp2 = "Inventory";
+                contentTitle.setText("Abilities");
                 break;
             default:
                 currentMenu = "subStats";
                 temp = "Inventory";
                 temp2 = "Abilities";
+                contentTitle.setText("Sub-Stats");
                 break;
         }
         button = findViewById(R.id.ContextMenu1);
@@ -502,16 +508,22 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         String newButtonText = "";
         Button button = (Button) view;
 
+        // get the content title
+        TextView contentTitle = findViewById(R.id.ContentTitle);
+
         switch (button.getText().toString())
         {
             case "Sub-Stats":
                 newCurrentMenu = "subStats";
+                contentTitle.setText("Sub-Stats");
                 break;
             case "Inventory":
                 newCurrentMenu = "inventory";
+                contentTitle.setText("Inventory");
                 break;
             case "Abilities":
                 newCurrentMenu = "abilities";
+                contentTitle.setText("Abilities");
                 break;
         }
 
