@@ -11,6 +11,14 @@
         android:layout_height="wrap_content"
         android:text="@string/new_Description"
         android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name:"
         android:textSize="18sp" />
 
     <EditText
@@ -41,7 +49,7 @@
         <EditText
             android:id="@+id/notesValue"
             android:layout_width="fill_parent"
-            android:layout_height="100dp"
+            android:layout_height="70dp"
             android:ems="10"
             android:inputType="textMultiLine"
             android:textSize="14sp" />

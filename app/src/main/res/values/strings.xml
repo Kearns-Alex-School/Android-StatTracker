@@ -11,7 +11,7 @@
     <!--new_character.xml start -->
     <string name="new_Create">Create</string>
     <string name="new_Delete">Delete</string>
-    <string name="new_Description">Enter your character\'s name</string>
+    <string name="new_Description">Create Your Character</string>
     <string name="new_Cancel">Cancel</string>
     <!--new_character.xml end -->
 
