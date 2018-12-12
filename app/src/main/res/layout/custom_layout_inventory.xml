@@ -19,6 +19,9 @@
         android:textColor="@android:color/black"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:autoSizeMaxTextSize="20dp"
+        app:autoSizeStepGranularity="2dp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toStartOf="@+id/Delete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -90,18 +89,12 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         // set the title to the character's name
         titleText.setText(character.name);
 
-        //immageButton Test
-        ImageButton immageButtonDice = findViewById(R.id.imageButtonDice);
-        immageButtonDice.setPadding(0,immageButtonDice.getPaddingTop(),0,immageButtonDice.getPaddingBottom());
+        // imageButton Test
+        /*ImageButton imageButtonDice = findViewById(R.id.imageButtonDice);
+        imageButtonDice.setPadding(0,imageButtonDice.getPaddingTop(),0,imageButtonDice.getPaddingBottom());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            immageButtonDice.setForegroundGravity(tcGravity);
-        }
-
-        // Set some constraints for Dice button
-        //Button button = findViewById(R.id.Dice);
-        //button.setPadding(0,button.getPaddingTop(),0,button.getPaddingBottom());
-        //button.setLineSpacing(-5,1);
-        //button.setGravity(tcGravity);
+            imageButtonDice.setForegroundGravity(tcGravity);
+        }*/
 
         // Set some constraints for Health button
         Button button = findViewById(R.id.Health);
@@ -122,7 +115,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         button.setGravity(tcGravity);
 
         // populate our layout stats
-        UpdateStatList((LinearLayout) findViewById(R.id.contentLLV));
+        UpdateStatList((ListView) findViewById(R.id.Stats));
 
         // load our content list area
         updateContentList();
@@ -130,56 +123,61 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
     /**
      * Updates the sidebar stat list, and setup the top row of buttons
-     * @param sidebar LinearLayout Object - The layout element for the sidebar
+     * @param sidebar ListView Object - The listView that we will add elements to.
      * @author Alex Kearns
      */
-    public void UpdateStatList(final LinearLayout sidebar) {
-        // remove any of the views that we currently are holding
-        if (0 < sidebar.getChildCount())
-            sidebar.removeAllViews();
-
+    public void UpdateStatList(final ListView sidebar) {
         // dynamically add to our scrollView
         //  https://stackoverflow.com/questions/14920535/how-to-add-more-than-one-button-to-scrollview-in-android
-        for (int index = 0; index < character.statList.size(); index++)
-        {
-            String temp = character.statList.get(index).name + "\n" +
-                          character.statList.get(index).value + "\n" +
-                          character.statList.get(index).bonus;
+        final ArrayList<StatDataModel> statDataModels = new ArrayList<>();
 
-            // Add Button
-            // AJK: Currently ~9/~7 lower/upper case letters are the longest before a newline
-            Button button = new Button(context);
-            button.setPadding(0,0,0,button.getPaddingBottom());
-            button.setLineSpacing(-5,1);
-            button.setTextSize(15);
-            button.setGravity(ccGravity);
-            button.setText(temp);
-            button.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    editStat(v);
-                }
-            });
-            sidebar.addView(button);
+        StatAdapter statAdapter = new StatAdapter(statDataModels, context);
+
+        for(Stat stat: character.statList) {
+            // create the model
+            StatDataModel newStat = new StatDataModel();
+
+            // add data to the model
+            newStat.setStat(stat);
+            newStat.setShowBonus(true);
+            newStat.setShowPrimary(true);
+
+            statDataModels.add(newStat);
         }
 
-        // finally create the button that will add a new stat to the list
-        String temp = "Add Stat";
-        Button button = new Button(context);
-        button.setPadding(0,0,0,button.getPaddingBottom());
-        button.setLineSpacing(-5,1);
-        button.setGravity(ccGravity);
-        button.setText(temp);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                createStat(v);
+        // Add the option for adding a new stat
+        // create the model
+        StatDataModel newStat = new StatDataModel();
+        Stat stat = new Stat();
+        stat.name = "New Stat";
+        stat.value = 0;
+        stat.bonus = 0;
+
+        // add data to the model
+        newStat.setStat(stat);
+        newStat.setShowBonus(false);
+        newStat.setShowPrimary(false);
+
+        statDataModels.add(newStat);
+
+        sidebar.setAdapter(statAdapter);
+
+        sidebar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item text from ListView
+                StatDataModel dataModel= statDataModels.get(position);
+
+                if (dataModel.getStat().name.equals("New Stat"))
+                    editStat(dataModel, true);
+                else
+                    editStat(dataModel, false);
             }
         });
-        sidebar.addView(button);
-
 
         // update Health button
-        button = findViewById(R.id.Health);
-        temp = "Health\n" + character.HPCurrent + "/" + character.HPMax;
+        Button button = findViewById(R.id.Health);
+        String temp = "Health\n" + character.HPCurrent + "/" + character.HPMax;
         button.setText(temp);
 
         // update Armor Rating
@@ -343,106 +341,6 @@ public class CharacterDetailsActivity extends AppCompatActivity {
     }
 
     /**
-     * Dialog to create a new stat and add the new stat to the character's stat list.
-     * @param v View object - passed in when a button is pressed.
-     * @author Alex Kearns
-     */
-    public void createStat(View v) {
-        /// create our popup dialog
-        final Dialog dialog = new Dialog(context);
-
-        // have the keyboard show up once we have the ability
-        //  https://stackoverflow.com/questions/4258623/show-soft-keyboard-for-dialog
-        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
-        // remove the title bar MUST BE CALLED BEFORE SETTING THE CONTENT VIEW!!
-        // https://stackoverflow.com/questions/2644134/android-how-to-create-a-dialog-without-a-title
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.editable_stat);
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(true);
-
-        // set up the EditText behavior
-        final EditText nameInput = dialog.findViewById((R.id.StatNameValue));
-        final EditText valueInput = dialog.findViewById((R.id.StatValue));
-        final EditText bonusInput = dialog.findViewById((R.id.StatBonusValue));
-
-        // set up the Save button behavior
-        Button b_Save = dialog.findViewById(R.id.Save);
-        b_Save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // make sure we have something in each field
-                if(nameInput.getText().toString().length() == 0 ||
-                   valueInput.getText().toString().length() == 0 ||
-                   bonusInput.getText().toString().length() == 0)
-                {
-                    // Inform the user that values empty
-                    CommonMethods.showCenterTopToast(context, "Please enter all values", 0);
-                    return;
-                }
-
-                String name;
-                int value;
-                int bonus;
-
-                // make sure we have valid values (checking for any letters or decimals in our ints)
-                try {
-                    name = nameInput.getText().toString();
-                    value = Integer.parseInt(valueInput.getText().toString());
-                    bonus = Integer.parseInt(bonusInput.getText().toString());
-                } catch (Exception e) {
-                    // Inform the user that the name is empty
-                    CommonMethods.showCenterTopToast(context, "Please enter valid values", 0);
-                    return;
-                }
-
-                // see if we already have a stat with this name
-                for (int index = 0; index < character.statList.size(); index++)
-                {
-                    if (character.statList.get(index).name.equals(name))
-                    {
-                        // Inform the user that the name is empty
-                        CommonMethods.showCenterTopToast(context, name + " already exist.", 0);
-                        return;
-                    }
-                }
-
-                // create out new stat
-                Stat newStat = new Stat();
-                newStat.name = name;
-                newStat.value = value;
-                newStat.bonus = bonus;
-
-                // add the new stat to the character
-                character.statList.add(newStat);
-
-                // save our data and re-load
-                writeFile(character.fileName, true);
-
-                // close the screen
-                dialog.dismiss();
-            }
-        });
-
-        // we want to remove this button since it is no use to us
-        Button b_Remove = dialog.findViewById(R.id.Remove);
-        b_Remove.setVisibility(View.GONE);
-
-        // set up the Cancel button
-        Button b_Cancel = dialog.findViewById(R.id.Cancel);
-        b_Cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // close the screen
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
-
-    /**
      * Reads a JSON serialized character file, to load a saved character. If the file is blank,
      * a new character is created.
      * @param filename A String containing the name of the file. Must include the file extension.
@@ -491,6 +389,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
      * Writes the current instance of Character.class to a serialized JSON file.
      * @param filename A String containing the name of the file to be written. Must include the
      *                 file extension.
+     * @param update Determines if we are going to re-populate the sidebar and content area
      * @author Kevin Marsh
      */
     public void writeFile(String filename, boolean update) {
@@ -512,12 +411,17 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         // re-populate our side bar of stats
         if (update)
         {
-            UpdateStatList((LinearLayout) findViewById(R.id.contentLLV));
+            UpdateStatList((ListView) findViewById(R.id.Stats));
 
             updateContentList();
         }
     }
 
+    /**
+     * Handles our sub-Menu switching
+     * @param view View object. Passed in from click event.
+     * @author Alex Kearns
+     */
     public void contentClicked(View view) {
         // switch the strings around
         String newCurrentMenu = "";
@@ -659,10 +563,11 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
     /**
      * Allows a stat in the stat list to be edited. Shows a dialog to the user.
-     * @param view View object. Passed in from click event.
+     * @param data Stat to be changed/added
+     * @param isNew If the stat is new or not.
      * @author Alex Kearns
      */
-    public void editStat(View view) {
+    public void editStat(StatDataModel data, final Boolean isNew) {
         // create our popup dialog
         final Dialog dialog = new Dialog(context);
 
@@ -682,30 +587,31 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         final EditText valueInput = dialog.findViewById((R.id.StatValue));
         final EditText bonusInput = dialog.findViewById((R.id.StatBonusValue));
 
-        final String[] parsed = ((Button)view).getText().toString().split("\n");
-        final String stat = parsed[0];
-
         // find the stat index to change
         int statIndex = -1;
-        for (int index = 0; index < character.statList.size(); index++)
-            if (character.statList.get(index).name.equals(stat))
-                statIndex = index;
+        if(!isNew) {
+            for (int index = 0; index < character.statList.size(); index++)
+                if (character.statList.get(index).name.equals(data.getStat().name))
+                    statIndex = index;
 
-        // check to see if we did not find the index
-        if(statIndex == -1)
-        {
-            // Inform the user that the stat does not exist (this 'should' never happen)
-            CommonMethods.showCenterTopToast(context, stat + " does not exist.", 0);
-            return;
+            // check to see if we did not find the index
+            if(statIndex == -1) {
+                // Inform the user that the stat does not exist (this 'should' never happen)
+                CommonMethods.showCenterTopToast(context, data.getStat().name + " does not exist.", 0);
+                return;
+            }
         }
 
         // create a final copy that we can pass into the button methods
         final int fStatIndex = statIndex;
 
-        // we are only expecting to have three different values in this exact order
-        String name = character.statList.get(statIndex).name;
-        String value = Integer.toString(character.statList.get(statIndex).value);
-        String bonus = Integer.toString(character.statList.get(statIndex).bonus);
+        // set up our text fields
+        String name = "";
+        if(!isNew)
+            name = data.getStat().name;
+
+        String value = Integer.toString(data.getStat().value);
+        String bonus = Integer.toString(data.getStat().bonus);
 
         nameInput.setText(name);
         valueInput.setText(value);
@@ -753,22 +659,34 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     }
                 }
 
-                String oldName = character.statList.get(fStatIndex).name;
+                if(!isNew) {
+                    String oldName = character.statList.get(fStatIndex).name;
 
-                // assign our input
-                character.statList.get(fStatIndex).name = name;
-                character.statList.get(fStatIndex).value = value;
-                character.statList.get(fStatIndex).bonus = bonus;
+                    // assign our input
+                    character.statList.get(fStatIndex).name = name;
+                    character.statList.get(fStatIndex).value = value;
+                    character.statList.get(fStatIndex).bonus = bonus;
 
-                // update all subStats
-                for (Item item :character.subStats)
-                    if (item.statBonus.name.equals(oldName))
-                        item.statBonus = character.statList.get(fStatIndex);
+                    // update all subStats
+                    for (Item item :character.subStats)
+                        if (item.statBonus.name.equals(oldName))
+                            item.statBonus = character.statList.get(fStatIndex);
 
-                // update all inventory items
-                for (Item item :character.inventory)
-                    if (item.statBonus.name.equals(oldName))
-                        item.statBonus = character.statList.get(fStatIndex);
+                    // update all inventory items
+                    for (Item item :character.inventory)
+                        if (item.statBonus.name.equals(oldName))
+                            item.statBonus = character.statList.get(fStatIndex);
+                }
+                else {
+                    // create out new stat
+                    Stat newStat = new Stat();
+                    newStat.name = name;
+                    newStat.value = value;
+                    newStat.bonus = bonus;
+
+                    // add the new stat to the character
+                    character.statList.add(newStat);
+                }
 
                 // save our data and re-load
                 writeFile(character.fileName, true);
@@ -780,19 +698,24 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
         // set up the Remove button behavior
         Button b_Remove = dialog.findViewById(R.id.Remove);
-        b_Remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // remove our stat
-                character.statList.remove(fStatIndex);
+        if(!isNew) {
+            b_Remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // remove our stat
+                    character.statList.remove(fStatIndex);
 
-                // save our data and re-load
-                writeFile(character.fileName, true);
+                    // save our data and re-load
+                    writeFile(character.fileName, true);
 
-                // close the screen
-                dialog.dismiss();
-            }
-        });
+                    // close the screen
+                    dialog.dismiss();
+                }
+            });
+        }
+        else {
+            b_Remove.setVisibility(View.GONE);
+        }
 
         // set up the Cancel button
         Button b_Cancel = dialog.findViewById(R.id.Cancel);
@@ -1157,7 +1080,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
     /**
      * Allows for editing or creating stats in a list of sub-stats.
      * @param data Stat to be changed/added
-     * @param isNew whether the stat is new or not.
+     * @param isNew If the stat is new or not.
      * @author Alex Kearns
      */
     public void editSubStat(SubStatDataModel data, final Boolean isNew) {
@@ -1271,7 +1194,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
     /**
      * Allows for editing or creating inventory items in a list of items.
      * @param data Item to be changed/added
-     * @param isNew whether the item is new or not.
+     * @param isNew If the item is new or not.
      * @author Alex Kearns
      */
     public void editInventory(InventoryDataModel data, final Boolean isNew) {
@@ -1423,7 +1346,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
     /**
      * Allows for editing or creating abilities in a list of items. Uses the Item class.
      * @param data Item to be changed/added
-     * @param isNew whether the item is new or not.
+     * @param isNew If the item is new or not.
      * @author Alex Kearns
      */
     public void editAbilities(InventoryDataModel data, final Boolean isNew) {
@@ -1581,6 +1504,10 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         writeFile(character.fileName, false);
     }
 
+    /**
+     * OnResume handler
+     * @author Alex Kearns
+     */
     protected void onResume() {
         super.onResume();
     }
@@ -1605,9 +1532,15 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         this.finish();
     }
 
-    //https://stackoverflow.com/questions/17315842/how-to-call-a-method-in-mainactivity-from-another-class/25260829
+    /**
+     * This allows us to get this activity's instance from another class dealing with customLayout so we
+     *      are able to call our writeFile function with all of the already defined values when this
+     *      activity was created.
+     * @return Sends back the CharacterDetailsActivity that has been created
+     * @author Alex Kearns
+     */
     public static CharacterDetailsActivity getInstance() {
+        //https://stackoverflow.com/questions/17315842/how-to-call-a-method-in-mainactivity-from-another-class/25260829
         return instance;
     }
-
 }

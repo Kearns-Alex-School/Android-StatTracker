@@ -395,8 +395,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
 
         CommonMethods.updateTheme(this, true);
-
-        //toLoad();
     }
 
     public static MainActivity getInstance() {

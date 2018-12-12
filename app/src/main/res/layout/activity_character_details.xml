@@ -17,24 +17,12 @@
         android:text="@string/default_Empty"
         android:textAlignment="center"
         android:textSize="24sp"
+        app:autoSizeMaxTextSize="24dp"
+        app:autoSizeStepGranularity="2dp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButtonDice"
-        android:layout_width="50dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_weight="1"
-        android:contentDescription="Dice Button"
-        android:onClick="diceRoll"
-        android:src="@drawable/dice_image"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <!--Button
         android:id="@+id/Dice"
@@ -56,12 +44,25 @@
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonDice"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <ImageButton
+            android:id="@+id/imageButtonDice"
+            style="@android:style/Widget.ImageButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_weight="0"
+            android:contentDescription="Dice Button"
+            android:onClick="diceRoll"
+            android:src="@drawable/dice_image"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/Health"
@@ -109,27 +110,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="4"
-            android:fillViewport="true"
-            android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:layout_weight="4">
 
-
-            <LinearLayout
-                android:id="@+id/contentLLV"
+            <ListView
+                android:id="@+id/Stats"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fadeScrollbars="false"
-                android:orientation="vertical"
-                android:scrollbarAlwaysDrawVerticalTrack="false"
-                android:scrollbarDefaultDelayBeforeFade="0"
-                android:scrollbars="vertical">
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
 
-            </LinearLayout>
-
-        </ScrollView>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -171,9 +164,9 @@
         <ImageButton
             android:id="@+id/imageButtonHome"
             style="@android:style/Widget.ImageButton"
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_weight="0"
             android:contentDescription="Home Button"
             android:onClick="homeClick"
             android:src="@drawable/house" />
@@ -193,7 +186,7 @@
             android:id="@+id/ContextMenu1"
             style="@android:style/Widget.Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="contentClicked"
             android:textAllCaps="false" />
@@ -202,7 +195,7 @@
             android:id="@+id/ContextMenu2"
             style="@android:style/Widget.Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="contentClicked"
             android:textAllCaps="false" />
@@ -210,8 +203,8 @@
         <Button
             android:id="@+id/Add"
             style="@android:style/Widget.Button"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
             android:layout_weight="0"
             android:onClick="addItem"
             android:text="+"
