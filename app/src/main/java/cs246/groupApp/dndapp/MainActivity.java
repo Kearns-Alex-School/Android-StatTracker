@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = MainActivity.this;
+        instance = this;
 
         // set the file path. Create it if it does not exist
         // https://stackoverflow.com/questions/16237950/android-check-if-file-exists-without-creating-a-new-one

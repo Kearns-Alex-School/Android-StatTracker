@@ -1226,6 +1226,9 @@ public class CharacterDetailsActivity extends AppCompatActivity {
 
         List<String> list = new ArrayList<>();
 
+        // add a None option
+        list.add("None");
+
         // grab all of the stats in the character
         for (int index = 0; index < character.statList.size(); index++) {
             if (character.statList.get(index).name.equals(data.getStatBonus().name))
@@ -1309,7 +1312,13 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     newInventory.bonus2 = bns2;
                     newInventory.notes = note;
 
-                    newInventory.statBonus = character.statList.get(stats.getSelectedItemPosition());
+                    if (stats.getSelectedItem().toString().equals("None")) {
+                        Stat none = new Stat();
+                        none.name = "None";
+                        none.bonus = 0;
+                        newInventory.statBonus = none;
+                    } else
+                        newInventory.statBonus = character.statList.get(stats.getSelectedItemPosition());
 
                     character.inventory.add(newInventory);
                 } else {
@@ -1319,7 +1328,14 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     character.inventory.get(fInventoryIndex).bonus1 = bns1;
                     character.inventory.get(fInventoryIndex).bonus2 = bns2;
                     character.inventory.get(fInventoryIndex).notes = note;
-                    character.inventory.get(fInventoryIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
+
+                    if (stats.getSelectedItem().toString().equals("None")) {
+                        Stat none = new Stat();
+                        none.name = "None";
+                        none.bonus = 0;
+                        character.inventory.get(fInventoryIndex).statBonus = none;
+                    } else
+                        character.inventory.get(fInventoryIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
                 }
 
                 // save our data and re-load
@@ -1377,6 +1393,9 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         int statIndex = 0;
 
         List<String> list = new ArrayList<>();
+
+        // add a None option
+        list.add("None");
 
         // grab all of the stats in the character
         for (int index = 0; index < character.statList.size(); index++) {
@@ -1461,7 +1480,13 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     newAbilities.bonus2 = bns2;
                     newAbilities.notes = note;
 
-                    newAbilities.statBonus = character.statList.get(stats.getSelectedItemPosition());
+                    if (stats.getSelectedItem().toString().equals("None")) {
+                        Stat none = new Stat();
+                        none.name = "None";
+                        none.bonus = 0;
+                        newAbilities.statBonus = none;
+                    } else
+                        newAbilities.statBonus = character.statList.get(stats.getSelectedItemPosition());
 
                     character.abilities.add(newAbilities);
                 } else {
@@ -1471,7 +1496,14 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     character.abilities.get(fAbilitiesIndex).bonus1 = bns1;
                     character.abilities.get(fAbilitiesIndex).bonus2 = bns2;
                     character.abilities.get(fAbilitiesIndex).notes = note;
-                    character.abilities.get(fAbilitiesIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
+
+                    if (stats.getSelectedItem().toString().equals("None")) {
+                        Stat none = new Stat();
+                        none.name = "None";
+                        none.bonus = 0;
+                        character.inventory.get(fAbilitiesIndex).statBonus = none;
+                    } else
+                        character.abilities.get(fAbilitiesIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
                 }
 
                 // save our data and re-load
