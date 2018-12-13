@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
     private static class ViewHolder {
         TextView txtName;
         TextView txtNotes;
-        Button bDelete;
+        ImageButton bDelete;
     }
 
     /**

@@ -25,7 +25,6 @@
             android:gravity="top"
             android:maxLines="1"
             android:text="TextView"
-            android:textColor="@android:color/black"
             android:textSize="36sp"
             android:textStyle="bold"
             app:autoSizeMaxTextSize="36sp"
@@ -35,7 +34,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+
+        <ImageButton
+            android:id="@+id/Delete"
+            style="@android:style/Widget.ImageButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_weight="0"
+            android:focusable="false"
+            android:contentDescription="Delete Button"
+            android:src="@drawable/cancel"
+            app:layout_constraintBottom_toBottomOf="@+id/Message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/Message"/>
+
+        <!--Button
             android:id="@+id/Delete"
             style="@android:style/Widget.Button"
             android:layout_width="35dp"
@@ -49,7 +62,8 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/Message"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/Message" />
+            app:layout_constraintTop_toTopOf="@+id/Message" /-->
+
     </LinearLayout>
 
     <TextView

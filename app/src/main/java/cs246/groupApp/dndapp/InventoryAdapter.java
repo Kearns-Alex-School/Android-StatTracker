@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
         TextView txtBNS1;
         TextView txtBNS2;
         TextView txtNotes;
-        Button bDelete;
+        ImageButton bDelete;
     }
 
     public InventoryAdapter(ArrayList<InventoryDataModel> data, Context context) {
@@ -54,7 +55,7 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
 
         // figure out which one we clicked
         switch (v.getId()) {
-            case R.id.Delete:
+            case R.id.ImageButtonDelete:
                 // create our popup dialog
                 final Dialog dialog = new Dialog(context);
 
@@ -128,7 +129,7 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
             viewHolder.txtBNS1 = convertView.findViewById(R.id.BNS1);
             viewHolder.txtBNS2 = convertView.findViewById(R.id.BNS2);
             viewHolder.txtNotes = convertView.findViewById(R.id.Notes);
-            viewHolder.bDelete = convertView.findViewById(R.id.Delete);
+            viewHolder.bDelete = convertView.findViewById(R.id.ImageButtonDelete);
 
             convertView.setTag(viewHolder);
         } else

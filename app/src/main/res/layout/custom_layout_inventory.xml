@@ -22,11 +22,24 @@
         app:autoSizeMaxTextSize="20dp"
         app:autoSizeStepGranularity="2dp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toStartOf="@+id/Delete"
+        app:layout_constraintEnd_toStartOf="@+id/ImageButtonDelete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
+        android:id="@+id/ImageButtonDelete"
+        style="@android:style/Widget.ImageButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_weight="0"
+        android:focusable="false"
+        android:contentDescription="Delete Button"
+        android:src="@drawable/cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Name" />
+
+    <!--Button
         android:id="@+id/Delete"
         style="@android:style/Widget.Button"
         android:layout_width="35dp"
@@ -40,7 +53,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Name" />
+        app:layout_constraintTop_toTopOf="@+id/Name" /-->
 
     <LinearLayout
         android:layout_width="0dp"
@@ -50,7 +63,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Delete">
+        app:layout_constraintTop_toBottomOf="@+id/ImageButtonDelete">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -150,7 +163,7 @@
             android:textSize="12sp"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Delete" />
+            app:layout_constraintTop_toBottomOf="@+id/ImageButtonDelete" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

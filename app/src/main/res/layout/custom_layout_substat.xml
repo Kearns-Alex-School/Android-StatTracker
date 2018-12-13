@@ -40,11 +40,24 @@
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/Delete"
-        app:layout_constraintEnd_toStartOf="@+id/Delete"
-        app:layout_constraintTop_toTopOf="@+id/Delete" />
+        app:layout_constraintBottom_toBottomOf="@+id/ImageButtonDelete"
+        app:layout_constraintEnd_toStartOf="@+id/ImageButtonDelete"
+        app:layout_constraintTop_toTopOf="@+id/ImageButtonDelete" />
 
-    <Button
+    <ImageButton
+        android:id="@+id/ImageButtonDelete"
+        style="@android:style/Widget.ImageButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_weight="0"
+        android:focusable="false"
+        android:contentDescription="Delete Button"
+        android:src="@drawable/cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/Message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Message" />
+
+    <!--Button
         android:id="@+id/Delete"
         style="@android:style/Widget.Button"
         android:layout_width="35dp"
@@ -57,5 +70,5 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/Message"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Message" />
+        app:layout_constraintTop_toTopOf="@+id/Message" /-->
 </android.support.constraint.ConstraintLayout>
