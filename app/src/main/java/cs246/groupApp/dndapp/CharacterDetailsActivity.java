@@ -1507,7 +1507,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                         Stat none = new Stat();
                         none.name = "None";
                         none.bonus = 0;
-                        character.inventory.get(fAbilitiesIndex).statBonus = none;
+                        character.abilities.get(fAbilitiesIndex).statBonus = none;
                     } else
                         // off set by one to account for none being 0
                         character.abilities.get(fAbilitiesIndex).statBonus = character.statList.get(stats.getSelectedItemPosition() - 1);
