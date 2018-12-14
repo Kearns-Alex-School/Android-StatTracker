@@ -26,7 +26,7 @@ public class CharacterAdapter extends ArrayAdapter<CharacterDataModel> implement
     private static class ViewHolder {
         TextView txtName;
         TextView txtNotes;
-        ImageButton bDelete;
+        Button bDelete;
     }
 
     /**
