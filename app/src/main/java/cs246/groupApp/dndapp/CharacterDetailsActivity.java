@@ -304,7 +304,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
             case "abilities":
                 final ArrayList<InventoryDataModel> abilitiesModels = new ArrayList<>();
 
-                InventoryAdapter abilitiesAdapter = new InventoryAdapter(abilitiesModels, context);
+                AbilityAdapter abilitiesAdapter = new AbilityAdapter(abilitiesModels, context);
 
                 for (Item item: character.abilities)
                 {
@@ -1232,7 +1232,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         // grab all of the stats in the character
         for (int index = 0; index < character.statList.size(); index++) {
             if (character.statList.get(index).name.equals(data.getStatBonus().name))
-                statIndex = index;
+                // need to account for none being 0
+                statIndex = index + 1;
             list.add(character.statList.get(index).name);
         }
 
@@ -1301,6 +1302,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                     }
                 }
 
+
                 // see if this is a new stat or an old one
                 if(isNew)
                 {
@@ -1318,7 +1320,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                         none.bonus = 0;
                         newInventory.statBonus = none;
                     } else
-                        newInventory.statBonus = character.statList.get(stats.getSelectedItemPosition());
+                        // off set by one to account for none being 0
+                        newInventory.statBonus = character.statList.get(stats.getSelectedItemPosition() - 1);
 
                     character.inventory.add(newInventory);
                 } else {
@@ -1335,7 +1338,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                         none.bonus = 0;
                         character.inventory.get(fInventoryIndex).statBonus = none;
                     } else
-                        character.inventory.get(fInventoryIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
+                        // off set by one to account for none being 0
+                        character.inventory.get(fInventoryIndex).statBonus = character.statList.get(stats.getSelectedItemPosition() - 1);
                 }
 
                 // save our data and re-load
@@ -1400,7 +1404,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         // grab all of the stats in the character
         for (int index = 0; index < character.statList.size(); index++) {
             if (character.statList.get(index).name.equals(data.getStatBonus().name))
-                statIndex = index;
+                // need to account for none being 0
+                statIndex = index + 1;
             list.add(character.statList.get(index).name);
         }
 
@@ -1486,7 +1491,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                         none.bonus = 0;
                         newAbilities.statBonus = none;
                     } else
-                        newAbilities.statBonus = character.statList.get(stats.getSelectedItemPosition());
+                        // off set by one to account for none being 0
+                        newAbilities.statBonus = character.statList.get(stats.getSelectedItemPosition() - 1);
 
                     character.abilities.add(newAbilities);
                 } else {
@@ -1503,7 +1509,8 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                         none.bonus = 0;
                         character.inventory.get(fAbilitiesIndex).statBonus = none;
                     } else
-                        character.abilities.get(fAbilitiesIndex).statBonus = character.statList.get(stats.getSelectedItemPosition());
+                        // off set by one to account for none being 0
+                        character.abilities.get(fAbilitiesIndex).statBonus = character.statList.get(stats.getSelectedItemPosition() - 1);
                 }
 
                 // save our data and re-load
