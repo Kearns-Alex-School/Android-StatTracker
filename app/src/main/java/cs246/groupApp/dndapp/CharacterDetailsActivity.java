@@ -3,7 +3,6 @@ package cs246.groupApp.dndapp;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -1507,7 +1505,7 @@ public class CharacterDetailsActivity extends AppCompatActivity {
                         Stat none = new Stat();
                         none.name = "None";
                         none.bonus = 0;
-                        character.inventory.get(fAbilitiesIndex).statBonus = none;
+                        character.abilities.get(fAbilitiesIndex).statBonus = none;
                     } else
                         // off set by one to account for none being 0
                         character.abilities.get(fAbilitiesIndex).statBonus = character.statList.get(stats.getSelectedItemPosition() - 1);

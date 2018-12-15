@@ -33,7 +33,7 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
         TextView txtBNS1;
         TextView txtBNS2;
         TextView txtNotes;
-        ImageButton bDelete;
+        Button bDelete;
     }
 
     public InventoryAdapter(ArrayList<InventoryDataModel> data, Context context) {
@@ -55,7 +55,7 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
 
         // figure out which one we clicked
         switch (v.getId()) {
-            case R.id.ImageButtonDelete:
+            case R.id.Delete:
                 // create our popup dialog
                 final Dialog dialog = new Dialog(context);
 
@@ -129,7 +129,7 @@ public class InventoryAdapter extends ArrayAdapter<InventoryDataModel> implement
             viewHolder.txtBNS1 = convertView.findViewById(R.id.BNS1);
             viewHolder.txtBNS2 = convertView.findViewById(R.id.BNS2);
             viewHolder.txtNotes = convertView.findViewById(R.id.Notes);
-            viewHolder.bDelete = convertView.findViewById(R.id.ImageButtonDelete);
+            viewHolder.bDelete = convertView.findViewById(R.id.Delete);
 
             convertView.setTag(viewHolder);
         } else

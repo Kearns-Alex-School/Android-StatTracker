@@ -193,7 +193,6 @@
                 android:layout_weight="0"
                 android:text="TITLE GOES HERE"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
             <ListView
