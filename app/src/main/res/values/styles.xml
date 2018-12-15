@@ -24,11 +24,9 @@
 
     <style name="DnDark" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorBackground">@color/DnDarkBackground</item>
-        <item name="android:colorAccent" tools:targetApi="lollipop">@color/DnDarkAccent</item>
+        <item name="colorAccent">@color/DnDarkAccent</item>
         <item name="android:textColorPrimary">@color/DnDarkText</item>
         <item name="android:textColorSecondary">@color/DnDarkText</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/DnDarkStatusbar</item>
-        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/DnDarkStatusbar</item>
         <item name="android:colorForeground">@color/foreground_material_dark</item>
     </style>
 

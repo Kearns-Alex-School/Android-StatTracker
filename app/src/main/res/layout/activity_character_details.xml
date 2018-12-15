@@ -24,25 +24,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--Button
-        android:id="@+id/Dice"
-        style="@android:style/Widget.Button"
-        android:layout_width="49dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1.15"
-        android:onClick="diceRoll"
-        android:text="@string/details_DiceRoller"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" /-->
-
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -52,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title">
 
-        <ImageButton
+        <!--ImageButton
             android:id="@+id/imageButtonDice"
             style="@android:style/Widget.ImageButton"
             android:layout_width="56dp"
@@ -63,7 +47,18 @@
             android:onClick="diceRoll"
             android:src="@drawable/dice_image"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" /-->
+
+        <Button
+            android:id="@+id/Dice"
+            style="@android:style/Widget.Button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/dice_image"
+            android:onClick="diceRoll"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <!--Button
             android:id="@+id/Health"
@@ -85,15 +80,15 @@
             style="@android:style/Widget.Button"
             android:layout_width="60dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:background="@drawable/lifebar"
+            android:background="@drawable/heart"
             android:onClick="editHealth"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
             android:textAllCaps="false"
+            android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:layout_marginLeft="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <!--ImageButton
             android:id="@+id/Armor2"
@@ -110,17 +105,17 @@
         <Button
             android:id="@+id/Armor"
             style="@android:style/Widget.Button"
-            android:layout_width="61dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:background="@drawable/breastplate"
             android:onClick="editArmor"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
             android:textAllCaps="false"
+            android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:layout_marginLeft="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <!--ImageButton
             android:id="@+id/Speed"
@@ -140,15 +135,15 @@
             style="@android:style/Widget.Button"
             android:layout_width="60dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:background="@drawable/wingfoot"
             android:onClick="editSpeed"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
             android:textAllCaps="false"
+            android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:layout_marginLeft="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/title" />
     </LinearLayout>
 
     <LinearLayout
