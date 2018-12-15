@@ -37,11 +37,11 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ImageButtonDelete"
-        app:layout_constraintEnd_toStartOf="@+id/ImageButtonDelete"
-        app:layout_constraintTop_toTopOf="@+id/ImageButtonDelete" />
+        app:layout_constraintBottom_toBottomOf="@+id/Delete"
+        app:layout_constraintEnd_toStartOf="@+id/Delete"
+        app:layout_constraintTop_toTopOf="@+id/Delete" />
 
-    <ImageButton
+    <!--ImageButton
         android:id="@+id/ImageButtonDelete"
         style="@android:style/Widget.ImageButton"
         android:layout_width="35dp"
@@ -52,20 +52,20 @@
         android:src="@drawable/cancel"
         app:layout_constraintBottom_toBottomOf="@+id/Message"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Message" />
+        app:layout_constraintTop_toTopOf="@+id/Message" /-->
 
-    <!--Button
+    <Button
         android:id="@+id/Delete"
         style="@android:style/Widget.Button"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginEnd="4dp"
         android:focusable="false"
-        android:text="-"
+        android:background="@drawable/cancel"
         android:textAlignment="center"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/Message"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Message" /-->
+        app:layout_constraintTop_toTopOf="@+id/Message" />
 </android.support.constraint.ConstraintLayout>
