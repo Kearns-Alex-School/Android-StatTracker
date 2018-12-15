@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         presetValues.setAdapter(adapter);
 
         // AJK: My very first easter egg that I have ever coded. 11/11/2018 23:45
-        String[] hints = {"zzt53","Jeffery_Hooker","LegendOfTechno"};
+        String[] hints = {"zzt53","BenevolentDM","LegendOfTechno"};
         inputName.setHint(hints[new Random().nextInt(hints.length)]);
 
         // set up the Create button behavior

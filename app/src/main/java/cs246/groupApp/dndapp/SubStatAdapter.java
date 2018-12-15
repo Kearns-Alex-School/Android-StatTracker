@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
         TextView txtName;
         TextView txtStatName;
         TextView txtBonus;
-        Button bDelete;
+        ImageButton bDelete;
     }
 
     public SubStatAdapter(ArrayList<SubStatDataModel> data, Context context) {
@@ -51,7 +52,7 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
 
         // figure out which one we clicked
         switch (v.getId()) {
-            case R.id.Delete:
+            case R.id.ImageButtonDelete:
                 // create our popup dialog
                 final Dialog dialog = new Dialog(context);
 
@@ -123,7 +124,7 @@ public class SubStatAdapter extends ArrayAdapter<SubStatDataModel> implements Vi
             viewHolder.txtBonus = convertView.findViewById(R.id.Bonus);
             viewHolder.txtName = convertView.findViewById(R.id.Message);
             viewHolder.txtStatName = convertView.findViewById(R.id.StatName);
-            viewHolder.bDelete = convertView.findViewById(R.id.Delete);
+            viewHolder.bDelete = convertView.findViewById(R.id.ImageButtonDelete);
 
             // icon stuff possibly helpful in the near future
             /*viewHolder.info = (ImageView) convertView.findViewById(R.id.item_info);*/

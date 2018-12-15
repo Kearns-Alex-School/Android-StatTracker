@@ -42,7 +42,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -56,43 +56,99 @@
             android:id="@+id/imageButtonDice"
             style="@android:style/Widget.ImageButton"
             android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_height="63dp"
             android:layout_weight="0"
             android:contentDescription="Dice Button"
+            android:focusable="false"
             android:onClick="diceRoll"
             android:src="@drawable/dice_image"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <!--Button
+            android:id="@+id/Health"
+            style="@android:style/Widget.Button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:contentDescription="Edit Health"
+            android:onClick="editHealth"
+            android:src="@drawable/lifebar"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3" /-->
+
         <Button
             android:id="@+id/Health"
             style="@android:style/Widget.Button"
-            android:layout_width="fill_parent"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/lifebar"
             android:onClick="editHealth"
             android:textAlignment="center"
+            android:textColor="@android:color/white"
             android:textAllCaps="false"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginLeft="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3" />
+
+        <!--ImageButton
+            android:id="@+id/Armor2"
+            style="@android:style/Widget.ImageButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:contentDescription="Edit Armor"
+            android:onClick="editArmor"
+            android:src="@drawable/breastplate"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3" /-->
 
         <Button
             android:id="@+id/Armor"
             style="@android:style/Widget.Button"
-            android:layout_width="fill_parent"
+            android:layout_width="61dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/breastplate"
             android:onClick="editArmor"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
             android:textAllCaps="false"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginLeft="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3" />
+
+        <!--ImageButton
+            android:id="@+id/Speed"
+            style="@android:style/Widget.ImageButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:contentDescription="Edit Speed"
+            android:onClick="editSpeed"
+            android:src="@drawable/wingfoot"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintStart_toEndOf="parent" /-->
 
         <Button
             android:id="@+id/Speed"
             style="@android:style/Widget.Button"
-            android:layout_width="fill_parent"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/wingfoot"
             android:onClick="editSpeed"
-            android:textAllCaps="false" />
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:layout_marginLeft="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3" />
     </LinearLayout>
 
     <LinearLayout
@@ -137,7 +193,6 @@
                 android:layout_weight="0"
                 android:text="TITLE GOES HERE"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
             <ListView
@@ -200,7 +255,17 @@
             android:onClick="contentClicked"
             android:textAllCaps="false" />
 
-        <Button
+        <ImageButton
+            android:id="@+id/imageButtonAdd"
+            style="@android:style/Widget.ImageButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_weight="0"
+            android:contentDescription="Add Button"
+            android:onClick="addItem"
+            android:src="@drawable/healthnormal" />
+
+        <!--Button
             android:id="@+id/Add"
             style="@android:style/Widget.Button"
             android:layout_width="45dp"
@@ -209,7 +274,7 @@
             android:onClick="addItem"
             android:text="+"
             android:textAlignment="center"
-            android:textAllCaps="false" />
+            android:textAllCaps="false" /-->
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
